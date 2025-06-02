@@ -9,20 +9,6 @@
   <ItemGroup>
     <ClInclude Include="Geometry\BoundingBox.h" />
     <ClInclude Include="Geometry\Size.h" />
-    <ClInclude Include="Geometry\Vector2.h" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ClCompile Include="Geometry\Vector2.cpp">
-      <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>DO_OMP_PARALLEL;_CRT_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
-      <OpenMPSupport>true</OpenMPSupport>
-      <AdditionalOptions>/Zc:twoPhase- </AdditionalOptions>
-      <LanguageStandard>stdcpp14</LanguageStandard>
-      <AdditionalIncludeDirectories>/home/nicholas/Projects/Simulations/covid-sim-dotnet/include</AdditionalIncludeDirectories>
-    </ClCompile>
   </ItemGroup>
 
 </Project>
