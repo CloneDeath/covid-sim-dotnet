@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CovidSim", "CovidSim\CovidS
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "covid-sim", "covid-sim.vcxproj", "{1284B4EE-852B-4BB5-B6EF-60D8D9EB46DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CovidSim.Tests", "CovidSim.Tests\CovidSim.Tests.csproj", "{D7CA8607-C824-4D26-B2E9-067C2B7894E9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{01397E3F-5302-4D4A-8E36-892CE129D3FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,5 +26,9 @@ Global
 		{0C0AF7CB-3E4C-4D96-947F-D648AD17327B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1284B4EE-852B-4BB5-B6EF-60D8D9EB46DC}.Debug|Any CPU.ActiveCfg = Debug|x64
 		{1284B4EE-852B-4BB5-B6EF-60D8D9EB46DC}.Release|Any CPU.ActiveCfg = Release|x64
+		{D7CA8607-C824-4D26-B2E9-067C2B7894E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7CA8607-C824-4D26-B2E9-067C2B7894E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7CA8607-C824-4D26-B2E9-067C2B7894E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7CA8607-C824-4D26-B2E9-067C2B7894E9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

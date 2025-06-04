@@ -4,6 +4,12 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ClInclude Include="Geometry\BoundingBox.h" />
+    <ClInclude Include="Geometry\Size.h" />
+  </ItemGroup>
 
 </Project>
