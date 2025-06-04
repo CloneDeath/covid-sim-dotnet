@@ -29,3 +29,8 @@ tests/*output*/
 # C#
 CovidSim/obj/
 CovidSim/bin/
+CovidSim.Tests/obj/
+CovidSim.Tests/bin/
+*.DotSettings.user
+CoverageReport/
+TestResults/
