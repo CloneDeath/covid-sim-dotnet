@@ -9,7 +9,7 @@ on:
       - '**.csproj'
 
 env:
-  DOTNET_VERSION: '6.0.401' # The .NET SDK version to use
+  DOTNET_VERSION: '8.0.116' # The .NET SDK version to use, see `dotnet --version`
 
 jobs:
   build-and-test:
@@ -28,10 +28,10 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Install dependencies
-        run: dotnet restore
+        run: dotnet restore ./CovidSim.sln
 
       - name: Build
-        run: dotnet build --configuration Release --no-restore
+        run: dotnet build --configuration Release --no-restore ./CovidSim.sln
 
       - name: Test
-        run: dotnet test --no-restore --verbosity normal
+        run: dotnet test --no-restore --verbosity normal ./CovidSim.sln
