@@ -35,11 +35,7 @@ jobs:
 
       - name: Test with coverage
         run: >
-          dotnet test ./CovidSim.Tests/CovidSim.Tests.csproj \
-          --no-restore \
-          --configuration Release \
-          --collect:"XPlat Code Coverage" \
-          --results-directory ./TestResults
+          dotnet test ./CovidSim.sln --no-restore --collect:"XPlat Code Coverage" --results-directory ./TestResults
 
       - name: Install ReportGenerator tool
         run: dotnet tool install -g dotnet-reportgenerator-globaltool
