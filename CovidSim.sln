@@ -21,8 +21,6 @@ Global
 		{0C0AF7CB-3E4C-4D96-947F-D648AD17327B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C0AF7CB-3E4C-4D96-947F-D648AD17327B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1284B4EE-852B-4BB5-B6EF-60D8D9EB46DC}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{1284B4EE-852B-4BB5-B6EF-60D8D9EB46DC}.Debug|Any CPU.Build.0 = Debug|x64
 		{1284B4EE-852B-4BB5-B6EF-60D8D9EB46DC}.Release|Any CPU.ActiveCfg = Release|x64
-		{1284B4EE-852B-4BB5-B6EF-60D8D9EB46DC}.Release|Any CPU.Build.0 = Release|x64
 	EndGlobalSection
 EndGlobal

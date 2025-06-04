@@ -1,7 +1,6 @@
 name: build and test
 
 on:
-  push:
   pull_request:
     branches: [ master ]
     paths:
@@ -28,10 +27,10 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Install dependencies
-        run: dotnet restore
+        run: dotnet restore ./CovidSim.sln
 
       - name: Build
-        run: dotnet build --configuration Release --no-restore
+        run: dotnet build --configuration Release --no-restore ./CovidSim.sln
 
       - name: Test
-        run: dotnet test --no-restore --verbosity normal
+        run: dotnet test --no-restore --verbosity normal ./CovidSim.sln
