@@ -25,6 +25,22 @@ public class BoundingBox_tests {
     }
 
     [Test]
+    public void Maximum2d_to_grid_rounds_up() {
+        var v = new Maximum2d(2.3, 4.1);
+        v.ToGrid(2.0, 3.0);
+        v.X.Should().Be(4.0);
+        v.Y.Should().Be(6.0);
+    }
+
+    [Test]
+    public void Minimum2d_to_grid_rounds_down() {
+        var v = new Minimum2d(2.3, 4.1);
+        v.ToGrid(2.0, 3.0);
+        v.X.Should().Be(2.0);
+        v.Y.Should().Be(3.0);
+    }
+
+    [Test]
     public void BoundingBox_inside() {
         var box = new BoundingBox2d();
         box.TopRight = new Vector2d(9.0, 8.5);
