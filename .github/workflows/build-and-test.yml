@@ -51,7 +51,7 @@ jobs:
 
       - name: Verify coverage threshold
         run: >
-          bash -c 'coverage=$(grep --only-matching --no-filename --perl-regexp "line-rate=\"\K[0-9.]+" TestResults/**/coverage.cobertura.xml | head -1); \
+          coverage=$(grep --only-matching --no-filename --perl-regexp "line-rate=\"\K[0-9.]+" TestResults/**/coverage.cobertura.xml | head -1); \
           threshold=0.99; \
           echo "Coverage: $coverage"; \
-          awk "BEGIN {exit !($coverage >= $threshold)}"'
+          awk "BEGIN {exit !($coverage >= $threshold)}"
