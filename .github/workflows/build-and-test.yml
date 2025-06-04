@@ -38,9 +38,11 @@ jobs:
           dotnet test ./CovidSim.sln --no-restore --collect:"XPlat Code Coverage" --results-directory ./TestResults
 
       - name: Install ReportGenerator tool
+        if: matrix.os == 'ubuntu-latest'
         run: dotnet tool install -g dotnet-reportgenerator-globaltool
 
       - name: Generate coverage report
+        if: matrix.os == 'ubuntu-latest'
         run: >
           reportgenerator \
           -reports:TestResults/**/coverage.cobertura.xml \
@@ -50,6 +52,7 @@ jobs:
           PATH: ${{ env.PATH }}:/home/runner/.dotnet/tools
 
       - name: Verify coverage threshold
+        if: matrix.os == 'ubuntu-latest'
         run: |
           bash -c 'coverage=$(grep --only-matching --no-filename --perl-regexp "line-rate=\"\K[0-9.]+" TestResults/**/coverage.cobertura.xml | head -1); \
             threshold=0.97; \
