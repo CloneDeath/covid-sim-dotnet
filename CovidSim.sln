@@ -9,8 +9,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "covid-sim", "covid-sim.vcxp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CovidSim.Tests", "CovidSim.Tests\CovidSim.Tests.csproj", "{D7CA8607-C824-4D26-B2E9-067C2B7894E9}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{01397E3F-5302-4D4A-8E36-892CE129D3FD}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
