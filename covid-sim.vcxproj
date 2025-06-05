@@ -121,7 +121,6 @@
     <ClInclude Include="src\Error.h" />
     <ClInclude Include="src\Files.h" />
     <ClInclude Include="src\IndexList.h" />
-    <ClInclude Include="src\InfStat.h" />
     <ClInclude Include="src\Kernels.h" />
     <ClInclude Include="src\Memory.h" />
     <ClInclude Include="src\Model.h" />
