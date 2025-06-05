@@ -32,6 +32,9 @@
       <Compile Update="Geometry\Vector2d.tests.cs">
         <DependentUpon>Vector2.tests.cs</DependentUpon>
       </Compile>
+      <Compile Update="Geometry\BoundingBox2d.tests.cs">
+        <DependentUpon>BoundingBox.tests.cs</DependentUpon>
+      </Compile>
     </ItemGroup>
 
 </Project>
