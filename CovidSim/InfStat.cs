@@ -1,13 +1,10 @@
-#ifndef COVIDSIM_INFSTAT_H_INCLUDED_
-#define COVIDSIM_INFSTAT_H_INCLUDED_
+namespace CovidSim;
 
 //// Infection Status definitions / labels (generally positive value indicates asymptomatic infection,
 //// negative value indicates symptomatic infection).
-
-enum struct InfStat {
-
-//// Note - DO NOT CHANGE these definitions without accounting for "Quarantined not Infected" /
-//// "Quarantined not symptomatic" calculation: relies on value below being negative for symptomatic people.
+public enum InfStat {
+	//// Note - DO NOT CHANGE these definitions without accounting for "Quarantined not Infected" /
+	//// "Quarantined not symptomatic" calculation: relies on value below being negative for symptomatic people.
 
 	// Further note: August 2020 - See https://github.com/mrc-ide/covid-sim/pull/445  - which refactors the
 	// numerical comparisons or abs() that were used on states. See the functions in Person.cpp. Hence,
@@ -35,26 +32,4 @@ enum struct InfStat {
 	Dead_WasAsymp = 5,
 	//// Dead was symptomatic
 	Dead_WasSymp = -5,
-};
-
-//// SeverityClass definitions / labels (numbers arbitrary but must be different to each other).
-enum struct Severity {
-
-	//// Flag value.
-	Asymptomatic,
-	Mild,
-	// Influenza-like illness
-	ILI,
-	// Severe Acute Respiratory Infection
-	SARI,
-	// Critical (requires intensive care unit (ICU)
-	Critical,
-	//// Stepdown from ICU. Recovering from Critical (not recovered yet). Although depending on param.IncludeStepDownToDeath, can still die at Stepdown.
-	Stepdown,
-	//// label to avoid double counting. 
-	Dead,
-	//// label to avoid double counting. 
-	Recovered
-};
-
-#endif // COVIDSIM_INFSTAT_H_INCLUDED_
+}
