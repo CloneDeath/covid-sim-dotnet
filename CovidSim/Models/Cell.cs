@@ -27,15 +27,15 @@ public struct Cell() {
 	public int tot_vacc;
 
 	// pointers to people in cell. e.g. *susceptible identifies where the final susceptible member of cell is.
-	public int[] members;
-	public int[] susceptible;
-	public int[] latent;
-	public int[] infected;
+	public int[] members = [];
+	public int[] susceptible = [];
+	public int[] latent = [];
+	public int[] infected = [];
 
-	public int[] InvCDF;
+	public int[] InvCDF = [];
 	public float tot_prob;
-	public float[] cum_trans;
-	public float[] max_trans;
+	public float[] cum_trans = [];
+	public float[] max_trans = [];
 
 	public short[] CurInterv = [Country.MAX_INTERVENTION_TYPES];
 }
