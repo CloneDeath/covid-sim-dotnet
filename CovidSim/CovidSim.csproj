@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <ClInclude Include="Geometry\BoundingBox.h" />
-    <ClInclude Include="Geometry\Size.h" />
   </ItemGroup>
 
 </Project>
