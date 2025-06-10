@@ -8,7 +8,7 @@
 #include "../InfStat.h"
 
 struct Person
-{ 
+{
 	int pcell;			/**< place cell that person belongs to. Cells[person->pcell] holds this person */
 	int mcell;			/**< microcell that person belongs to., Mcells[person->mcell] holds this person */
 	int hh;				/**< household that person belongs to. Household[person->hh] holds this person */
@@ -34,7 +34,7 @@ struct Person
 	unsigned short int PlaceGroupLinks[MAX_NUM_PLACE_TYPES];	// These can definitely get > 255
 
 	short int infect_type;		// INFECT_TYPE_MASK
-	
+
 	Severity Severity_Current, Severity_Final; //// Note we allow Severity_Final to take values: Severity_Mild, Severity_ILI, Severity_SARI, Severity_Critical (not e.g. Severity_Dead or Severity_RecoveringFromCritical)
 
 	unsigned short int detected_time; //added hospitalisation flag: ggilani 28/10/2014, added flag to determined whether this person's infection is detected or not
@@ -110,7 +110,7 @@ struct Person
 	bool is_never_symptomatic() const;
 
 	/** \brief  Query whether an infected host is not yet symptomatic, but could become so. Acceptable states are latent, susceptible, or
-	*           Infectious Almost Symptomatic. 
+	*           Infectious Almost Symptomatic.
 	*   \return TRUE if the host is infected but not yet symptomatic.
 	*/
 	bool is_not_yet_symptomatic() const;
@@ -178,16 +178,6 @@ struct Person
 private:
 	InfStat inf;
 
-};
-
-struct PersonQuarantine
-{
-	uint8_t  comply;		// can be 0, 1, 2
-	uint16_t start_time;	// timestep quarantine is started
-
-	// don't remove the extra parentheses around std::numeric_limits<uint16_t>::max
-	// because it conflicts with the max() preprocessor macro in MSVC builds
-	PersonQuarantine() : comply(2), start_time((std::numeric_limits<uint16_t>::max)()-1) {} 
 };
 
 #endif
