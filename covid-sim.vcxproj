@@ -108,7 +108,6 @@
     <ClCompile Include="src\Sweep.cpp" />
     <ClCompile Include="src\Update.cpp" />
     <ClCompile Include="src\Param.cpp" />
-    <ClCompile Include="src\Direction.cpp" />
     <ClCompile Include="src\InverseCdf.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -134,7 +133,6 @@
     <ClInclude Include="src\Sweep.h" />
     <ClInclude Include="src\Update.h" />
     <ClInclude Include="src\MicroCellPosition.hpp" />
-    <ClInclude Include="src\Direction.hpp" />
     <ClInclude Include="src\Models\Cell.h" />
     <ClInclude Include="src\Models\Household.h" />
     <ClInclude Include="src\Models\Microcell.h" />
