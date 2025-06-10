@@ -1,14 +1,9 @@
 using System;
 namespace CovidSim.Geometry;
 
-public struct Maximum2d {
-    public double X;
-    public double Y;
-
-    public Maximum2d(double x, double y) {
-        X = x;
-        Y = y;
-    }
+public struct Maximum2d(double x, double y) {
+    public double X = x;
+    public double Y = y;
 
     public void Expand(Vector2d p, double offset) {
         if (p.X >= X) X = p.X + offset;
@@ -23,14 +18,9 @@ public struct Maximum2d {
     }
 }
 
-public struct Minimum2d {
-    public double X;
-    public double Y;
-
-    public Minimum2d(double x, double y) {
-        X = x;
-        Y = y;
-    }
+public struct Minimum2d(double x, double y) {
+    public double X = x;
+    public double Y = y;
 
     public void Expand(Vector2d p) {
         if (p.X < X) X = p.X;
