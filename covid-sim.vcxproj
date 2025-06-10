@@ -108,20 +108,16 @@
     <ClCompile Include="src\Sweep.cpp" />
     <ClCompile Include="src\Update.cpp" />
     <ClCompile Include="src\Param.cpp" />
-    <ClCompile Include="src\Direction.cpp" />
     <ClCompile Include="src\InverseCdf.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Bitmap.h" />
     <ClInclude Include="src\CalcInfSusc.h" />
     <ClInclude Include="src\CLI.h" />
-    <ClInclude Include="src\Constants.h" />
-    <ClInclude Include="src\Country.h" />
     <ClInclude Include="src\Dist.h" />
     <ClInclude Include="src\Error.h" />
     <ClInclude Include="src\Files.h" />
     <ClInclude Include="src\IndexList.h" />
-    <ClInclude Include="src\InfStat.h" />
     <ClInclude Include="src\Kernels.h" />
     <ClInclude Include="src\Memory.h" />
     <ClInclude Include="src\Model.h" />
@@ -134,7 +130,6 @@
     <ClInclude Include="src\Sweep.h" />
     <ClInclude Include="src\Update.h" />
     <ClInclude Include="src\MicroCellPosition.hpp" />
-    <ClInclude Include="src\Direction.hpp" />
     <ClInclude Include="src\Models\Cell.h" />
     <ClInclude Include="src\Models\Microcell.h" />
     <ClInclude Include="src\Models\Person.h" />
