@@ -19,7 +19,7 @@ public class Vector2d(double x, double y) : Vector2<double>(x, y, new DoubleOper
 	public static Vector2d operator-(Vector2i left, Vector2d right){
 		return new Vector2d(left.X - right.X, left.Y - right.Y);
 	}
-};
+}
 
 public class Vector2<T>(T x, T y, PrimitiveOperations<T> operations) {
 	public T X { get; } = x;

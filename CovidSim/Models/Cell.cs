@@ -7,7 +7,7 @@ namespace CovidSim.Models;
  * is vaccinated, treated etc.) Also contains data for the spatial gravity model for social
  * interactions (probability distributions).
 */
-public struct Cell() {
+public class Cell {
 	/* number of people in cell (members) */
 	public int n;
 	// numbers of Susceptible
