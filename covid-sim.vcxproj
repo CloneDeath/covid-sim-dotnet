@@ -130,7 +130,6 @@
     <ClInclude Include="src\Sweep.h" />
     <ClInclude Include="src\Update.h" />
     <ClInclude Include="src\MicroCellPosition.hpp" />
-    <ClInclude Include="src\Models\Cell.h" />
     <ClInclude Include="src\Models\Microcell.h" />
     <ClInclude Include="src\Models\Person.h" />
     <ClInclude Include="src\InverseCdf.h" />
