@@ -1,7 +1,7 @@
 using System;
 namespace CovidSim.Geometry;
 
-public struct Maximum2d(double x, double y) {
+public class Maximum2d(double x, double y) {
     public double X = x;
     public double Y = y;
 
@@ -18,7 +18,7 @@ public struct Maximum2d(double x, double y) {
     }
 }
 
-public struct Minimum2d(double x, double y) {
+public class Minimum2d(double x, double y) {
     public double X = x;
     public double Y = y;
 
@@ -36,8 +36,8 @@ public struct Minimum2d(double x, double y) {
 }
 
 public class BoundingBox2d {
-    private Minimum2d bottomLeft;
-    private Maximum2d topRight;
+    private readonly Minimum2d bottomLeft = new(0, 0);
+    private readonly Maximum2d topRight = new(0, 0);
 
     public Vector2d BottomLeft {
         get => new(bottomLeft.X, bottomLeft.Y);
