@@ -82,32 +82,18 @@ public class Person {
 	//added this in to record the total number of contacts each index case records: ggilani 13/04/20
 	public int ncontacts;
 
-	/** \brief  Query whether a host should be included in mass vaccination.
+	/**
+	 * Query whether a host should be included in mass vaccination.
 	*           The conditions for not being vaccinated are either: the host is dead,
 	*           or the host is a current case, or the host has recovered from
 	*           a symptomatic infection.
-	*  \return  TRUE if this host should not be vaccinated for the above reasons.
+	*  Returns  TRUE if this host should not be vaccinated for the above reasons.
 	*/
 	public bool do_not_vaccinate() {
 		// Originally: inf < InfStat.InfectiousAlmostSymptomatic) || (inf >= InfStat.Dead_WasAsymp)
 		// i.e., inf is either < -1, or >= 5. (ie, -2, -3, -5, or 5. There is no status for -4)
 		// 5 or -5 is "dead". -2 is "case". -3 is RecoveredFromSymp.
 		return is_dead() || is_case() || is_recovered_symp();
-	}
-
-	/** \brief  Query whether a host is alive. This includes all states except the
-	*           two death states (death through symptomatic, or asymptomatic illness).
-	*  \return  TRUE if this host is alive.
-	*/
-	public bool is_alive() {
-		return !is_dead();
-	}
-
-	/** \brief  Query whether a host is a current case. (InfStat.Case)
-	*   \return TRUE if the host is a current case.
-	*/
-	public bool is_case() {
-		return (inf == InfStat.Case);
 	}
 
 	/**
@@ -120,36 +106,58 @@ public class Person {
 		return (inf == InfStat.Dead_WasSymp || inf == InfStat.Dead_WasAsymp);
 	}
 
-	/** \brief  Query whether a host died with asymptomatic illness. (InfStat.Dead_WasAsymp)
-	*   \return TRUE if the host is dead and was asymptomatic.
+	/**
+	 * Query whether a host is alive. This includes all states except the
+	*           two death states (death through symptomatic, or asymptomatic illness).
+	*  Returns  TRUE if this host is alive.
 	*/
-	public bool is_dead_was_asymp() {
-		return inf == InfStat.Dead_WasSymp;
+	public bool is_alive() {
+		return !is_dead();
 	}
 
-	/** \brief  Query whether a host died with symptomatic illness. (InfStat.Dead_WasSymp)
-	*   \return TRUE if the host is dead and was asymptomatic.
+	/**
+	 * Query whether a host is a current case. (InfStat.Case)
+	*  Returns TRUE if the host is a current case.
 	*/
-	public bool is_dead_was_symp() {
+	public bool is_case() {
+		return (inf == InfStat.Case);
+	}
+
+	/**
+	 * Query whether a host died with asymptomatic illness. (InfStat.Dead_WasAsymp)
+	*  Returns TRUE if the host is dead and was asymptomatic.
+	*/
+	public bool is_dead_was_asymp() {
 		return inf == InfStat.Dead_WasAsymp;
 	}
 
-	/** \brief  Query whether a host was immune at the start of the epidemic. (InfStat.ImmuneAtStart)
-	*   \return TRUE if the host was already immune.
+	/**
+	 * Query whether a host died with symptomatic illness. (InfStat.Dead_WasSymp)
+	*   Returns TRUE if the host is dead and was asymptomatic.
+	*/
+	public bool is_dead_was_symp() {
+		return inf == InfStat.Dead_WasSymp;
+	}
+
+	/**
+	 * Query whether a host was immune at the start of the epidemic. (InfStat.ImmuneAtStart)
+	*  Returns TRUE if the host was already immune.
 	*/
 	public bool is_immune_at_start() {
 		return (inf == InfStat.ImmuneAtStart);
 	}
 
-	/** \brief  Query whether an infected host is asymptomatic, hence not a case. (InfStat.InfectiousAsymptomaticNotCase)
-	*   \return TRUE if a host is infectious but asymptomatic.
+	/**
+	 * Query whether an infected host is asymptomatic, hence not a case. (InfStat.InfectiousAsymptomaticNotCase)
+	*  Returns TRUE if a host is infectious but asymptomatic.
 	*/
 	public bool is_infectious_asymptomatic_not_case() {
 		return inf == InfStat.InfectiousAsymptomaticNotCase;
 	}
 
-	/** \brief  Query whether an infected host is about to become symptomatic. (InfStat.InfectiousAlmostSymptomatic)
-	*   \return TRUE if the host is about to become symptomatic.
+	/**
+	 * Query whether an infected host is about to become symptomatic. (InfStat.InfectiousAlmostSymptomatic)
+	*  Returns TRUE if the host is about to become symptomatic.
 	*/
 	public bool is_infectious_almost_symptomatic() {
 		return inf == InfStat.InfectiousAlmostSymptomatic;
@@ -157,7 +165,7 @@ public class Person {
 
 	/**
 	 * Query whether an infected host is in the latent period. (InfStat.Latent)
-	*  returns TRUE if the host is in a latent period.
+	*  Returns TRUE if the host is in a latent period.
 	*/
 	public bool is_latent() {
 		return (inf == InfStat.Latent);
@@ -167,7 +175,7 @@ public class Person {
 	 * Query whether an infected host is (currently) symptomatic or ever has been. Acceptable states are:
 	*           Latent, Infectious Asymptomatic, Infectious Almost Symptomatic, Recovered from Asymptomatic infection,
 	*           or died from Asymptomatic infection.
-	*  returns TRUE if the host is not, and never was, symptomatic.
+	*  Returns TRUE if the host is not, and never was, symptomatic.
 	*/
 	public bool is_never_symptomatic() {
 		// In earlier code, this was written as (inf > 0) - all the positive numbered states.
@@ -177,9 +185,10 @@ public class Person {
 			   (inf == InfStat.Dead_WasAsymp);
 	}
 
-	/** \brief  Query whether an infected host is not yet symptomatic, but could become so. Acceptable states are latent, susceptible, or
+	/**
+	 * Query whether an infected host is not yet symptomatic but could become so. Acceptable states are latent, susceptible, or
 	*           Infectious Almost Symptomatic.
-	*   \return TRUE if the host is infected but not yet symptomatic.
+	*   Returns TRUE if the host is infected but not yet symptomatic.
 	*/
 	public bool is_not_yet_symptomatic() {
 		return (inf == InfStat.Susceptible ||
@@ -187,9 +196,10 @@ public class Person {
 				inf == InfStat.InfectiousAlmostSymptomatic);
 	}
 
-	/** \brief  Query whether an infected host is a current or potential host for the epidemic. This excludes all who have recovered,
+	/**
+	 * Query whether an infected host is a current or potential host for the epidemic. This excludes all who have recovered,
 	*           died, or were immune at the start.
-	*   \return TRUE if the host is susceptible or currently infected.
+	*  Returns TRUE if the host is susceptible or currently infected.
 	*/
 	public bool is_susceptible_or_infected() {
 		// In old versions, this would be abs(inf]) < InfStat.Recovered, so states included
@@ -200,36 +210,38 @@ public class Person {
 			   (inf == InfStat.InfectiousAsymptomaticNotCase) || (inf == InfStat.Case);
 	}
 
-	/** \brief  Query whether a host has recovered from infection. This includes recovery from both symptomatic and asymptomatic
+	/**
+	 * Query whether a host has recovered from infection. This includes recovery from both symptomatic and asymptomatic
 	*           infections.
-	*   \return TRUE if the host has recovered from symptomatic or asymptomatic infection.
+	*  Returns TRUE if the host has recovered from symptomatic or asymptomatic infection.
 	*/
 	public bool is_recovered() {
 		// In previous versions, abs(Hosts[i].inf) == InfStat.Recovered
 		return (inf == InfStat.RecoveredFromSymp) || (inf == InfStat.RecoveredFromAsymp);
 	}
 
-	/** \brief  Query whether a host has recovered from a symptomatic infection.
-	*   \return TRUE only if the host has recovered from symptomatic infection.
+	/**
+	 * Query whether a host has recovered from a symptomatic infection.
+	*   Returns TRUE only if the host has recovered from symptomatic infection.
 	*/
 	public bool is_recovered_symp() {
 		return inf == InfStat.RecoveredFromSymp;
 	}
 
-	/** \brief  Query whether a host is susceptible.
-	*   \return TRUE only if the host is in the susceptible state.
+	/**
+	 * Query whether a host is susceptible.
+	*   Returns TRUE only if the host is in the susceptible state.
 	*/
 	public bool is_susceptible() {
 		return (inf == InfStat.Susceptible);
 	}
 
-	/** \brief  Set host to be a case. (See InfStat.Case)
-	*/
+	/** Set host to be a case. (See InfStat.Case) */
 	public void set_case() {
 		inf = InfStat.Case;
 	}
 
-	/** \brief  Set host to have died.
+	/** Set host to have died.
 	 *  For infections that were symptomatic, (i.e., they passed through the InfStat.Case state),
 	 *  the death state is InfStat.DeadWasSymp. Otherwise (i.e., they passed through InfStat.InfectiousAsymptomaticNotCase),
 	 *  the death state is InfStat.DeadWasAsymp.
@@ -254,19 +266,17 @@ public class Person {
 		inf = InfStat.InfectiousAlmostSymptomatic;
 	}
 
-	/** \brief  Set host to be infectious, but asymptomatic, so not defined as a case. (See InfStat.InfectiousAsymptomaticNotCase)
-	*/
+	/** Set host to be infectious, but asymptomatic, so not defined as a case. (See InfStat.InfectiousAsymptomaticNotCase) */
 	public void set_infectious_asymptomatic_not_case() {
 		inf = InfStat.InfectiousAsymptomaticNotCase;
 	}
 
-	/** \brief  Set host to be in latent stage. (See InfStat.Latent)
-	*/
+	/** Set host to be in latent stage. (See InfStat.Latent) */
 	public void set_latent() {
 		inf = InfStat.Latent;
 	}
 
-	/** \brief  Set host to be recovered.
+	/** Set host to be recovered.
 	*  For infections that were symptomatic, (i.e., they passed through the InfStat.Case state),
 	*  the recovery state is InfStat.RecoveredFromSymp. Otherwise (i.e., they passed through InfStat.InfectiousAsymptomaticNotCase),
 	*  the recovery state is InfStat.RecoveredFromAsymp.
@@ -282,8 +292,7 @@ public class Person {
 		inf = (inf == InfStat.Case) ? InfStat.RecoveredFromSymp : InfStat.RecoveredFromAsymp;
 	}
 
-	/** \brief  Set host to be susceptible. (See InfStat.Susceptible)
-	*/
+	/** Set host to be susceptible. (See InfStat.Susceptible) */
 	public void set_susceptible() {
 		inf = InfStat.Susceptible;
 	}
