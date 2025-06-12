@@ -9,34 +9,80 @@ public abstract class Person_tests {
 	[TestFixture]
 	public class Person_do_not_vaccinate_tests : Person_tests {
 		[Test]
-		public void IsFalseInitially() {
+		public void InitiallyFalse() {
 			var person = new Person();
-
 			person.do_not_vaccinate().Should().BeFalse();
 		}
 
 		[Test]
-		public void IsTrueIfThePersonIsDead() {
+		public void WhenSusceptible_ReturnFalse() {
 			var person = new Person();
-			person.set_dead();
-
-			person.do_not_vaccinate().Should().BeTrue();
+			person.set_susceptible();
+			person.do_not_vaccinate().Should().BeFalse();
 		}
 
 		[Test]
-		public void IsTrueIfThePersonIsACase() {
+		public void WhenLatent_ReturnFalse() {
+			var person = new Person();
+			person.set_latent();
+			person.do_not_vaccinate().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenInfectiousAlmostSymptomatic_ReturnFalse() {
+			var person = new Person();
+			person.set_infectious_almost_symptomatic();
+			person.do_not_vaccinate().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenInfectiousAsymptomaticNotCase_ReturnFalse() {
+			var person = new Person();
+			person.set_infectious_asymptomatic_not_case();
+			person.do_not_vaccinate().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenACase_ReturnTrue() {
 			var person = new Person();
 			person.set_case();
-
 			person.do_not_vaccinate().Should().BeTrue();
 		}
 
 		[Test]
-		public void IsTrueIfThePersonIsRecoveredButSymptomatic() {
+		public void WhenRecoveredAndAsymptomatic_ReturnFalse() {
+			var person = new Person();
+			person.set_recovered();
+			person.do_not_vaccinate().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenRecoveredButSymptomatic_ReturnTrue() {
 			var person = new Person();
 			person.set_case();
 			person.set_recovered();
+			person.do_not_vaccinate().Should().BeTrue();
+		}
 
+		[Test]
+		public void WhenImmuneAtStart_ReturnFalse() {
+			var person = new Person();
+			person.set_immune_at_start();
+			person.do_not_vaccinate().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenDead_ReturnTrue() {
+			var person = new Person();
+			person.set_dead();
+			person.do_not_vaccinate().Should().BeTrue();
+		}
+
+		[Test]
+		public void WhenDeadAndWasSick_ReturnTrue() {
+			var person = new Person();
+			person.set_case();
+			person.set_dead();
 			person.do_not_vaccinate().Should().BeTrue();
 		}
 	}
@@ -44,34 +90,80 @@ public abstract class Person_tests {
 	[TestFixture]
 	public class Person_is_dead_tests : Person_tests {
 		[Test]
-		public void IsFalseInitially() {
+		public void InitiallyFalse() {
 			var person = new Person();
-
 			person.is_dead().Should().BeFalse();
 		}
 
 		[Test]
-		public void IsTrueIfThePersonIsDead() {
+		public void WhenSusceptible_ReturnFalse() {
+			var person = new Person();
+			person.set_susceptible();
+			person.is_dead().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenLatent_ReturnFalse() {
+			var person = new Person();
+			person.set_latent();
+			person.is_dead().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenInfectiousAlmostSymptomatic_ReturnFalse() {
+			var person = new Person();
+			person.set_infectious_almost_symptomatic();
+			person.is_dead().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenInfectiousAsymptomaticNotCase_ReturnFalse() {
+			var person = new Person();
+			person.set_infectious_asymptomatic_not_case();
+			person.is_dead().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenACase_ReturnFalse() {
+			var person = new Person();
+			person.set_case();
+			person.is_dead().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenRecoveredAndAsymptomatic_ReturnFalse() {
+			var person = new Person();
+			person.set_recovered();
+			person.is_dead().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenRecoveredButSymptomatic_ReturnFalse() {
+			var person = new Person();
+			person.set_case();
+			person.set_recovered();
+			person.is_dead().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenImmuneAtStart_ReturnFalse() {
+			var person = new Person();
+			person.set_immune_at_start();
+			person.is_dead().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenDead_ReturnTrue() {
 			var person = new Person();
 			person.set_dead();
-
 			person.is_dead().Should().BeTrue();
 		}
 
 		[Test]
-		public void IsFalseIfThePersonIsACase() {
-			var person = new Person();
-			person.set_case();
-
-			person.is_dead().Should().BeFalse();
-		}
-
-		[Test]
-		public void IsTrueIfThePersonWasACaseThenDied() {
+		public void WhenDeadAndWasSick_ReturnTrue() {
 			var person = new Person();
 			person.set_case();
 			person.set_dead();
-
 			person.is_dead().Should().BeTrue();
 		}
 	}
@@ -79,43 +171,80 @@ public abstract class Person_tests {
 	[TestFixture]
 	public class Person_is_alive_tests : Person_tests {
 		[Test]
-		public void IsTrueInitially() {
+		public void InitiallyTrue() {
 			var person = new Person();
-
 			person.is_alive().Should().BeTrue();
 		}
 
 		[Test]
-		public void IsFalseIfThePersonIsDead() {
+		public void WhenSusceptible_ReturnTrue() {
+			var person = new Person();
+			person.set_susceptible();
+			person.is_alive().Should().BeTrue();
+		}
+
+		[Test]
+		public void WhenLatent_ReturnTrue() {
+			var person = new Person();
+			person.set_latent();
+			person.is_alive().Should().BeTrue();
+		}
+
+		[Test]
+		public void WhenInfectiousAlmostSymptomatic_ReturnTrue() {
+			var person = new Person();
+			person.set_infectious_almost_symptomatic();
+			person.is_alive().Should().BeTrue();
+		}
+
+		[Test]
+		public void WhenInfectiousAsymptomaticNotCase_ReturnTrue() {
+			var person = new Person();
+			person.set_infectious_asymptomatic_not_case();
+			person.is_alive().Should().BeTrue();
+		}
+
+		[Test]
+		public void WhenACase_ReturnTrue() {
+			var person = new Person();
+			person.set_case();
+			person.is_alive().Should().BeTrue();
+		}
+
+		[Test]
+		public void WhenRecoveredAndAsymptomatic_ReturnTrue() {
+			var person = new Person();
+			person.set_recovered();
+			person.is_alive().Should().BeTrue();
+		}
+
+		[Test]
+		public void WhenRecoveredButSymptomatic_ReturnTrue() {
+			var person = new Person();
+			person.set_case();
+			person.set_recovered();
+			person.is_alive().Should().BeTrue();
+		}
+
+		[Test]
+		public void WhenImmuneAtStart_ReturnTrue() {
+			var person = new Person();
+			person.set_immune_at_start();
+			person.is_alive().Should().BeTrue();
+		}
+
+		[Test]
+		public void WhenDead_ReturnFalse() {
 			var person = new Person();
 			person.set_dead();
-
 			person.is_alive().Should().BeFalse();
 		}
 
 		[Test]
-		public void IsTrueIfThePersonIsACase() {
-			var person = new Person();
-			person.set_case();
-
-			person.is_alive().Should().BeTrue();
-		}
-
-		[Test]
-		public void IsTrueIfThePersonWasACaseThenRecovered() {
-			var person = new Person();
-			person.set_case();
-			person.set_recovered();
-
-			person.is_alive().Should().BeTrue();
-		}
-
-		[Test]
-		public void IsFalseIfThePersonWasACaseThenDied() {
+		public void WhenDeadAndWasSick_ReturnFalse() {
 			var person = new Person();
 			person.set_case();
 			person.set_dead();
-
 			person.is_alive().Should().BeFalse();
 		}
 	}
@@ -123,43 +252,80 @@ public abstract class Person_tests {
 	[TestFixture]
 	public class Person_is_case_tests : Person_tests {
 		[Test]
-		public void IsFalseInitially() {
+		public void InitiallyFalse() {
 			var person = new Person();
-
 			person.is_case().Should().BeFalse();
 		}
 
 		[Test]
-		public void IsTrueIfThePersonIsACase() {
+		public void WhenSusceptible_ReturnFalse() {
+			var person = new Person();
+			person.set_susceptible();
+			person.is_case().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenLatent_ReturnFalse() {
+			var person = new Person();
+			person.set_latent();
+			person.is_case().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenInfectiousAlmostSymptomatic_ReturnFalse() {
+			var person = new Person();
+			person.set_infectious_almost_symptomatic();
+			person.is_case().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenInfectiousAsymptomaticNotCase_ReturnFalse() {
+			var person = new Person();
+			person.set_infectious_asymptomatic_not_case();
+			person.is_case().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenACase_ReturnTrue() {
 			var person = new Person();
 			person.set_case();
-
 			person.is_case().Should().BeTrue();
 		}
 
 		[Test]
-		public void IsFalseIfThePersonIsDead() {
+		public void WhenRecoveredAndAsymptomatic_ReturnFalse() {
 			var person = new Person();
-			person.set_dead();
-
+			person.set_recovered();
 			person.is_case().Should().BeFalse();
 		}
 
 		[Test]
-		public void IsFalseIfThePersonWasACaseThenRecovered() {
+		public void WhenRecoveredButSymptomatic_ReturnFalse() {
 			var person = new Person();
 			person.set_case();
 			person.set_recovered();
-
 			person.is_case().Should().BeFalse();
 		}
 
 		[Test]
-		public void IsFalseIfThePersonWasACaseThenDied() {
+		public void WhenImmuneAtStart_ReturnFalse() {
+			var person = new Person();
+			person.set_immune_at_start();
+			person.is_case().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenDead_ReturnFalse() {
+			var person = new Person();
+			person.set_dead();
+			person.is_case().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenDeadAndWasSick_ReturnFalse() {
 			var person = new Person();
 			person.set_case();
 			person.set_dead();
-
 			person.is_case().Should().BeFalse();
 		}
 	}
@@ -173,14 +339,71 @@ public abstract class Person_tests {
 		}
 
 		[Test]
-		public void TrueIfThePersonIsDead() {
+		public void WhenSusceptible_ReturnFalse() {
+			var person = new Person();
+			person.set_susceptible();
+			person.is_dead_was_asymp().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenLatent_ReturnFalse() {
+			var person = new Person();
+			person.set_latent();
+			person.is_dead_was_asymp().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenInfectiousAlmostSymptomatic_ReturnFalse() {
+			var person = new Person();
+			person.set_infectious_almost_symptomatic();
+			person.is_dead_was_asymp().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenInfectiousAsymptomaticNotCase_ReturnFalse() {
+			var person = new Person();
+			person.set_infectious_asymptomatic_not_case();
+			person.is_dead_was_asymp().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenACase_ReturnFalse() {
+			var person = new Person();
+			person.set_case();
+			person.is_dead_was_asymp().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenRecoveredAndAsymptomatic_ReturnFalse() {
+			var person = new Person();
+			person.set_recovered();
+			person.is_dead_was_asymp().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenRecoveredButSymptomatic_ReturnFalse() {
+			var person = new Person();
+			person.set_case();
+			person.set_recovered();
+			person.is_dead_was_asymp().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenImmuneAtStart_ReturnFalse() {
+			var person = new Person();
+			person.set_immune_at_start();
+			person.is_dead_was_asymp().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenDead_ReturnTrue() {
 			var person = new Person();
 			person.set_dead();
 			person.is_dead_was_asymp().Should().BeTrue();
 		}
 
 		[Test]
-		public void FalseIfThePersonWasSickThenDied() {
+		public void WhenDeadAndWasSick_ReturnFalse() {
 			var person = new Person();
 			person.set_case();
 			person.set_dead();
@@ -197,14 +420,71 @@ public abstract class Person_tests {
 		}
 
 		[Test]
-		public void FalseIfThePersonIsDead() {
+		public void WhenSusceptible_ReturnFalse() {
+			var person = new Person();
+			person.set_susceptible();
+			person.is_dead_was_symp().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenLatent_ReturnFalse() {
+			var person = new Person();
+			person.set_latent();
+			person.is_dead_was_symp().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenInfectiousAlmostSymptomatic_ReturnFalse() {
+			var person = new Person();
+			person.set_infectious_almost_symptomatic();
+			person.is_dead_was_symp().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenInfectiousAsymptomaticNotCase_ReturnFalse() {
+			var person = new Person();
+			person.set_infectious_asymptomatic_not_case();
+			person.is_dead_was_symp().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenACase_ReturnFalse() {
+			var person = new Person();
+			person.set_case();
+			person.is_dead_was_symp().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenRecoveredAndAsymptomatic_ReturnFalse() {
+			var person = new Person();
+			person.set_recovered();
+			person.is_dead_was_symp().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenRecoveredButSymptomatic_ReturnFalse() {
+			var person = new Person();
+			person.set_case();
+			person.set_recovered();
+			person.is_dead_was_symp().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenImmuneAtStart_ReturnFalse() {
+			var person = new Person();
+			person.set_immune_at_start();
+			person.is_dead_was_symp().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenDead_ReturnFalse() {
 			var person = new Person();
 			person.set_dead();
 			person.is_dead_was_symp().Should().BeFalse();
 		}
 
 		[Test]
-		public void TrueIfThePersonWasACaseThenDied() {
+		public void WhenDeadAndWasSick_ReturnTrue() {
 			var person = new Person();
 			person.set_case();
 			person.set_dead();
@@ -221,93 +501,373 @@ public abstract class Person_tests {
 		}
 
 		[Test]
-		public void TrueIfThePersonIsInitiallySetToImmune() {
+		public void WhenSusceptible_ReturnFalse() {
+			var person = new Person();
+			person.set_susceptible();
+			person.is_immune_at_start().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenLatent_ReturnFalse() {
+			var person = new Person();
+			person.set_latent();
+			person.is_immune_at_start().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenInfectiousAlmostSymptomatic_ReturnFalse() {
+			var person = new Person();
+			person.set_infectious_almost_symptomatic();
+			person.is_immune_at_start().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenInfectiousAsymptomaticNotCase_ReturnFalse() {
+			var person = new Person();
+			person.set_infectious_asymptomatic_not_case();
+			person.is_immune_at_start().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenACase_ReturnFalse() {
+			var person = new Person();
+			person.set_case();
+			person.is_immune_at_start().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenRecoveredAndAsymptomatic_ReturnFalse() {
+			var person = new Person();
+			person.set_recovered();
+			person.is_immune_at_start().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenRecoveredButSymptomatic_ReturnFalse() {
+			var person = new Person();
+			person.set_case();
+			person.set_recovered();
+			person.is_immune_at_start().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenImmuneAtStart_ReturnTrue() {
 			var person = new Person();
 			person.set_immune_at_start();
-
 			person.is_immune_at_start().Should().BeTrue();
+		}
+
+		[Test]
+		public void WhenDead_ReturnFalse() {
+			var person = new Person();
+			person.set_dead();
+			person.is_immune_at_start().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenDeadAndWasSick_ReturnFalse() {
+			var person = new Person();
+			person.set_case();
+			person.set_dead();
+			person.is_immune_at_start().Should().BeFalse();
 		}
 	}
 
 	[TestFixture]
 	public class Person_is_infectious_asymptomatic_not_case_tests : Person_tests {
 		[Test]
-		public void IsInitiallyFalse() {
+		public void InitiallyFalse() {
 			var person = new Person();
 			person.is_infectious_asymptomatic_not_case().Should().BeFalse();
 		}
 
 		[Test]
-		public void IsTrueWhenSet() {
+		public void WhenSusceptible_ReturnFalse() {
+			var person = new Person();
+			person.set_susceptible();
+			person.is_infectious_asymptomatic_not_case().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenLatent_ReturnFalse() {
+			var person = new Person();
+			person.set_latent();
+			person.is_infectious_asymptomatic_not_case().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenInfectiousAlmostSymptomatic_ReturnFalse() {
+			var person = new Person();
+			person.set_infectious_almost_symptomatic();
+			person.is_infectious_asymptomatic_not_case().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenInfectiousAsymptomaticNotCase_ReturnTrue() {
 			var person = new Person();
 			person.set_infectious_asymptomatic_not_case();
 			person.is_infectious_asymptomatic_not_case().Should().BeTrue();
+		}
+
+		[Test]
+		public void WhenACase_ReturnFalse() {
+			var person = new Person();
+			person.set_case();
+			person.is_infectious_asymptomatic_not_case().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenRecoveredAndAsymptomatic_ReturnFalse() {
+			var person = new Person();
+			person.set_recovered();
+			person.is_infectious_asymptomatic_not_case().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenRecoveredButSymptomatic_ReturnFalse() {
+			var person = new Person();
+			person.set_case();
+			person.set_recovered();
+			person.is_infectious_asymptomatic_not_case().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenImmuneAtStart_ReturnFalse() {
+			var person = new Person();
+			person.set_immune_at_start();
+			person.is_infectious_asymptomatic_not_case().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenDead_ReturnFalse() {
+			var person = new Person();
+			person.set_dead();
+			person.is_infectious_asymptomatic_not_case().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenDeadAndWasSick_ReturnFalse() {
+			var person = new Person();
+			person.set_case();
+			person.set_dead();
+			person.is_infectious_asymptomatic_not_case().Should().BeFalse();
 		}
 	}
 
 	[TestFixture]
 	public class Person_is_infectious_almost_symptomatic_tests : Person_tests {
 		[Test]
-		public void IsInitiallyFalse() {
+		public void InitiallyFalse() {
 			var person = new Person();
 			person.is_infectious_almost_symptomatic().Should().BeFalse();
 		}
 
 		[Test]
-		public void IsTrueWhenSet() {
+		public void WhenSusceptible_ReturnFalse() {
+			var person = new Person();
+			person.set_susceptible();
+			person.is_infectious_almost_symptomatic().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenLatent_ReturnFalse() {
+			var person = new Person();
+			person.set_latent();
+			person.is_infectious_almost_symptomatic().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenInfectiousAlmostSymptomatic_ReturnTrue() {
 			var person = new Person();
 			person.set_infectious_almost_symptomatic();
 			person.is_infectious_almost_symptomatic().Should().BeTrue();
+		}
+
+		[Test]
+		public void WhenInfectiousAsymptomaticNotCase_ReturnFalse() {
+			var person = new Person();
+			person.set_infectious_asymptomatic_not_case();
+			person.is_infectious_almost_symptomatic().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenACase_ReturnFalse() {
+			var person = new Person();
+			person.set_case();
+			person.is_infectious_almost_symptomatic().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenRecoveredAndAsymptomatic_ReturnFalse() {
+			var person = new Person();
+			person.set_recovered();
+			person.is_infectious_almost_symptomatic().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenRecoveredButSymptomatic_ReturnFalse() {
+			var person = new Person();
+			person.set_case();
+			person.set_recovered();
+			person.is_infectious_almost_symptomatic().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenImmuneAtStart_ReturnFalse() {
+			var person = new Person();
+			person.set_immune_at_start();
+			person.is_infectious_almost_symptomatic().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenDead_ReturnFalse() {
+			var person = new Person();
+			person.set_dead();
+			person.is_infectious_almost_symptomatic().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenDeadAndWasSick_ReturnFalse() {
+			var person = new Person();
+			person.set_case();
+			person.set_dead();
+			person.is_infectious_almost_symptomatic().Should().BeFalse();
 		}
 	}
 
 	[TestFixture]
 	public class Person_is_latent_tests : Person_tests {
 		[Test]
-		public void IsInitiallyFalse() {
+		public void InitiallyFalse() {
 			var person = new Person();
 			person.is_latent().Should().BeFalse();
 		}
 
 		[Test]
-		public void IsTrueWhenSet() {
+		public void WhenSusceptible_ReturnFalse() {
+			var person = new Person();
+			person.set_susceptible();
+			person.is_latent().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenLatent_ReturnTrue() {
 			var person = new Person();
 			person.set_latent();
 			person.is_latent().Should().BeTrue();
+		}
+
+		[Test]
+		public void WhenInfectiousAlmostSymptomatic_ReturnFalse() {
+			var person = new Person();
+			person.set_infectious_almost_symptomatic();
+			person.is_latent().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenInfectiousAsymptomaticNotCase_ReturnFalse() {
+			var person = new Person();
+			person.set_infectious_asymptomatic_not_case();
+			person.is_latent().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenACase_ReturnFalse() {
+			var person = new Person();
+			person.set_case();
+			person.is_latent().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenRecoveredAndAsymptomatic_ReturnFalse() {
+			var person = new Person();
+			person.set_recovered();
+			person.is_latent().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenRecoveredButSymptomatic_ReturnFalse() {
+			var person = new Person();
+			person.set_case();
+			person.set_recovered();
+			person.is_latent().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenImmuneAtStart_ReturnFalse() {
+			var person = new Person();
+			person.set_immune_at_start();
+			person.is_latent().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenDead_ReturnFalse() {
+			var person = new Person();
+			person.set_dead();
+			person.is_latent().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenDeadAndWasSick_ReturnFalse() {
+			var person = new Person();
+			person.set_case();
+			person.set_dead();
+			person.is_latent().Should().BeFalse();
 		}
 	}
 
 	[TestFixture]
 	public class Person_is_never_symptomatic_tests : Person_tests {
 		[Test]
-		public void IsInitiallyTrue() {
+		public void InitiallyFalse() {
 			var person = new Person();
-			person.is_never_symptomatic().Should().BeTrue();
+			person.is_never_symptomatic().Should().BeFalse();
 		}
 
 		[Test]
-		public void IsTrueWhenLatent() {
+		public void WhenSusceptible_ReturnFalse() {
+			var person = new Person();
+			person.set_susceptible();
+			person.is_never_symptomatic().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenLatent_ReturnTrue() {
 			var person = new Person();
 			person.set_latent();
 			person.is_never_symptomatic().Should().BeTrue();
 		}
 
 		[Test]
-		public void IsTrueWhenInfectiousAsymptomaticNotCase() {
+		public void WhenInfectiousAlmostSymptomatic_ReturnFalse() {
+			var person = new Person();
+			person.set_infectious_almost_symptomatic();
+			person.is_never_symptomatic().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenInfectiousAsymptomaticNotCase_ReturnTrue() {
 			var person = new Person();
 			person.set_infectious_asymptomatic_not_case();
 			person.is_never_symptomatic().Should().BeTrue();
 		}
 
 		[Test]
-		public void IsTrueIfRecoveredFromAsymptomatic() {
+		public void WhenACase_ReturnFalse() {
+			var person = new Person();
+			person.set_case();
+			person.is_never_symptomatic().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenRecoveredAndAsymptomatic_ReturnTrue() {
 			var person = new Person();
 			person.set_recovered();
 			person.is_never_symptomatic().Should().BeTrue();
 		}
 
 		[Test]
-		public void IsFalseIfRecoveredButWasSick() {
+		public void WhenRecoveredButSymptomatic_ReturnFalse() {
 			var person = new Person();
 			person.set_case();
 			person.set_recovered();
@@ -315,21 +875,21 @@ public abstract class Person_tests {
 		}
 
 		[Test]
-		public void IsTrueIfPersonWasImmuneAtStart() {
+		public void WhenImmuneAtStart_ReturnTrue() {
 			var person = new Person();
 			person.set_immune_at_start();
 			person.is_never_symptomatic().Should().BeTrue();
 		}
 
 		[Test]
-		public void IsTrueIfPersonDied() {
+		public void WhenDead_ReturnTrue() {
 			var person = new Person();
 			person.set_dead();
 			person.is_never_symptomatic().Should().BeTrue();
 		}
 
 		[Test]
-		public void IsFalseIfPersonDiedWhileSick() {
+		public void WhenDeadAndWasSick_ReturnFalse() {
 			var person = new Person();
 			person.set_case();
 			person.set_dead();
@@ -340,56 +900,79 @@ public abstract class Person_tests {
 	[TestFixture]
 	public class Person_is_not_yet_symptomatic_tests : Person_tests {
 		[Test]
-		public void IsInitiallyTrue() {
+		public void InitiallyTrue() {
 			var person = new Person();
 			person.is_not_yet_symptomatic().Should().BeTrue();
 		}
 
 		[Test]
-		public void IsTrueIfPersonSusceptible() {
+		public void WhenSusceptible_ReturnTrue() {
 			var person = new Person();
 			person.set_susceptible();
 			person.is_not_yet_symptomatic().Should().BeTrue();
 		}
 
 		[Test]
-		public void IsTrueIfThePersonIsLatent() {
+		public void WhenLatent_ReturnTrue() {
 			var person = new Person();
 			person.set_latent();
 			person.is_not_yet_symptomatic().Should().BeTrue();
 		}
 
 		[Test]
-		public void IsTrueIfPersonIsInfectiousAlmostSymptomatic() {
+		public void WhenInfectiousAlmostSymptomatic_ReturnTrue() {
 			var person = new Person();
 			person.set_infectious_almost_symptomatic();
 			person.is_not_yet_symptomatic().Should().BeTrue();
 		}
 
 		[Test]
-		public void IsFalseIfPersonIsInfectionAsymptomaticButNotACase() {
+		public void WhenInfectiousAsymptomaticNotCase_ReturnFalse() {
 			var person = new Person();
 			person.set_infectious_asymptomatic_not_case();
 			person.is_not_yet_symptomatic().Should().BeFalse();
 		}
 
 		[Test]
-		public void IsFalseIfPersonIsACase() {
+		public void WhenACase_ReturnFalse() {
 			var person = new Person();
 			person.set_case();
 			person.is_not_yet_symptomatic().Should().BeFalse();
 		}
 
 		[Test]
-		public void IsFalseIfThePersonHasRecovered() {
+		public void WhenRecoveredAndAsymptomatic_ReturnFalse() {
 			var person = new Person();
 			person.set_recovered();
 			person.is_not_yet_symptomatic().Should().BeFalse();
 		}
 
 		[Test]
-		public void IsFalseIfThePersonDied() {
+		public void WhenRecoveredButSymptomatic_ReturnFalse() {
 			var person = new Person();
+			person.set_case();
+			person.set_recovered();
+			person.is_not_yet_symptomatic().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenImmuneAtStart_ReturnFalse() {
+			var person = new Person();
+			person.set_immune_at_start();
+			person.is_not_yet_symptomatic().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenDead_ReturnFalse() {
+			var person = new Person();
+			person.set_dead();
+			person.is_not_yet_symptomatic().Should().BeFalse();
+		}
+
+		[Test]
+		public void WhenDeadAndWasSick_ReturnFalse() {
+			var person = new Person();
+			person.set_case();
 			person.set_dead();
 			person.is_not_yet_symptomatic().Should().BeFalse();
 		}
