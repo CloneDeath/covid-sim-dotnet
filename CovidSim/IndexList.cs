@@ -1,4 +1,4 @@
-namespace CovidSim.Tests;
+namespace CovidSim;
 
 /**
  * @brief Used for computing spatial interactions more efficiently.
