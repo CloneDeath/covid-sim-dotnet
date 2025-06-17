@@ -13,4 +13,4 @@ public struct ContactEvent {
 	public int contact;
 	public int index;
 	public ushort contact_time;
-};
+}
