@@ -37,17 +37,6 @@ struct ContactEvent
 };
 
 /**
- * @brief Apply place closure effects to household in a thread-safe way.
- *
- */
-struct HostClosure
-{
-	int host_index;
-	unsigned short start_time;
-	unsigned short stop_time;
-};
-
-/**
  * @brief The global state of the model.
  *
  * TODO: Detailed explanation.
