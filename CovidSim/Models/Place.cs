@@ -30,9 +30,9 @@ public struct Place() {
 	public ushort[] AvailByAge = [];
 	public ushort[] Absent = new ushort[Country.MAX_ABSENT_TIME];
 	public ushort AbsentLastUpdateTime;
-	public Vector2f loc;
+	public Vector2f loc = new(0, 0);
 	public float ProbClose; // Random number between 0 and 1 set in CovidSim.cpp::InitModel and unchanged thereafter. Used instead of repeated calls to rand_mt() to see if this place will close with probability PlaceCloseEffect / P.Efficacies[PlaceClosure] in Update.cpp::DoPlaceClose.
-	public int[] group_start;
-	public int[] group_size;
-	public int[] members;
+	public int[] group_start = [];
+	public int[] group_size = [];
+	public int[] members = [];
 };
