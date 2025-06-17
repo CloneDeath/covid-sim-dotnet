@@ -10,8 +10,7 @@ make a queue of `infection`s in `inf_queue` containing the information
 we need, so that we can set the values after the main loop has finished.
 */
 [StructLayout(LayoutKind.Sequential, Pack = 2)]
-public struct Infection
-{
+public struct Infection {
 	public int infector;
 	public int infectee;
 	public short infect_type;
