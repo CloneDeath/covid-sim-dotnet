@@ -100,7 +100,6 @@
     <ClCompile Include="src\Files.cpp" />
     <ClCompile Include="src\Kernels.cpp" />
     <ClCompile Include="src\Memory.cpp" />
-    <ClCompile Include="src\Person.cpp" />
     <ClCompile Include="src\Rand.cpp" />
     <ClCompile Include="src\ReadParams.cpp" />
     <ClCompile Include="src\SetupModel.cpp" />
@@ -117,7 +116,6 @@
     <ClInclude Include="src\Dist.h" />
     <ClInclude Include="src\Error.h" />
     <ClInclude Include="src\Files.h" />
-    <ClInclude Include="src\IndexList.h" />
     <ClInclude Include="src\Kernels.h" />
     <ClInclude Include="src\Memory.h" />
     <ClInclude Include="src\Model.h" />
@@ -130,7 +128,6 @@
     <ClInclude Include="src\Sweep.h" />
     <ClInclude Include="src\Update.h" />
     <ClInclude Include="src\MicroCellPosition.hpp" />
-    <ClInclude Include="src\Models\Cell.h" />
     <ClInclude Include="src\Models\Microcell.h" />
     <ClInclude Include="src\Models\Person.h" />
     <ClInclude Include="src\InverseCdf.h" />
