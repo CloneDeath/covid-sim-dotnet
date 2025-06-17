@@ -259,24 +259,6 @@ struct Intervention
 	unsigned int MaxRounds, MaxResource;
 };
 
-/**
- * @brief A political entity that administers a geographical area.
- */
-struct AdminUnit
-{
-	int id, cnt_id, NI, n; //added n - number of people in admin unit: ggilani 05/01/15. NI is number of interventions in admin unit.
-	Intervention InterventionList[MAX_INTERVENTIONS_PER_ADUNIT];
-	char cnt_name[96], ad_name[200];
-	int NP, place_close_trig;
-	double CaseIsolationTimeStart, HQuarantineTimeStart, DigitalContactTracingTimeStart;
-	double SocialDistanceTimeStart, PlaceCloseTimeStart; //added these to admin unit in the hope of getting specific start times for Italy: ggilani 16/03/20
-	//adding in admin level delays and durations for admin units: ggilani 17/03/20
-	double SocialDistanceDelay, HQuarantineDelay, CaseIsolationDelay, PlaceCloseDelay, DCTDelay;
-	double SocialDistanceDuration, HQuarantineDuration, CaseIsolationPolicyDuration, PlaceCloseDuration, DCTDuration;
-	int* dct, ndct; //arrays for admin unit based digital contact tracing: ggilani 10/03/20
-	double* origin_dest; //storage for origin-destination matrix between admin units: ggilani 28/01/15
-};
-
 #pragma pack(pop)
 
 extern Person* Hosts;
