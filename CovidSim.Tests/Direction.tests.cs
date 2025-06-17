@@ -1,3 +1,4 @@
+using System;
 using FluentAssertions;
 using NUnit.Framework;
 
@@ -14,6 +15,12 @@ public abstract class Direction_tests {
 		public void ExpectedRotationOccurs(Direction direction, Direction expected) {
 			var actual = direction.RotateLeft();
 			actual.Should().Be(expected);
+		}
+
+		[Test]
+		public void InvalidDirectionThrows() {
+			Action action = () => ((Direction)999).RotateLeft();
+			action.Should().Throw<ArgumentOutOfRangeException>();
 		}
 	}
 }

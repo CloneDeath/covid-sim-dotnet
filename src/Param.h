@@ -12,13 +12,6 @@
 #include "geometry/BoundingBox.h"
 #include "geometry/Size.h"
 
-/** @brief Enumeration of bitmap formats. */
-enum struct BitmapFormats
-{
-  PNG,  // PNG - default if IMAGE_MAGICK or _WIN32 defined
-  BMP   // BMP - fall-back
-};
-
 /**
  * @brief Stores the parameters for the simulation.
  *
@@ -38,7 +31,7 @@ struct Param
 	double ModelTimeStep;					/**< The length of a time step, in days */
 	double OutputTimeStep;					/**< The length of time in days between calculating model outputs, in days. Note ModelTimeStep <= OutputTimeStep. */
 	int NumModelTimeStepsPerOutputTimeStep;	/**< Number of time steps between samples. NumModelTimeStepsPerOutputTimeStep = OutputTimeStep / ModelTimeStep */
-	int NumOutputTimeSteps;					/**< Total number of time output steps that will be made. NumOutputTimeSteps = SimulationDuration / OutputTimeStep */ 
+	int NumOutputTimeSteps;					/**< Total number of time output steps that will be made. NumOutputTimeSteps = SimulationDuration / OutputTimeStep */
 
 	CovidSim::TBD1::KernelLookup KernelLookup;
 	CovidSim::TBD1::KernelStruct Kernel;
@@ -93,7 +86,7 @@ struct Param
 
 	double BitmapAspectScale; // Height of bitmap / Width of bitmap
 	double LongitudeCutLine; // Longitude to image earth is cut at to produce a flat map.  Default -360 degrees (effectively -180).  Use to ensure countries have a contiguous boundary
-	
+
 	/// Number of pixels per degree in bitmap output
 	CovidSim::Geometry::DiagonalMatrix2d scale;
 
@@ -105,13 +98,13 @@ struct Param
 
 	/// Size of spatial domain in microcells
 	CovidSim::Geometry::Size<double> in_microcells_;
-	
+
 	CovidSim::Geometry::BoundingBox2d SpatialBoundingBox;
 	double** LocationInitialInfection;
 	double InitialInfectionsAdminUnitWeight[MAX_NUM_SEED_LOCATIONS], InitialInfectionCalTime, TimeStepsPerDay;
 	double FalsePositiveRate, FalsePositivePerCapitaIncidence, FalsePositiveAgeRate[NUM_AGE_GROUPS];
 	double SeroConvMaxSens, SeroConvP1, SeroConvP2, SeroConvSpec, InfPrevSurveyScale;
-	
+
 	double AirportTrafficScale;
 
 	double R0, R0scale, LocalBeta;
@@ -128,14 +121,14 @@ struct Param
 	double CaseAbsentChildPropAdultCarers;
 	double RelativeTravelRate[NUM_AGE_GROUPS], RelativeSpatialContact[NUM_AGE_GROUPS], RelativeSpatialContactSusc[NUM_AGE_GROUPS];
 	double AgeSusceptibility[NUM_AGE_GROUPS], AgeInfectiousness[NUM_AGE_GROUPS], InitialImmunity[NUM_AGE_GROUPS];
-	double** WAIFW_Matrix; 
+	double** WAIFW_Matrix;
 	double** WAIFW_Matrix_SpatialOnly;
 	int Got_WAIFW_Matrix_Spatial; // flag to save pointless sums when not needed.
 	double HotelPropLocal, JourneyDurationDistrib[MAX_TRAVEL_TIME], LocalJourneyDurationDistrib[MAX_TRAVEL_TIME];
 	double MeanJourneyTime, MeanLocalJourneyTime;
 
 
-	int NoInfectiousnessSDinHH; // Default 0 
+	int NoInfectiousnessSDinHH; // Default 0
 	int PlaceCloseRoundHousehold; // Default 1 (close places around a household), 0 (off)
 	int AbsenteeismPlaceClosure; // Default 0 (off), 1 (on) track place closures in more detail
 	int MaxAbsentTime; // In days.  Max number of days absent, range [0, MAX_ABSENT_TIME].  Default 0 if !P.AbsenteeismPlaceClosure, otherwise MAX_ABSENT_TIME
@@ -178,9 +171,9 @@ struct Param
 	//int UseFinalDiseaseSeverity; // Default to 1. Old interpretataion kept in for back compatibility. If set to one, use Prop_Mild_ByAge, Prop_ILI_ByAge etc. to choose Person.Severity_Final with ChooseFinalDiseaseSeverity. If set to 0, p_ILI_if_Symp, p_SARI_if_ILI, and p_Crit_if_SARI etc.
 	// Proportions of cases that where final severity is Mild, ILI, SARI Critical by age. Used to determine Peron.Severity_Final. Therefore if Person.Severity_Final == Severity::SARI, they do not go on to Critical condition/ICU. Used if UseFinalDiseaseSeverity == 1.
 	double Prop_Mild_ByAge[NUM_AGE_GROUPS], Prop_ILI_ByAge[NUM_AGE_GROUPS], Prop_SARI_ByAge[NUM_AGE_GROUPS], Prop_Critical_ByAge[NUM_AGE_GROUPS];
-	//double p_Mild_if_Symp[NUM_AGE_GROUPS], p_ILI_if_Symp[NUM_AGE_GROUPS], p_SARI_if_ILI[NUM_AGE_GROUPS], p_Crit_if_SARI[NUM_AGE_GROUPS], p_Stepdown_if_Crit; // same as above but not final severities and not all conditional on being symptomatic, as variables above. Used if UseFinalDiseaseSeverity == 0. 
+	//double p_Mild_if_Symp[NUM_AGE_GROUPS], p_ILI_if_Symp[NUM_AGE_GROUPS], p_SARI_if_ILI[NUM_AGE_GROUPS], p_Crit_if_SARI[NUM_AGE_GROUPS], p_Stepdown_if_Crit; // same as above but not final severities and not all conditional on being symptomatic, as variables above. Used if UseFinalDiseaseSeverity == 0.
 	double CFR_SARI_ByAge[NUM_AGE_GROUPS], CFR_Critical_ByAge[NUM_AGE_GROUPS], CFR_ILI_ByAge[NUM_AGE_GROUPS];
-	int IncludeStepDownToDeath; // possible to die from Stepdown / RecoveringFrom Critical? 
+	int IncludeStepDownToDeath; // possible to die from Stepdown / RecoveringFrom Critical?
 
 	/**< ScaleSymptProportions Scales Prop_SARI_ByAge and Prop_Critical_ByAge. */
 	/**< leaves Prop_Mild_ByAge as it is and re-calculates Prop_ILI_ByAge accordingly (as Prop_Mild_ByAge + Prop_ILI_ByAge + Prop_SARI_ByAge + Prop_Critical_ByAge sum to 1). */
@@ -192,12 +185,12 @@ struct Param
 	int Num_CFR_ChangeTimes;							// keep this the same for Critical, SARI, ILI for now. Can generalise later if need be.
 	int CFR_ChangeTimes_CalTime		[MAX_NUM_CFR_CHANGE_TIMES]; // keep this the same for Critical, SARI, ILI for now. Can generalise later if need be.
 
-	double CFR_TimeScaling_Critical	[MAX_NUM_CFR_CHANGE_TIMES];	// defaults to 1 for all t. 
-	double CFR_TimeScaling_SARI		[MAX_NUM_CFR_CHANGE_TIMES];	// defaults to 1 for all t. 
+	double CFR_TimeScaling_Critical	[MAX_NUM_CFR_CHANGE_TIMES];	// defaults to 1 for all t.
+	double CFR_TimeScaling_SARI		[MAX_NUM_CFR_CHANGE_TIMES];	// defaults to 1 for all t.
 	double CFR_TimeScaling_ILI		[MAX_NUM_CFR_CHANGE_TIMES];	// defaults to 1 for all t.
-	double CFR_Critical_Scale_Current;							// defaults to 1 for all t. 
-	double CFR_SARI_Scale_Current;								// defaults to 1 for all t. 
-	double CFR_ILI_Scale_Current;								// defaults to 1 for all t. 
+	double CFR_Critical_Scale_Current;							// defaults to 1 for all t.
+	double CFR_SARI_Scale_Current;								// defaults to 1 for all t.
+	double CFR_ILI_Scale_Current;								// defaults to 1 for all t.
 
 
 	///// **** ///// **** ///// **** ///// **** ///// **** ///// **** ///// **** ///// **** ///// **** ///// **** ///// **** ///// ****

@@ -22,19 +22,6 @@
 
 #pragma pack(push, 2)
 
-/*
-In the main InfectSweep loop, we cannot safely set
-Hosts[infectee].infector and Hosts[infectee].infect_type, as concurrent
-threads might be trying to set the values differently. We therefore
-make a queue of `infection`s in `inf_queue` containing the information
-we need, so that we can set the values after the main loop has finished.
-*/
-struct Infection
-{
-	int infector;
-	int infectee;
-	short int infect_type;
-};
 
 /**
  * @brief Contact event used for tracking contact tracing events
@@ -255,7 +242,7 @@ struct Place
 	unsigned short int* AvailByAge;
 	unsigned short int Absent[MAX_ABSENT_TIME], AbsentLastUpdateTime;
 	CovidSim::Geometry::Vector2f loc;
-	float ProbClose; // Random number between 0 and 1 set in CovidSim.cpp::InitModel and unchanged thereafter. Used instead of repeated calls to rand_mt() to see if this place will close with probability PlaceCloseEffect / P.Efficacies[PlaceClosure] in Update.cpp::DoPlaceClose. 
+	float ProbClose; // Random number between 0 and 1 set in CovidSim.cpp::InitModel and unchanged thereafter. Used instead of repeated calls to rand_mt() to see if this place will close with probability PlaceCloseEffect / P.Efficacies[PlaceClosure] in Update.cpp::DoPlaceClose.
 	int* group_start, *group_size, *members;
 };
 
