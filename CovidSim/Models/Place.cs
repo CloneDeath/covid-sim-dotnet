@@ -27,7 +27,7 @@ public struct Place() {
 	public ushort close_start_time;
 	public ushort close_end_time;
 	public ushort treat_end_time;
-	public ushort[] AvailByAge;
+	public ushort[] AvailByAge = [];
 	public ushort[] Absent = new ushort[Country.MAX_ABSENT_TIME];
 	public ushort AbsentLastUpdateTime;
 	public Vector2f loc;
