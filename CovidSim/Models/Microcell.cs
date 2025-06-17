@@ -20,9 +20,9 @@ public class Microcell
 	public int[] members = [];
 
 	// list of places (of various place types) within microcell
-	public int[] places = [Country.MAX_NUM_PLACE_TYPES];
+	public int[] places = new int[Country.MAX_NUM_PLACE_TYPES];
 	// number of places (of various place types) within mircocell
-	public ushort[] NumPlacesByType = [Country.MAX_NUM_PLACE_TYPES];
+	public ushort[] NumPlacesByType = new ushort[Country.MAX_NUM_PLACE_TYPES];
 	public ushort keyworkerproph;
 	public ushort move_trig;
 	public ushort place_trig;
