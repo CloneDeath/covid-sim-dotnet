@@ -223,30 +223,6 @@ struct Airport
 };
 
 /**
- * @brief Represents an institution that people may belong to.
- *
- * PLACE be an elementary school, high schools, universities, workplaces etc. Places
- * belong to a microcell (and therefore have a spatial location). Places may have state
- * (i.e., closed or open). Mechanisms exist for absenteeism tracking (but are not currently used).
- * The `members` array lists all individuals who belong to a place.
- * Places can have different groups (to model differential interaction strengths between groups
- * in the same place).
- */
-struct Place
-{
-	int n; // number of people in place
-	int mcell; // microcell that place is within
-	unsigned short int control_trig; // bit convoluted, but this is initialized to 0 in CovidSim.cpp::InitModel. Then incremented in Update.cpp::DoPlaceClose
-	unsigned short int ng, treat, country;
-	unsigned short int close_start_time, close_end_time, treat_end_time;
-	unsigned short int* AvailByAge;
-	unsigned short int Absent[MAX_ABSENT_TIME], AbsentLastUpdateTime;
-	CovidSim::Geometry::Vector2f loc;
-	float ProbClose; // Random number between 0 and 1 set in CovidSim.cpp::InitModel and unchanged thereafter. Used instead of repeated calls to rand_mt() to see if this place will close with probability PlaceCloseEffect / P.Efficacies[PlaceClosure] in Update.cpp::DoPlaceClose.
-	int* group_start, *group_size, *members;
-};
-
-/**
  * @brief Deprecated intervention mechanism.
  *
  * Not currently being used, but may be reinstated.
