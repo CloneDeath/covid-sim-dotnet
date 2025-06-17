@@ -19,7 +19,7 @@ public struct Airport() {
 	public ushort num_connected;
 	public ushort[] conn_airports = [];
 	public float total_traffic;
-	public Vector2f loc;
+	public Vector2f loc = new(0, 0);
 	public float[] prop_traffic = [];
 	public IndexList[] DestMcells = [];
 	public IndexList[] DestPlaces = [];
