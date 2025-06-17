@@ -23,18 +23,6 @@
 #pragma pack(push, 2)
 
 
-/**
- * @brief Contact event used for tracking contact tracing events
- *
- * Currently stores: contact and index case (both ints) and contact time (unsigned short int)
- * Thanks to igfoo
- */
-struct ContactEvent
-{
-	int contact;
-	int index;
-	unsigned short int contact_time;
-};
 
 /**
  * @brief Apply place closure effects to household in a thread-safe way.
