@@ -9,8 +9,7 @@ namespace CovidSim.Models;
  * Thanks to igfoo
  */
 [StructLayout(LayoutKind.Sequential, Pack = 2)]
-public struct ContactEvent
-{
+public struct ContactEvent {
 	public int contact;
 	public int index;
 	public ushort contact_time;
