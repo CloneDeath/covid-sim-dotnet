@@ -247,19 +247,6 @@ struct Place
 };
 
 /**
- * @brief Deprecated intervention mechanism.
- *
- * Not currently being used, but may be reinstated.
- */
-struct Intervention
-{
-	int InterventionType, DoAUThresh, NoStartAfterMin,dummy; //dummy for 8 byte alignment
-	double StartTime, StopTime, MinDuration, RepeatInterval, TimeOffset;
-	double StartThresholdHigh, StartThresholdLow, StopThreshold, Level, LevelCellVar, LevelAUVar, LevelCountryVar, ControlParam, LevelClustering;
-	unsigned int MaxRounds, MaxResource;
-};
-
-/**
  * @brief A political entity that administers a geographical area.
  */
 struct AdminUnit
