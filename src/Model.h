@@ -207,22 +207,6 @@ struct Events
 */
 
 /**
- * @brief Airport state.
- *
- * Not used for COVID-19 right now. Might be more relevant for USA and
- * other countries that have lots of internal flights. Slows the simulation.
- */
-struct Airport
-{
-	int num_mcell, num_place, Inv_prop_traffic[129], Inv_DestMcells[1025], Inv_DestPlaces[1025];
-	unsigned short int num_connected, *conn_airports;
-	float total_traffic;
-	CovidSim::Geometry::Vector2f loc;
-	float* prop_traffic;
-	IndexList* DestMcells, *DestPlaces;
-};
-
-/**
  * @brief Represents an institution that people may belong to.
  *
  * PLACE be an elementary school, high schools, universities, workplaces etc. Places
