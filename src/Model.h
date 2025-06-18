@@ -166,18 +166,6 @@ struct Results
 // The offset (in number of doubles) of the first double field in Results.
 const std::size_t ResultsDoubleOffsetStart = offsetof(Results, S) / sizeof(double);
 
-/**
- * Supports producing individual infection events from the simulation (and is not used that
- * much because it was developed for Ebola, and slows the simulation).
- *
- * Added Events struct to allow us to log and write out infection events: ggilani 10/10/14
- */
-struct Events
-{
-	double infectee_x, infectee_y, t, t_infector;
-	int run, infectee_ind, infector_ind, type, infectee_adunit, listpos, infectee_cell, infector_cell, thread;
-};
-
 /*
   HQ - quarantined households
   AH - Quarantined (and perhaps sick) working adults
