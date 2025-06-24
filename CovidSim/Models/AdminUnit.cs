@@ -6,14 +6,14 @@ namespace CovidSim.Models;
  * A political entity that administers a geographical area.
  */
 [StructLayout(LayoutKind.Sequential, Pack = 2)]
-public struct AdminUnit {
+public struct AdminUnit() {
 	public int id;
 	public int cnt_id;
 	// ggilani 05/01/15. NI is number of interventions in admin unit.
 	public int NI;
 	//added n - number of people in admin unit
 	public int n;
-	public Intervention InterventionList = new Intervention[MAX_INTERVENTIONS_PER_ADUNIT];
+	public Intervention[] InterventionList = new Intervention[Country.MAX_INTERVENTIONS_PER_ADUNIT];
 	public string cnt_name;
 	public string ad_name;
 	public int NP;
