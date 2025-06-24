@@ -37,5 +37,5 @@ public class Cell {
 	public float[] cum_trans = [];
 	public float[] max_trans = [];
 
-	public short[] CurInterv = [Country.MAX_INTERVENTION_TYPES];
+	public short[] CurInterv = new short[Country.MAX_INTERVENTION_TYPES];
 }

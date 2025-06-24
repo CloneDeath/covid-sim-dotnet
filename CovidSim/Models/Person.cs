@@ -15,7 +15,7 @@ public class Person {
 	public int listpos;
 
 	//// indexed by i) place type. Value is the number of that place type (e.g., school no. 17; office no. 310 etc.) Place[i][person->PlaceLinks[i]], can be up to P.Nplace[i]
-	public int[] PlaceLinks = [Country.MAX_NUM_PLACE_TYPES];
+	public int[] PlaceLinks = new int[Country.MAX_NUM_PLACE_TYPES];
 	public float infectiousness;
 	public float susc;
 	public float ProbAbsent;
@@ -44,7 +44,7 @@ public class Person {
 	// set to 0 and tested < 2. but never modified?
 	public byte num_treats;
 	// These can definitely get > 255
-	public ushort[] PlaceGroupLinks = [Country.MAX_NUM_PLACE_TYPES];
+	public ushort[] PlaceGroupLinks = new ushort[Country.MAX_NUM_PLACE_TYPES];
 
 	// INFECT_TYPE_MASK
 	public short infect_type;
