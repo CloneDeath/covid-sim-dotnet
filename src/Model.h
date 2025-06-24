@@ -23,29 +23,6 @@
 #pragma pack(push, 2)
 
 
-/**
- * @brief Contact event used for tracking contact tracing events
- *
- * Currently stores: contact and index case (both ints) and contact time (unsigned short int)
- * Thanks to igfoo
- */
-struct ContactEvent
-{
-	int contact;
-	int index;
-	unsigned short int contact_time;
-};
-
-/**
- * @brief Apply place closure effects to household in a thread-safe way.
- *
- */
-struct HostClosure
-{
-	int host_index;
-	unsigned short start_time;
-	unsigned short stop_time;
-};
 
 /**
  * @brief The global state of the model.
@@ -177,18 +154,6 @@ struct Results
 // The offset (in number of doubles) of the first double field in Results.
 const std::size_t ResultsDoubleOffsetStart = offsetof(Results, S) / sizeof(double);
 
-/**
- * Supports producing individual infection events from the simulation (and is not used that
- * much because it was developed for Ebola, and slows the simulation).
- *
- * Added Events struct to allow us to log and write out infection events: ggilani 10/10/14
- */
-struct Events
-{
-	double infectee_x, infectee_y, t, t_infector;
-	int run, infectee_ind, infector_ind, type, infectee_adunit, listpos, infectee_cell, infector_cell, thread;
-};
-
 /*
   HQ - quarantined households
   AH - Quarantined (and perhaps sick) working adults
@@ -205,22 +170,6 @@ struct Events
   rq=ratio of quarantine time to duration of absence due to illness
   rc=ratio of school/workplace closure duration of absence due to illness
 */
-
-/**
- * @brief Airport state.
- *
- * Not used for COVID-19 right now. Might be more relevant for USA and
- * other countries that have lots of internal flights. Slows the simulation.
- */
-struct Airport
-{
-	int num_mcell, num_place, Inv_prop_traffic[129], Inv_DestMcells[1025], Inv_DestPlaces[1025];
-	unsigned short int num_connected, *conn_airports;
-	float total_traffic;
-	CovidSim::Geometry::Vector2f loc;
-	float* prop_traffic;
-	IndexList* DestMcells, *DestPlaces;
-};
 
 /**
  * @brief Represents an institution that people may belong to.
@@ -244,19 +193,6 @@ struct Place
 	CovidSim::Geometry::Vector2f loc;
 	float ProbClose; // Random number between 0 and 1 set in CovidSim.cpp::InitModel and unchanged thereafter. Used instead of repeated calls to rand_mt() to see if this place will close with probability PlaceCloseEffect / P.Efficacies[PlaceClosure] in Update.cpp::DoPlaceClose.
 	int* group_start, *group_size, *members;
-};
-
-/**
- * @brief Deprecated intervention mechanism.
- *
- * Not currently being used, but may be reinstated.
- */
-struct Intervention
-{
-	int InterventionType, DoAUThresh, NoStartAfterMin,dummy; //dummy for 8 byte alignment
-	double StartTime, StopTime, MinDuration, RepeatInterval, TimeOffset;
-	double StartThresholdHigh, StartThresholdLow, StopThreshold, Level, LevelCellVar, LevelAUVar, LevelCountryVar, ControlParam, LevelClustering;
-	unsigned int MaxRounds, MaxResource;
 };
 
 #pragma pack(pop)
