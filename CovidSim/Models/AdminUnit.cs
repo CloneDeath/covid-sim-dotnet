@@ -14,8 +14,8 @@ public struct AdminUnit() {
 	//added n - number of people in admin unit
 	public int n;
 	public Intervention[] InterventionList = new Intervention[Country.MAX_INTERVENTIONS_PER_ADUNIT];
-	public string cnt_name;
-	public string ad_name;
+	public string cnt_name = string.Empty;
+	public string ad_name = string.Empty;
 	public int NP;
 	public int place_close_trig;
 	public double CaseIsolationTimeStart;
