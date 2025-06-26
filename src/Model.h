@@ -22,69 +22,6 @@
 
 #pragma pack(push, 2)
 
-
-
-/**
- * @brief The global state of the model.
- *
- * TODO: Detailed explanation.
- */
-struct PopVar
-{
-	int S, L, I, R, D, cumI, cumR, cumD, cumC, cumTC, cumFC, cumDC, trigDetectedCases, cumTG, cumSI, nTG;
-	int cumH; //Added cumulative hospitalisation: ggilani 28/10/14
-	int cumCT, cumCC, DCT, cumDCT; //Added total and cumulative contact tracing: ggilani 15/06/17, and equivalents for digital contact tracing: ggilani 11/03/20
-	int cumC_country[MAX_COUNTRIES]; //added cumulative cases by country: ggilani 12/11/14
-	int cumHQ, cumAC, cumAA, cumAH, cumACS, cumAPC, cumAPA, cumAPCS;
-	//// age specific versions of above variables. e.g. cumI is cumulative infections. cumIa is cumulative infections by age group.
-	int cumIa[NUM_AGE_GROUPS], cumCa[NUM_AGE_GROUPS], cumDa[NUM_AGE_GROUPS];
-	int cumI_adunit[MAX_ADUNITS], cumC_adunit[MAX_ADUNITS], cumD_adunit[MAX_ADUNITS], cumT_adunit[MAX_ADUNITS], cumH_adunit[MAX_ADUNITS], cumDC_adunit[MAX_ADUNITS]; //added cumulative hospitalisation per admin unit: ggilani 28/10/14, cumulative detected cases per adunit: ggilani 03/02/15
-	int cumCT_adunit[MAX_ADUNITS], cumCC_adunit[MAX_ADUNITS], trigDC_adunit[MAX_ADUNITS]; //added cumulative CT per admin unit: ggilani 15/06/17
-	int cumDCT_adunit[MAX_ADUNITS], DCT_adunit[MAX_ADUNITS]; //added cumulative and overall digital contact tracing per adunit: ggilani 11/03/20
-	int cumItype[INFECT_TYPE_MASK], cumI_keyworker[2], cumC_keyworker[2], cumT_keyworker[2];
-	Infection *inf_queue[MAX_NUM_THREADS]; // the queue (i.e. list) of infections. 1st index is thread, 2nd is person.
-	int n_queue[MAX_NUM_THREADS]; 	// number of infections in inf_queue
-	HostClosure *host_closure_queue;  // When places close, buffer host index, and closure times here.
-	int host_closure_queue_size; // Number of host closures in host_closure_queue.
-	int* p_queue[MAX_NUM_PLACE_TYPES], *pg_queue[MAX_NUM_PLACE_TYPES], np_queue[MAX_NUM_PLACE_TYPES];		// np_queue is number of places in place queue (by place type), p_queue, and pg_queue is the actual place and place-group queue (i.e. list) of places. 1st index is place type, 2nd is place.
-	int NumPlacesClosed[MAX_NUM_PLACE_TYPES], n_mvacc, mvacc_cum;
-	float* cell_inf;  //// List of cumulative spatial infectiousnesses by person within cell. Negative value will refer to that person having their place closed
-	double sumRad2, maxRad2, cumT, cumV, cumVG, cumUT, cumTP, cumV_daily, cumVG_daily; //added cumVG, cumVG_daily
-	int* CellMemberArray, *CellSuscMemberArray;
-	int** InvAgeDist;
-	int* mvacc_queue;
-	int nct_queue[MAX_ADUNITS]; // queue for contact tracing: ggilani 12/06/17
-	ContactEvent* dct_queue[MAX_ADUNITS]; //queues for digital contact tracing: ggilani 14/04/20
-	int ndct_queue[MAX_ADUNITS]; //queues for digital contact tracing: ggilani 10/03/20
-	int contact_dist[MAX_CONTACTS+1]; //added this to store contact distribution: ggilani 13/04/20
-	double* origin_dest[MAX_ADUNITS]; //added intermediate storage for calculation of origin-destination matrix: ggilani 02/02/15
-
-	///// Prevalence quantities (+ by admin unit)
-	int Mild, ILI, SARI, Critical, CritRecov, /*cumulative incidence*/ cumMild, cumILI, cumSARI, cumCritical, cumCritRecov;
-	int Mild_adunit[MAX_ADUNITS], ILI_adunit[MAX_ADUNITS], SARI_adunit[MAX_ADUNITS], Critical_adunit[MAX_ADUNITS], CritRecov_adunit[MAX_ADUNITS];
-	/// cum incidence quantities. (+ by admin unit)
-	int cumMild_adunit[MAX_ADUNITS], cumILI_adunit[MAX_ADUNITS], cumSARI_adunit[MAX_ADUNITS], cumCritical_adunit[MAX_ADUNITS], cumCritRecov_adunit[MAX_ADUNITS];
-	int Mild_age[NUM_AGE_GROUPS], ILI_age[NUM_AGE_GROUPS], SARI_age[NUM_AGE_GROUPS], Critical_age[NUM_AGE_GROUPS], CritRecov_age[NUM_AGE_GROUPS];
-	/// cum incidence quantities. (+ by age group)
-	int cumMild_age[NUM_AGE_GROUPS], cumILI_age[NUM_AGE_GROUPS], cumSARI_age[NUM_AGE_GROUPS], cumCritical_age[NUM_AGE_GROUPS], cumCritRecov_age[NUM_AGE_GROUPS];
-
-	int cumDeath_ILI, cumDeath_SARI, cumDeath_Critical;		// tracks cumulative deaths from ILI, SARI & Critical severities
-	int cumDeath_ILI_adunit[MAX_ADUNITS], cumDeath_SARI_adunit[MAX_ADUNITS], cumDeath_Critical_adunit[MAX_ADUNITS];		// tracks cumulative deaths from ILI, SARI & Critical severities
-	int cumDeath_ILI_age[NUM_AGE_GROUPS], cumDeath_SARI_age[NUM_AGE_GROUPS], cumDeath_Critical_age[NUM_AGE_GROUPS];
-
-	int **prevInf_age_adunit, **cumInf_age_adunit; // prevalence, incidence, and cumulative incidence of infection by age and admin unit.
-
-
-	//// above quantities need to be amended in following parts of code:
-	//// i) InitModel (set to zero);
-	//// ii) RecordSample: (collate from threads);
-	//// iii) RecordSample: add to incidence / Timeseries).
-	//// iv) SaveResults
-	//// v) SaveSummaryResults
-	///// And various parts of Update.cpp where variables need must be incremented, decremented.
-
-};
-
 /**
  * @brief Recorded time-series variables (typically populated from the `POPVAR` state)
  *
