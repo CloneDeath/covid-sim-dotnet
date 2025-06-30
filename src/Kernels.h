@@ -10,55 +10,6 @@ namespace CovidSim
   /// \todo TBD1 is specific to this file and is to be changed to something meaningful during a later refactoring
   namespace TBD1
   {
-    /// A probability distribution
-    struct KernelStruct
-    {
-      /// Which distribution to use
-      int type_;
-
-      /// Distribution parameter
-      double shape_;
-
-      /// Representative distance
-      double scale_;
-
-      /// Distribution parameter
-      double p3_;
-
-      /// Distribution parameter
-      double p4_;
-
-      /// \param r2 The distance squared
-      /// \return Probability
-      double exponential(double r2) const;
-
-      /// \param r2 The distance squared
-      /// \return Probability
-      double power(double r2) const;
-
-      /// \param r2 The distance squared
-      /// \return Probability
-      double power_b(double r2) const;
-
-      /// \param r2 The distance squared
-      /// \return Probability
-      double power_us(double r2) const;
-
-      /// \param r2 The distance squared
-      /// \return Probability
-      double power_exp(double r2) const;
-
-      /// Gaussian distribution a.k.a. normal distribution and bell curve
-      /// \param r2 The distance squared
-      /// \return Probability
-      double gaussian(double r2) const;
-
-      /// Step function
-      /// \param r2 The distance squared
-      /// \return Probability
-      double step(double r2) const;
-    };
-
     /// \brief To speed up calculation of kernel values we provide a couple of lookup
     /// tables.
     ///
