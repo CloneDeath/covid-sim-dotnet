@@ -415,8 +415,6 @@ struct Param
 	double OneChildFourPersProb;
 	double YoungAndSingleSlope;
 	double ThreeChildFivePersProb;
-
-	double sinx[DEGREES_PER_TURN + 1], cosx[DEGREES_PER_TURN + 1], asin2sqx[1001];
 };
 
 extern Param P;
