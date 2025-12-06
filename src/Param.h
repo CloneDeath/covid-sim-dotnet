@@ -99,7 +99,6 @@ struct Param
 	/// Size of spatial domain in microcells
 	CovidSim::Geometry::Size<double> in_microcells_;
 
-	CovidSim::Geometry::BoundingBox2d SpatialBoundingBox;
 	double** LocationInitialInfection;
 	double InitialInfectionsAdminUnitWeight[MAX_NUM_SEED_LOCATIONS], InitialInfectionCalTime, TimeStepsPerDay;
 	double FalsePositiveRate, FalsePositivePerCapitaIncidence, FalsePositiveAgeRate[NUM_AGE_GROUPS];

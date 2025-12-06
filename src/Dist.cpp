@@ -20,32 +20,7 @@ double periodic_xy(double x, double y) {
 	return x * x + y * y;
 }
 
-double dist2UTM(double x1, double y1, double x2, double y2)
-{
-	double x, y, cy1, cy2, yt, xi, yi;
 
-	x = fabs(x1 - x2) / 2;
-	y = fabs(y1 - y2) / 2;
-	xi = floor(x);
-	yi = floor(y);
-	x -= xi;
-	y -= yi;
-	x = (1 - x) * P.sinx[(int)xi] + x * P.sinx[((int)xi) + 1];
-	y = (1 - y) * P.sinx[(int)yi] + y * P.sinx[((int)yi) + 1];
-	yt = fabs(y1 + P.SpatialBoundingBox.bottom_left().y);
-	yi = floor(yt);
-	cy1 = yt - yi;
-	cy1 = (1 - cy1) * P.cosx[((int)yi)] + cy1 * P.cosx[((int)yi) + 1];
-	yt = fabs(y2 + P.SpatialBoundingBox.bottom_left().y);
-	yi = floor(yt);
-	cy2 = yt - yi;
-	cy2 = (1 - cy2) * P.cosx[((int)yi)] + cy2 * P.cosx[((int)yi) + 1];
-	x = fabs(1000 * (y * y + x * x * cy1 * cy2));
-	xi = floor(x);
-	x -= xi;
-	y = (1 - x) * P.asin2sqx[((int)xi)] + x * P.asin2sqx[((int)xi) + 1];
-	return 4 * EARTHRADIUS * EARTHRADIUS * y;
-}
 double dist2(Person* a, Person* b)
 {
 	double x, y;

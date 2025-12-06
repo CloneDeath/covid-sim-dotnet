@@ -1,4 +1,5 @@
 using System;
+using CovidSim.Geometry;
 
 namespace CovidSim;
 
@@ -19,4 +20,6 @@ public class Param {
 		var t = Math.Asin(Math.Sqrt(i / 1000.0));
 		return t * t;
 	}
+
+	public BoundingBox2d SpatialBoundingBox = new();
 }
