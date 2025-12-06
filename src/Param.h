@@ -65,7 +65,6 @@ struct Param
 
 	CovidSim::Geometry::Vector2i bmin;
 	BitmapFormats BitmapFormat; // Format of bitmap (platform dependent and command-line /BM: specified).
-	int DoSI, DoPeriodicBoundaries, DoImmuneBitmap, OutputBitmapDetected; //added OutputBitmapDetected - ggilani 04/08/15
 	int DoHouseholds, DoPlaces, NumPlaceTypes, Nplace[MAX_NUM_PLACE_TYPES], SmallEpidemicCases, DoPlaceGroupTreat;
 	int NumInitialInfections[MAX_NUM_SEED_LOCATIONS], DoRandomInitialInfectionLoc, DoAllInitialInfectioninSameLoc;
 	int MinPopDensForInitialInfection, NumSeedLocations,InitialInfectionsAdminUnitId[MAX_NUM_SEED_LOCATIONS],InitialInfectionsAdminUnit[MAX_NUM_SEED_LOCATIONS], MaxPopDensForInitialInfection, MaxAgeForInitialInfection;
@@ -86,18 +85,6 @@ struct Param
 
 	double BitmapAspectScale; // Height of bitmap / Width of bitmap
 	double LongitudeCutLine; // Longitude to image earth is cut at to produce a flat map.  Default -360 degrees (effectively -180).  Use to ensure countries have a contiguous boundary
-
-	/// Number of pixels per degree in bitmap output
-	CovidSim::Geometry::DiagonalMatrix2d scale;
-
-	/// Size of spatial domain in degrees
-	CovidSim::Geometry::Size<double> in_degrees_;
-
-	/// Size of spatial domain in cells
-	CovidSim::Geometry::Size<double> in_cells_;
-
-	/// Size of spatial domain in microcells
-	CovidSim::Geometry::Size<double> in_microcells_;
 
 	double** LocationInitialInfection;
 	double InitialInfectionsAdminUnitWeight[MAX_NUM_SEED_LOCATIONS], InitialInfectionCalTime, TimeStepsPerDay;

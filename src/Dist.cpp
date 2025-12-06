@@ -11,16 +11,6 @@
 //// **** DISTANCE FUNCTIONS (return distance-squared, which is input for every Kernel function)
 //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// ****
 
-double periodic_xy(double x, double y) {
-	if (P.DoPeriodicBoundaries)
-	{
-		if (x > P.in_degrees_.width * 0.5) x = P.in_degrees_.width - x;
-		if (y > P.in_degrees_.height * 0.5) y = P.in_degrees_.height - y;
-	}
-	return x * x + y * y;
-}
-
-
 double dist2(Person* a, Person* b)
 {
 	double x, y;
