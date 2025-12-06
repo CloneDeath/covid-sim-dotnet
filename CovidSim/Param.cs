@@ -22,6 +22,8 @@ public class Param {
 		return t * t;
 	}
 
+	public BoundingBox2d SpatialBoundingBox = new();
+
 	public int nch;
 	public bool DoUTM_coords;
 	public bool DoPeriodicBoundaries;
