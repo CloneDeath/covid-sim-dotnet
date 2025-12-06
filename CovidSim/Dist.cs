@@ -12,11 +12,11 @@ public static class Dist {
 		y -= yi;
 		x = (1 - x) * Param.P.sinx((int)xi) + x * Param.P.sinx(((int)xi) + 1);
 		y = (1 - y) * Param.P.sinx((int)yi) + y * Param.P.sinx(((int)yi) + 1);
-		double yt = Math.Abs(y1 + Param.P.SpatialBoundingBox.bottom_left().y);
+		double yt = Math.Abs(y1 + Param.P.SpatialBoundingBox.BottomLeft.Y);
 		yi = Math.Floor(yt);
 		var cy1 = yt - yi;
 		cy1 = (1 - cy1) * Param.P.cosx(((int)yi)) + cy1 * Param.P.cosx(((int)yi) + 1);
-		yt = Math.Abs(y2 + Param.P.SpatialBoundingBox.bottom_left().y);
+		yt = Math.Abs(y2 + Param.P.SpatialBoundingBox.BottomLeft.Y);
 		yi = Math.Floor(yt);
 		var cy2 = yt - yi;
 		cy2 = (1 - cy2) * Param.P.cosx(((int)yi)) + cy2 * Param.P.cosx(((int)yi) + 1);
