@@ -28,6 +28,9 @@ public class Param {
 	public bool DoUTM_coords;
 	public bool DoPeriodicBoundaries;
 
+	public int total_microcells_wide_;
+	public int total_microcells_high_;
+
 	/// Size of spatial domain in cells
 	public Size<double> in_cells_ = new(100, 100, new DoubleOperations());
 
