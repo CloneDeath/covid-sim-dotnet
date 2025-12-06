@@ -87,39 +87,39 @@ public static class Dist {
 				Param.P.in_cells_.height * Math.Abs((double)(i % Param.P.nch)),
 				Param.P.in_cells_.width * Math.Abs((double)(j / Param.P.nch)),
 				Param.P.in_cells_.height * Math.Abs((double)(j % Param.P.nch)));
-		} else {
-			if ((Param.P.DoPeriodicBoundaries) &&
-				(Param.P.in_cells_.width * ((double)Math.Abs(m / Param.P.nch - l / Param.P.nch)) >
-				 Param.P.in_degrees_.width * 0.5)) {
-				if (m / Param.P.nch > l / Param.P.nch)
-					j += Param.P.nch;
-				else if (m / Param.P.nch < l / Param.P.nch)
-					i += Param.P.nch;
-			} else {
-				if (m / Param.P.nch > l / Param.P.nch)
-					i += Param.P.nch;
-				else if (m / Param.P.nch < l / Param.P.nch)
-					j += Param.P.nch;
-			}
-
-			if ((Param.P.DoPeriodicBoundaries) &&
-				(Param.P.in_degrees_.height * ((double)Math.Abs(m % Param.P.nch - l % Param.P.nch)) >
-				 Param.P.in_degrees_.height * 0.5)) {
-				if (m % Param.P.nch > l % Param.P.nch)
-					j++;
-				else if (m % Param.P.nch < l % Param.P.nch)
-					i++;
-			} else {
-				if (m % Param.P.nch > l % Param.P.nch)
-					i++;
-				else if (m % Param.P.nch < l % Param.P.nch)
-					j++;
-			}
-
-			var x = Param.P.in_cells_.width * Math.Abs((double)(i / Param.P.nch - j / Param.P.nch));
-			var y = Param.P.in_cells_.height * Math.Abs((double)(i % Param.P.nch - j % Param.P.nch));
-			return periodic_xy(x, y);
 		}
+
+		if ((Param.P.DoPeriodicBoundaries) &&
+			Param.P.in_cells_.width * Math.Abs(m / Param.P.nch - l / Param.P.nch) >
+			Param.P.in_degrees_.width * 0.5) {
+			if (m / Param.P.nch > l / Param.P.nch)
+				j += Param.P.nch;
+			else if (m / Param.P.nch < l / Param.P.nch)
+				i += Param.P.nch;
+		} else {
+			if (m / Param.P.nch > l / Param.P.nch)
+				i += Param.P.nch;
+			else if (m / Param.P.nch < l / Param.P.nch)
+				j += Param.P.nch;
+		}
+
+		if (Param.P.DoPeriodicBoundaries &&
+			Param.P.in_degrees_.height * Math.Abs(m % Param.P.nch - l % Param.P.nch) >
+			Param.P.in_degrees_.height * 0.5) {
+			if (m % Param.P.nch > l % Param.P.nch)
+				j++;
+			else if (m % Param.P.nch < l % Param.P.nch)
+				i++;
+		} else {
+			if (m % Param.P.nch > l % Param.P.nch)
+				i++;
+			else if (m % Param.P.nch < l % Param.P.nch)
+				j++;
+		}
+
+		var x = Param.P.in_cells_.width * Math.Abs((double)(i / Param.P.nch - j / Param.P.nch));
+		var y = Param.P.in_cells_.height * Math.Abs((double)(i % Param.P.nch - j % Param.P.nch));
+		return periodic_xy(x, y);
 	}
 
 	public static double periodic_xy(double x, double y) {
