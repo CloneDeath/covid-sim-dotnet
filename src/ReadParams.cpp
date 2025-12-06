@@ -22,7 +22,7 @@ ParamMap Params::read_params_map(const char* file)
 		buf.erase(0, buf.find_first_not_of(" \t\n\r"));     // Remove lead space
 		buf.erase(buf.find_last_not_of(" \t\n\r") + 1);     // ... and trailing.
 
-		if (skipping) 
+		if (skipping)
 		{   // Currently, we're not doing anything interesting.
 			if ((buf.length() > 1) && (buf.compare(0, 1, "[") == 0)) // We found a key
 			{
@@ -33,7 +33,7 @@ ParamMap Params::read_params_map(const char* file)
 		else
 		{    // Not skipping...
 			if ((buf.length() == 0) || (buf.compare(0, 1, "*") == 0) ||
-				(buf.compare(0, 1, "^") == 0) || (buf.compare(0, 1, "=") == 0) || (buf.compare(0, 1, "[") == 0)) 
+				(buf.compare(0, 1, "^") == 0) || (buf.compare(0, 1, "=") == 0) || (buf.compare(0, 1, "[") == 0))
 			{
 				value.erase(0, value.find_first_not_of(" \t\n\r"));
 				value.erase(value.find_last_not_of(" \t\n\r") + 1);
@@ -47,7 +47,7 @@ ParamMap Params::read_params_map(const char* file)
 				param_map.insert(ParamPair(key, value));
 				value.clear();
 				key.clear();
-				if (buf.compare(0, 1, "[") == 0) 
+				if (buf.compare(0, 1, "[") == 0)
 				{
 					key = buf.substr(1, buf.length() - 2);
 				}
@@ -56,7 +56,7 @@ ParamMap Params::read_params_map(const char* file)
 					skipping = true;
 				}
 			}
-			else 
+			else
 			{
 				value.append(buf);
 				value.append("\n");
@@ -64,7 +64,7 @@ ParamMap Params::read_params_map(const char* file)
 		}
 	}
 
-	if (!key.empty()) 
+	if (!key.empty())
 	{
 		value.erase(0, value.find_first_not_of(" \t\n\r"));
 		value.erase(value.find_last_not_of(" \t\n\r") + 1);
@@ -120,9 +120,9 @@ std::string Params::clp_overwrite(std::string value, Param* P) {
 	if (value.at(0) != '#')
 	{
 		return value;
-	} 
+	}
   int clp_no = Params::parse_int(value.substr(1, std::string::npos), value);
-	if ((clp_no < 0) || (clp_no > 99)) 
+	if ((clp_no < 0) || (clp_no > 99))
 	{
 		ERR_CRITICAL_FMT("CLP %d is out of bounds reading parameters\n", clp_no);
 	}
@@ -227,7 +227,7 @@ double Params::get_double(ParamMap &base, ParamMap &fallback, ParamMap &params, 
 	if (err_on_missing)
 	{
 		ERR_CRITICAL_FMT("Required Parameter %s not found\n", param_name.c_str());
-	} 
+	}
 	return default_value;
 }
 
@@ -257,7 +257,7 @@ double Params::req_double(ParamMap &fallback, ParamMap &params, std::string para
 int Params::get_int(ParamMap &base, ParamMap &fallback, ParamMap &params, std::string param_name, int default_value, bool err_on_missing, Param* P, bool force_fail)
 {
 	std::string str_value = Params::lookup_param_clp(base, fallback, params, param_name, P);
-	
+
 	if (!force_fail && (str_value.compare("NULL") != 0))
 	{
 		return Params::parse_int(str_value, param_name);
@@ -660,7 +660,7 @@ void Params::airport_params(ParamMap adm_params, ParamMap pre_params, ParamMap p
 		P->HotelPlaceType = P->NumPlaceTypes;
 		return;
 	}
-	
+
 	// When airports are activated we must have at least one airport place
 	// // and a hotel type.
 	P->PlaceTypeNoAirNum = Params::req_int(pre_params, adm_params, "Number of non-airport places", P);
@@ -1129,7 +1129,7 @@ void Params::seeding_params(ParamMap adm_params, ParamMap pre_params, ParamMap p
 			{
 				for (int i = 0; i < P->NumSeedLocations; i++) P->InitialInfectionsAdminUnit[i] = 0;
 			}
-			else 
+			else
 			{
 				Params::req_string_vec(pre_params, adm_params, "Administrative unit to seed initial infection into", AdunitListNames, P->NumSeedLocations, P);
 				for (int i = 0; i < P->NumSeedLocations; i++)
@@ -1220,7 +1220,7 @@ void Params::intervention_delays_by_adunit_params(ParamMap adm_params, ParamMap 
 	  return;
   }
 
-	// Set up arrays to temporarily store parameters per admin unit 
+	// Set up arrays to temporarily store parameters per admin unit
 
 	double* AdunitDelayToSocialDistance = new double[MAX_ADUNITS];
 	double* AdunitDelayToHQuarantine = new double[MAX_ADUNITS];
@@ -1272,7 +1272,7 @@ void Params::digital_contact_tracing_params(ParamMap adm_params, ParamMap pre_pa
 	P->DoDigitalContactTracing = Params::get_int(params, pre_params, "Include digital contact tracing", 0, P);
 	if (P->DoDigitalContactTracing == 0)
 	{ //Set these to 1 so it doesn't interfere with code if we aren't using digital contact tracing.
-		P->ScalingFactorSpatialDigitalContacts = 1;		
+		P->ScalingFactorSpatialDigitalContacts = 1;
 		P->ScalingFactorPlaceDigitalContacts = 1;
 		return;
 	}
@@ -1791,7 +1791,7 @@ void Params::ReadParams(std::string const& ParamFile, std::string const& PrePara
 
 	Params::output_params(adm_params, pre_params, params, P);
 	Params::household_params(adm_params, pre_params, params, P);
-		
+
 	if (P->FitIter == 0)
 	{
 		P->DoAdUnits = Params::get_int(pre_params, adm_params, "Include administrative units within countries", 1, P);
@@ -1930,7 +1930,7 @@ void Params::ReadParams(std::string const& ParamFile, std::string const& PrePara
 		Params::get_double_vec(pre_params, adm_params, "Relative travel rates by age", P->RelativeTravelRate, NUM_AGE_GROUPS, 1, NUM_AGE_GROUPS, P);
 
 		Params::waifw_params(adm_params, pre_params, params, P);
-		
+
 		P->DoDeath = 0;
 		t = 0;
 		for (i = 0; i < NUM_AGE_GROUPS; i++)	t += P->AgeInfectiousness[i] * P->PropAgeGroup[0][i];
@@ -1973,7 +1973,7 @@ void Params::ReadParams(std::string const& ParamFile, std::string const& PrePara
 	for (int i = 0; i < P->NumPlaceTypes; i++) P->PlaceTypeTrans[i] *= AgeSuscScale;
 	Params::seasonality_params(adm_params, pre_params, params, P);
 	Params::seeding_params(adm_params, pre_params, params, P, AdunitListNames, AdUnits);
-	
+
 	P->R0 = Params::req_double(params, pre_params, "Reproduction number", P);
 	if (Params::param_found(params, pre_params, "Beta for spatial transmission"))
 	{
@@ -2214,7 +2214,7 @@ void Params::ReadParams(std::string const& ParamFile, std::string const& PrePara
 	for (int ChangeTime = 1; ChangeTime < MAX_NUM_CFR_CHANGE_TIMES; ChangeTime++) P->CFR_ChangeTimes_CalTime[ChangeTime] = INT32_MAX;
 	Params::get_int_vec(params, pre_params, "CFR_ChangeTimes_CalTime", P->CFR_ChangeTimes_CalTime, P->Num_CFR_ChangeTimes, INT32_MAX, P->Num_CFR_ChangeTimes, P);
 
-	// Get various CFR scalings. 
+	// Get various CFR scalings.
 	Params::get_double_vec(params, pre_params, "CFR_TimeScaling_Critical", P->CFR_TimeScaling_Critical, P->Num_CFR_ChangeTimes, 1, P->Num_CFR_ChangeTimes, P);
 	Params::get_double_vec(params, pre_params, "CFR_TimeScaling_SARI", P->CFR_TimeScaling_SARI, P->Num_CFR_ChangeTimes, 1, P->Num_CFR_ChangeTimes, P);
 	Params::get_double_vec(params, pre_params, "CFR_TimeScaling_ILI", P->CFR_TimeScaling_ILI, P->Num_CFR_ChangeTimes, 1, P->Num_CFR_ChangeTimes, P);
@@ -2330,20 +2330,6 @@ void Params::ReadParams(std::string const& ParamFile, std::string const& PrePara
 	P->usCaseIsolationDuration = ((unsigned short int) (P->CaseIsolationDuration * P->TimeStepsPerDay));
 	P->usCaseAbsenteeismDuration = ((unsigned short int) (P->CaseAbsenteeismDuration * P->TimeStepsPerDay));
 	P->usCaseAbsenteeismDelay = ((unsigned short int) (P->CaseAbsenteeismDelay * P->TimeStepsPerDay));
-	if (P->DoUTM_coords)
-	{
-		for (i = 0; i <= 1000; i++)
-		{
-			P->asin2sqx[i] = asin(sqrt(i / 1000.0));
-			P->asin2sqx[i] = P->asin2sqx[i] * P->asin2sqx[i];
-		}
-		for (i = 0; i <= DEGREES_PER_TURN; i++)
-		{
-			t = PI * i / 180;
-			P->sinx[i] = sin(t);
-			P->cosx[i] = cos(t);
-		}
-	}
 	if (P->R0scale != 1.0)
 	{
 		P->HouseholdTrans *= P->R0scale;
