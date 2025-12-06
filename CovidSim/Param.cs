@@ -1,3 +1,5 @@
+using System;
+
 namespace CovidSim;
 
 /**
@@ -5,6 +7,7 @@ namespace CovidSim;
  *
  */
 public class Param {
+	public static readonly Param P = new();
 	/* Population size */
 	public int PopSize;
 	/* Number of households */
@@ -413,5 +416,18 @@ public class Param {
 	double YoungAndSingleSlope;
 	double ThreeChildFivePersProb;
 
-	double sinx[DEGREES_PER_TURN + 1], cosx[DEGREES_PER_TURN + 1], asin2sqx[1001];
+	public double sinx(int i) {
+		var t = Math.PI * i / 180;
+		return Math.Sin(t);
+	}
+
+	public double cosx(int i) {
+		var t = Math.PI * i / 180;
+		return Math.Cos(t);
+	}
+
+	public double asin2sqx(int i) {
+		var t = Math.Asin(Math.Sqrt(i / 1000.0));
+		return t * t;
+	}
 }
