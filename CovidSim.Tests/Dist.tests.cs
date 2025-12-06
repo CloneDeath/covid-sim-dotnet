@@ -533,6 +533,7 @@ public abstract class Dist_tests {
 			var m = new Microcell();
 			Microcell.Mcells = [m];
 			Param.P.DoUTM_coords = false;
+			Param.P.total_microcells_high_ = 1;
 
 			var d = Dist.dist2_mm(m, m);
 			d.Should().BeApproximately(0.0, 1e-12);
@@ -572,6 +573,7 @@ public abstract class Dist_tests {
 			Microcell.Mcells = [m];
 			Param.P.DoUTM_coords = true;
 			Param.P.in_microcells_ = new Size<double>(1.0, 1.0, new DoubleOperations());
+			Param.P.total_microcells_high_ = 1;
 
 			var d = Dist.dist2_mm(m, m);
 			d.Should().BeApproximately(0.0, 1e-12);
