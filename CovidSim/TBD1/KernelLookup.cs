@@ -23,13 +23,13 @@ namespace CovidSim.TBD1;
 /// hi_res_[0] ... hi_res_.back()
 public class KernelLookup {
 	/// Kernel lookup table
-	private readonly List<double> lookup_ = new();
+	public readonly List<double> lookup_ = new();
 
 	/// Hi-res kernel lookup table for closer distances
-	private readonly List<double> hi_res_ = new();
+	public readonly List<double> hi_res_ = new();
 
 	/// Longest distance / lookup_.size()
-	private double delta_;
+	public double delta_ { get; private set; }
 
 	/// Size of kernel lookup table
 	public int size_ = 4000000;
@@ -41,8 +41,12 @@ public class KernelLookup {
 	/// \param longest_distance The longest distance to lookup
 	public void setup(double longest_distance) {
 		var size = size_ + 1;
-		lookup_.EnsureCapacity(size);
-		hi_res_.EnsureCapacity(size);
+		while (lookup_.Count < size) {
+			lookup_.Add(0);
+		}
+		while (hi_res_.Count < size) {
+			hi_res_.Add(0);
+		}
 		delta_ = longest_distance / size_;
 	}
 
