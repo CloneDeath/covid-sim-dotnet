@@ -138,6 +138,13 @@ public static class Dist {
 		return periodic_xy(x, y);
 	}
 
+	public static double dist2_raw(double ax, double ay, double bx, double by) {
+		if (Param.P.DoUTM_coords) {
+			return dist2UTM(ax, ay, bx, by);
+		}
+		return periodic_xy(Math.Abs(ax - bx), Math.Abs(ay - by));
+	}
+
 	public static double periodic_xy(double x, double y) {
 		if (Param.P.DoPeriodicBoundaries)
 		{
