@@ -74,11 +74,9 @@ void CalcOriginDestMatrix_adunit(void); //added function to calculate origin des
 Param P;
 Person* Hosts;
 std::vector<PersonQuarantine> HostsQuarantine;
-Household* Households;
 PopVar State, StateT[MAX_NUM_THREADS];
-Cell* Cells; // Cells[i] is the i'th cell
 Cell ** CellLookup; // CellLookup[i] is a pointer to the i'th populated cell
-Microcell* Mcells, ** McellLookup;
+Microcell ** McellLookup;
 std::vector<uint16_t> mcell_country;
 Place** Places;
 AdminUnit AdUnits[MAX_ADUNITS];
@@ -109,7 +107,7 @@ int32_t *bmTreated; // The number of treated people in each bitmap pixel.
 
 int OutputTimeStepNumber; //// output timestep index. Global variable used in InitModel and RunModel
 int DoInitUpdateProbs;
-int InterruptRun = 0; // global variable set to zero at start of RunModel, and possibly modified in CalibrationThresholdCheck 
+int InterruptRun = 0; // global variable set to zero at start of RunModel, and possibly modified in CalibrationThresholdCheck
 int PlaceDistDistrib[MAX_NUM_PLACE_TYPES][MAX_DIST], PlaceSizeDistrib[MAX_NUM_PLACE_TYPES][MAX_PLACE_SIZE];
 
 /* int NumPC,NumPCD; */
@@ -344,7 +342,7 @@ int main(int argc, char* argv[])
 					P.nextRunSeed2 = P.runSeed2;
 				}
 				if (P.ResetSeeds)	SaveRandomSeeds(output_file);	//save these seeds to file
-				
+
 				int32_t thisRunSeed1, thisRunSeed2;
 				int ContCalib, ModelCalibLoop = 0;
 				P.StopCalibration = P.ModelCalibIteration = ModelCalibLoop = 0;
@@ -824,8 +822,8 @@ void ReadAirTravel(std::string const& air_travel_file, std::string const& output
 
 void UpdateEfficacyArray()
 {
-	//// ==== **** //// ==== **** //// ==== **** //// ==== **** //// ==== **** //// ==== **** //// ==== **** //// ==== **** //// ==== **** //// ==== **** 
-	//// ==== **** //// ==== **** //// ==== **** //// ==== **** //// ==== **** //// ==== **** //// ==== **** //// ==== **** //// ==== **** //// ==== **** 
+	//// ==== **** //// ==== **** //// ==== **** //// ==== **** //// ==== **** //// ==== **** //// ==== **** //// ==== **** //// ==== **** //// ==== ****
+	//// ==== **** //// ==== **** //// ==== **** //// ==== **** //// ==== **** //// ==== **** //// ==== **** //// ==== **** //// ==== **** //// ==== ****
 	//// ==== **** add various NPI parameters to Efficacies array.
 
 	//// **** case isolation
@@ -1248,7 +1246,7 @@ void SeedInfection(double t, int* NumSeedingInfections_byLocation, int AlreadyIn
 
 	int mcellnum /*microcell number*/;
 	int Person = 0, Mcell_x = 0, Mcell_y = 0;
-	int NumMCellSeedingChoices = 0; // Although inconsistently, zero coded as choice successful and no more choices needed. if NumMCellSeedingChoices = 0, RunningTotalGuesses = 0. 
+	int NumMCellSeedingChoices = 0; // Although inconsistently, zero coded as choice successful and no more choices needed. if NumMCellSeedingChoices = 0, RunningTotalGuesses = 0.
 	int RunningTotalGuesses = 0 /*range = {0, 1000}*/;
 	int NumSeedLocations = ((AlreadyInitialized == 0) ? P.NumSeedLocations : 1); /*number of seed locations?*/;
 
@@ -1283,7 +1281,7 @@ void SeedInfection(double t, int* NumSeedingInfections_byLocation, int AlreadyIn
 				else { Infection--; NumMCellSeedingChoices++; } //// k-- means if person l chosen is already infected, go again. The NumMCellSeedingChoices < 10000 is a guard against a) too many infections; b) an infinite loop if no more uninfected people left.
 			}
 		}
-		else if (P.DoAllInitialInfectioninSameLoc) // difference between this block and block below is that here you chosse a single microcell to distribute all seeding infections for this location. Block below chooses different microcells. 
+		else if (P.DoAllInitialInfectioninSameLoc) // difference between this block and block below is that here you chosse a single microcell to distribute all seeding infections for this location. Block below chooses different microcells.
 		{
 			RunningTotalGuesses = 0; // initialize to zero.
 			do // while RunningTotalGuesses between 1 and 999, i.e. while still need to choose person to seed infection into, but also while loop hasn't made more than 1000 attempts.
@@ -1321,7 +1319,7 @@ void SeedInfection(double t, int* NumSeedingInfections_byLocation, int AlreadyIn
 					}
 					else
 					{
-						/// Choose person again. Increment number of choices 
+						/// Choose person again. Increment number of choices
 						Infection--;
 						NumMCellSeedingChoices++;
 					}
@@ -1332,7 +1330,7 @@ void SeedInfection(double t, int* NumSeedingInfections_byLocation, int AlreadyIn
 					RunningTotalGuesses = 0;
 			} while ((RunningTotalGuesses > 0) && (RunningTotalGuesses < 1000));
 		}
-		else // difference between this block and block above is that above you chosse a single microcell to distribute all seeding infections for this location. Block here chooses different microcells. 
+		else // difference between this block and block above is that above you chosse a single microcell to distribute all seeding infections for this location. Block here chooses different microcells.
 		{
 			NumMCellSeedingChoices = 0;
 			for (int Infection = 0; (Infection < NumSeedingInfections_byLocation[SeedLocation]) && (NumMCellSeedingChoices < 10000); Infection++)
@@ -1382,13 +1380,13 @@ void SeedInfection(double t, int* NumSeedingInfections_byLocation, int AlreadyIn
 
 int RunModel(int run, std::string const& snapshot_save_file, std::string const& snapshot_load_file, std::string const& output_file_base)
 {
-	//// **** Structure of function is as follows. For each timestep: 
+	//// **** Structure of function is as follows. For each timestep:
 		// i) Seed Infections with SeedInfection function
 		// ii) Have infected people infect other people via InfectSweep function
 		// iii) Move people along their disease progression via IncubRecoverySweep function
 		// iv) Digitially contact trace them with DigitalContactTracingSweep function
 		// v) Treat infected people with TreatSweep function
-		// Calculate/Record Model output if timestep is an output timestep. 
+		// Calculate/Record Model output if timestep is an output timestep.
 
 	int KeepRunning = 1, IsEpidemicStillGoing = 0, NumSeedingInfections; /*Denotes either Num imported Infections given rate ir, or number false positive "infections"*/;
 	double InfectionImportRate; // infection import rate?;
@@ -1412,7 +1410,7 @@ int RunModel(int run, std::string const& snapshot_save_file, std::string const& 
 	{
 		RecordSample				(CurrSimTime, OutputTimeStepNumber - 1, output_file_base);
 		CalibrationThresholdCheck	(CurrSimTime, OutputTimeStepNumber - 1);
-		UpdateCFRs					(CurrSimTime - P.Epidemic_StartDate_CalTime); 
+		UpdateCFRs					(CurrSimTime - P.Epidemic_StartDate_CalTime);
 
 		/// print various quantities to console
 		Files::xfprintf_stderr("\r    t=%lg   %i    %i|%i    %i     %i [=%i]  %i (%lg %lg %lg)   %lg    ", CurrSimTime,
@@ -1456,7 +1454,7 @@ int RunModel(int run, std::string const& snapshot_save_file, std::string const& 
 						for (int SeedLoc = NumSeedingInfections = 0; SeedLoc < P.NumSeedLocations; SeedLoc++)
 						{
 							// sample number imported infections in this location from from Poisson distribution.
-							NumSeedingInfections_byLocation[SeedLoc] = (int)ignpoi(P.ModelTimeStep * InfectionImportRate * P.InitialInfectionsAdminUnitWeight[SeedLoc] * P.SeedingScaling); 
+							NumSeedingInfections_byLocation[SeedLoc] = (int)ignpoi(P.ModelTimeStep * InfectionImportRate * P.InitialInfectionsAdminUnitWeight[SeedLoc] * P.SeedingScaling);
 							// Add to total
 							NumSeedingInfections += NumSeedingInfections_byLocation[SeedLoc];
 						}
@@ -1472,7 +1470,7 @@ int RunModel(int run, std::string const& snapshot_save_file, std::string const& 
 
 						if (NumSeedingInfections > 0)
 						{
-							int Person = 0; 
+							int Person = 0;
 							for (int SeedLoc = 0; SeedLoc < NumSeedingInfections; SeedLoc++)
 							{
 								do
@@ -2604,7 +2602,7 @@ void SaveEvents(std::string const& output_file_base)
 	 * Author: ggilani, 15/10/2014
 	 */
 	int i;
-	
+
 	std::string outname = output_file_base + ".infevents.xls";
 	FILE* dat = Files::xfopen(outname.c_str(), "wb");
 	Files::xfprintf(dat, "type,t,thread,ind_infectee,cell_infectee,listpos_infectee,adunit_infectee,x_infectee,y_infectee,t_infector,ind_infector,cell_infector\n");
@@ -2844,9 +2842,9 @@ void UpdateCFRs(double t_CalTime)
 	if (P.Num_CFR_ChangeTimes > 1)
 	{
 		if (t_CalTime <= P.CFR_ChangeTimes_CalTime[0])
-			Scale = P.CFR_TimeScaling_Critical[0];							// if t <= first change point, take value at first change point. 
+			Scale = P.CFR_TimeScaling_Critical[0];							// if t <= first change point, take value at first change point.
 		else if (t_CalTime >= P.CFR_ChangeTimes_CalTime[P.Num_CFR_ChangeTimes - 1])
-			Scale = P.CFR_TimeScaling_Critical[P.Num_CFR_ChangeTimes - 1];	// if t >= last change point, take value at last change point. 
+			Scale = P.CFR_TimeScaling_Critical[P.Num_CFR_ChangeTimes - 1];	// if t >= last change point, take value at last change point.
 		else
 		{
 			int SplineSegment = FindSplineSegment(t_CalTime, P.CFR_ChangeTimes_CalTime, P.Num_CFR_ChangeTimes);
@@ -2866,7 +2864,7 @@ void UpdateCFRs(double t_CalTime)
 	P.CFR_SARI_Scale_Current = Scale;
 	P.CFR_ILI_Scale_Current = Scale;
 
-	/// if doing step function keep code below. 
+	/// if doing step function keep code below.
 	//for (int ChangeTime = 0; ChangeTime < P.Num_CFR_ChangeTimes; ChangeTime++)
 	//	if (t_CalTime == P.CFR_ChangeTimes_CalTime[ChangeTime])
 	//	{
@@ -3038,7 +3036,7 @@ void RecordSample(double t, int n, std::string const& output_file_base)
 	//// initialize to zero
 
 	for (int i = 0; i < MAX_COUNTRIES; i++) cumC_country[i] = 0;
-	
+
 #pragma omp parallel for schedule(static,10000) reduction(+:S,L,I,R,D,cumTC) default(none) \
 		shared(P, CellLookup)
 	for (int i = 0; i < P.NumPopulatedCells; i++)
@@ -3491,7 +3489,7 @@ void CalibrationThresholdCheck(double t,int n)
 	*/
 
 	trigAlertCases = State.cumDC;
-	if (n >= P.WindowToEvaluateTriggerAlert) 
+	if (n >= P.WindowToEvaluateTriggerAlert)
 		trigAlertCases -= (int)TimeSeries[n - P.WindowToEvaluateTriggerAlert].cumDC;
 
 	if (P.TriggerAlertOnDeaths) //// if using deaths as trigger (as opposed to detected cases)
@@ -3592,7 +3590,7 @@ void CalibrationThresholdCheck(double t,int n)
 		P.ControlPropCasesId = P.PostAlertControlPropCasesId;
 
 		if (P.VaryEfficaciesOverTime)
-			UpdateCurrentInterventionParams(t - P.Epidemic_StartDate_CalTime); // t - P.Epidemic_StartDate_CalTime converts simulation time (t) into calendar time. 
+			UpdateCurrentInterventionParams(t - P.Epidemic_StartDate_CalTime); // t - P.Epidemic_StartDate_CalTime converts simulation time (t) into calendar time.
 
 // changed to a #define for speed (though always likely inlined anyway) and to avoid clang compiler warnings re double alignment
 #define DO_OR_DONT_AMEND_START_TIME(X,Y) if(X >= 1e10) X = Y;
@@ -3708,7 +3706,7 @@ void CalcLikelihood(int run, std::string const& DataFile, std::string const& Out
 		for (int i = 0; i < nrows; i++)
 			Data[i] = (double*) Memory::xcalloc(ncols, sizeof(double));
 
-		// cycle through columns assigning an int label to each data/column type in data file. Essentially renaming column names to integers. 
+		// cycle through columns assigning an int label to each data/column type in data file. Essentially renaming column names to integers.
 		for (int i = 0; i < ncols; i++)
 		{
 			ColTypes[i] = -100;
@@ -3750,11 +3748,11 @@ void CalcLikelihood(int run, std::string const& DataFile, std::string const& Out
 
 	// calculate likelihood function
 	double c, LL = 0.0;
-	double kp = (P.clP[99] > 0) ? P.clP[99] : NegBinK; // clP[99] reserved for fitting overdispersion. If not positive-definite assign to NegBinK extracted above. 
+	double kp = (P.clP[99] > 0) ? P.clP[99] : NegBinK; // clP[99] reserved for fitting overdispersion. If not positive-definite assign to NegBinK extracted above.
 	c = 1.0; // 1 / ((double)(P.NRactE + P.NRactNE));
 	int offset = (P.Interventions_StartDate_CalTime > 0) ? ((int)(P.Interventions_StartDate_CalTime - P.DateTriggerReached_SimTime)) : 0;
 
-	for (int col = 1; col < ncols; col++) /// cycle through columns (different sources of data contributing to likelihood), and add to log likelihood (LL) accordingly. 
+	for (int col = 1; col < ncols; col++) /// cycle through columns (different sources of data contributing to likelihood), and add to log likelihood (LL) accordingly.
 	{
 		if ((ColTypes[col] >= 0) && (ColTypes[col] <= 2)) // i.e. "all deaths", "hospital deaths", "care home deaths"
 		{
