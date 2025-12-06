@@ -45,7 +45,7 @@ struct Param
 	int NMCL; /**< Number of microcells wide/high a cell is; i.e. NumMicrocells = NumCells * NMCL * NMCL */
 	int NumPopulatedCells; /**< Number of populated cells  */
 	int NumPopulatedMicrocells; /**< Number of populated microcells  */
-	int ncw, nch, DoUTM_coords, nsp, DoSeasonality, DoCorrectAgeDist, DoPartialImmunity;
+	int ncw, nsp, DoSeasonality, DoCorrectAgeDist, DoPartialImmunity;
 	int total_microcells_wide_, total_microcells_high_;
 
 	MicroCellPosition get_micro_cell_position_from_cell_index(int cell_index) const;

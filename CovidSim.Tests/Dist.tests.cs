@@ -1,6 +1,7 @@
 using System;
 using CovidSim.Geometry;
 using CovidSim.Geometry.Primitives;
+using CovidSim.Models;
 using FluentAssertions;
 using NUnit.Framework;
 
@@ -56,88 +57,338 @@ public abstract class Dist_tests
 	[TestFixture]
 	public class periodic_xy_tests : Dist_tests
 	{
-	    private int _origDoPeriodic;
-	    private Size<double> _origInDegrees;
+		private bool _origDoPeriodic;
+		private Size<double> _origInDegrees;
 
-	    [SetUp]
-	    public void SetUp()
-	    {
-	        _origDoPeriodic = Param.P.DoPeriodicBoundaries;
+		[SetUp]
+		public void SetUp()
+		{
+			_origDoPeriodic = Param.P.DoPeriodicBoundaries;
 			_origInDegrees = Param.P.in_degrees_;
-	    }
+		}
 
-	    [TearDown]
-	    public void TearDown()
-	    {
-	        Param.P.DoPeriodicBoundaries = _origDoPeriodic;
+		[TearDown]
+		public void TearDown()
+		{
+			Param.P.DoPeriodicBoundaries = _origDoPeriodic;
 			Param.P.in_degrees_ = _origInDegrees;
-	    }
+		}
 
-	    [Test]
-	    public void NoPeriodic_ReturnsSquaredSum()
-	    {
-	        Param.P.DoPeriodicBoundaries = 0;
-	        Param.P.in_degrees_ = new Size<double>(10, 10, new DoubleOperations());
-
-	        double x = 3.0, y = 4.0;
-	        double result = Dist.periodic_xy(x, y);
-	        result.Should().BeApproximately(x * x + y * y, 1e-12);
-	    }
-
-	    [Test]
-	    public void WrapsX_WhenGreaterThanHalfWidth()
-	    {
-	        Param.P.DoPeriodicBoundaries = 1;
+		[Test]
+		public void NoPeriodic_ReturnsSquaredSum()
+		{
+			Param.P.DoPeriodicBoundaries = false;
 			Param.P.in_degrees_ = new Size<double>(10, 10, new DoubleOperations());
 
-	        double x = 6.0; // > 10 * 0.5
-	        double y = 2.0;
-	        double expectedX = Param.P.in_degrees_.width - x; // 4.0
-	        double expected = expectedX * expectedX + y * y;
+			double x = 3.0, y = 4.0;
+			double result = Dist.periodic_xy(x, y);
+			result.Should().BeApproximately(x * x + y * y, 1e-12);
+		}
 
-	        Dist.periodic_xy(x, y).Should().BeApproximately(expected, 1e-12);
-	    }
+		[Test]
+		public void WrapsX_WhenGreaterThanHalfWidth()
+		{
+			Param.P.DoPeriodicBoundaries = true;
+			Param.P.in_degrees_ = new Size<double>(10, 10, new DoubleOperations());
 
-	    [Test]
-	    public void WrapsY_WhenGreaterThanHalfHeight()
-	    {
-	        Param.P.DoPeriodicBoundaries = 1;
+			double x = 6.0; // > 10 * 0.5
+			double y = 2.0;
+			double expectedX = Param.P.in_degrees_.width - x; // 4.0
+			double expected = expectedX * expectedX + y * y;
+
+			Dist.periodic_xy(x, y).Should().BeApproximately(expected, 1e-12);
+		}
+
+		[Test]
+		public void WrapsY_WhenGreaterThanHalfHeight()
+		{
+			Param.P.DoPeriodicBoundaries = true;
 			Param.P.in_degrees_ = new Size<double>(10, 8, new DoubleOperations());
 
-	        double x = 1.0;
-	        double y = 5.0; // > 8 * 0.5 = 4.0
-	        double expectedY = Param.P.in_degrees_.height - y; // 3.0
-	        double expected = x * x + expectedY * expectedY;
+			double x = 1.0;
+			double y = 5.0; // > 8 * 0.5 = 4.0
+			double expectedY = Param.P.in_degrees_.height - y; // 3.0
+			double expected = x * x + expectedY * expectedY;
 
-	        Dist.periodic_xy(x, y).Should().BeApproximately(expected, 1e-12);
-	    }
+			Dist.periodic_xy(x, y).Should().BeApproximately(expected, 1e-12);
+		}
 
-	    [Test]
-	    public void WrapsBoth_WhenBothGreaterThanHalf()
-	    {
-	        Param.P.DoPeriodicBoundaries = 1;
+		[Test]
+		public void WrapsBoth_WhenBothGreaterThanHalf()
+		{
+			Param.P.DoPeriodicBoundaries = true;
 			Param.P.in_degrees_ = new Size<double>(12, 14, new DoubleOperations());
 
-	        double x = 8.0; // > 6.0
-	        double y = 9.0; // > 7.0
-	        double expectedX = Param.P.in_degrees_.width - x; // 4.0
-	        double expectedY = Param.P.in_degrees_.height - y; // 5.0
-	        double expected = expectedX * expectedX + expectedY * expectedY;
+			double x = 8.0; // > 6.0
+			double y = 9.0; // > 7.0
+			double expectedX = Param.P.in_degrees_.width - x; // 4.0
+			double expectedY = Param.P.in_degrees_.height - y; // 5.0
+			double expected = expectedX * expectedX + expectedY * expectedY;
 
-	        Dist.periodic_xy(x, y).Should().BeApproximately(expected, 1e-12);
-	    }
+			Dist.periodic_xy(x, y).Should().BeApproximately(expected, 1e-12);
+		}
 
-	    [Test]
-	    public void EqualToHalf_DoesNotWrap()
-	    {
-	        Param.P.DoPeriodicBoundaries = 1;
+		[Test]
+		public void EqualToHalf_DoesNotWrap()
+		{
+			Param.P.DoPeriodicBoundaries = true;
 			Param.P.in_degrees_ = new Size<double>(10, 10, new DoubleOperations());
 
-	        double x = Param.P.in_degrees_.width * 0.5;  // exactly half, condition is '>'
-	        double y = Param.P.in_degrees_.height * 0.5;
-	        double expected = x * x + y * y;
+			double x = Param.P.in_degrees_.width * 0.5;  // exactly half, condition is '>'
+			double y = Param.P.in_degrees_.height * 0.5;
+			double expected = x * x + y * y;
 
-	        Dist.periodic_xy(x, y).Should().BeApproximately(expected, 1e-12);
-	    }
+			Dist.periodic_xy(x, y).Should().BeApproximately(expected, 1e-12);
+		}
+	}
+
+	[TestFixture]
+	public class dist2_cc_min_tests : Dist_tests
+	{
+		private Cell[] _origCells;
+		private bool _origDoUTM;
+		private bool _origDoPeriodic;
+		private Size<double> _origInCells;
+		private Size<double> _origInDegrees;
+		private int _origNch;
+
+		[SetUp]
+		public void SetUp()
+		{
+			_origCells = Model.Cells;
+			_origDoUTM = Param.P.DoUTM_coords;
+			_origDoPeriodic = Param.P.DoPeriodicBoundaries;
+			_origInCells = Param.P.in_cells_;
+			_origInDegrees = Param.P.in_degrees_;
+			_origNch = Param.P.nch;
+		}
+
+		[TearDown]
+		public void TearDown()
+		{
+			Model.Cells = _origCells;
+			Param.P.DoUTM_coords = _origDoUTM;
+			Param.P.DoPeriodicBoundaries = _origDoPeriodic;
+			Param.P.in_cells_ = _origInCells;
+			Param.P.in_degrees_ = _origInDegrees;
+			Param.P.nch = _origNch;
+		}
+
+		[Test]
+		public void SameCell_ReturnsZero()
+		{
+			var c = new Cell();
+			Model.Cells = [c];
+			Param.P.DoUTM_coords = false;
+			Param.P.nch = 1;
+
+			double d = Dist.dist2_cc_min(c, c);
+			d.Should().BeApproximately(0.0, 1e-12);
+		}
+
+		[Test]
+		public void Symmetric_ResultIsEqualWhenSwapped()
+		{
+			var a = new Cell();
+			var b = new Cell();
+			Model.Cells = [a, b];
+			// set some sane defaults so the function can run
+			Param.P.DoUTM_coords = false;
+			Param.P.in_cells_ = new Size<double>(1.0, 1.0, new DoubleOperations());
+			Param.P.in_degrees_ = new Size<double>(10.0, 10.0, new DoubleOperations());
+			Param.P.nch = 10;
+
+			double d1 = Dist.dist2_cc_min(a, b);
+			double d2 = Dist.dist2_cc_min(b, a);
+
+			d1.Should().BeApproximately(d2, 1e-12);
+		}
+
+		[Test]
+		public void NonNegative()
+		{
+			var a = new Cell();
+			var b = new Cell();
+			Model.Cells = [a, b];
+			Param.P.DoUTM_coords = false;
+			Param.P.in_cells_ = new Size<double>(1.0, 1.0, new DoubleOperations());
+			Param.P.nch = 10;
+
+			double d = Dist.dist2_cc_min(a, b);
+			d.Should().BeGreaterThanOrEqualTo(0.0);
+		}
+
+		[Test]
+		public void DoUTM_SameCell_ReturnsZero()
+		{
+			var c = new Cell();
+			Model.Cells = [c];
+			Param.P.DoUTM_coords = true;
+			Param.P.in_cells_ = new Size<double>(1.0, 1.0, new DoubleOperations());
+			Param.P.nch = 1;
+
+			double d = Dist.dist2_cc_min(c, c);
+			d.Should().BeApproximately(0.0, 1e-12);
+		}
+
+		[Test]
+		public void DoUTM_Symmetric_ForDistinctIndices()
+		{
+			// create a larger array so indices span multiple "columns" / "rows"
+			var cells = new Cell[20];
+			for (int i = 0; i < cells.Length; i++) cells[i] = new Cell();
+			Model.Cells = cells;
+
+			Param.P.DoUTM_coords = true;
+			// choose parameters so integer division of indices produces differing quotients
+			Param.P.in_cells_ = new Size<double>(2.0, 1.0, new DoubleOperations());
+			Param.P.in_degrees_ = new Size<double>(360.0, 180.0, new DoubleOperations());
+			Param.P.nch = 5;
+
+			var a = cells[2];
+			var b = cells[15];
+
+			double d1 = Dist.dist2_cc_min(a, b);
+			double d2 = Dist.dist2_cc_min(b, a);
+
+			d1.Should().BeApproximately(d2, 1e-12);
+		}
+
+		[Test]
+		public void DoUTM_NonNegative_ForDistinctIndices()
+		{
+			var cells = new Cell[12];
+			for (int i = 0; i < cells.Length; i++) cells[i] = new Cell();
+			Model.Cells = cells;
+
+			Param.P.DoUTM_coords = true;
+			Param.P.in_cells_ = new Size<double>(1.5, 1.2, new DoubleOperations());
+			Param.P.in_degrees_ = new Size<double>(360.0, 180.0, new DoubleOperations());
+			Param.P.nch = 4;
+
+			var a = cells[1];
+			var b = cells[9];
+
+			double d = Dist.dist2_cc_min(a, b);
+			d.Should().BeGreaterThanOrEqualTo(0.0);
+		}
+
+		[Test]
+		public void DoUTM_TopTrue_JplusNch_And_IPlus1()
+		{
+			var cells = new Cell[10];
+			for (int i = 0; i < cells.Length; i++) cells[i] = new Cell();
+			Model.Cells = cells;
+
+			Param.P.DoUTM_coords = true;
+			// choose width large enough so (width * diff) > Math.PI
+			Param.P.in_cells_ = new Size<double>(4.0, 1.0, new DoubleOperations());
+			Param.P.in_degrees_ = new Size<double>(360.0, 180.0, new DoubleOperations());
+			Param.P.nch = 5;
+
+			var a = cells[2];
+			var b = cells[8];
+
+			double d1 = Dist.dist2_cc_min(a, b);
+			double d2 = Dist.dist2_cc_min(b, a);
+
+			d1.Should().BeApproximately(d2, 1e-12);
+			d1.Should().BeGreaterThanOrEqualTo(0.0);
+			d1.Should().BeGreaterThan(0.0);
+		}
+
+		[Test]
+		public void DoUTM_TopTrue_IplusNch_And_JPlus1_When_Reversed()
+		{
+			var cells = new Cell[10];
+			for (int i = 0; i < cells.Length; i++) cells[i] = new Cell();
+			Model.Cells = cells;
+
+			Param.P.DoUTM_coords = true;
+			Param.P.in_cells_ = new Size<double>(4.0, 1.0, new DoubleOperations());
+			Param.P.in_degrees_ = new Size<double>(360.0, 180.0, new DoubleOperations());
+			Param.P.nch = 5;
+
+			// reversed indices to exercise the other branches
+			var a = cells[8];
+			var b = cells[2];
+
+			double d1 = Dist.dist2_cc_min(a, b);
+			double d2 = Dist.dist2_cc_min(b, a);
+
+			d1.Should().BeApproximately(d2, 1e-12);
+			d1.Should().BeGreaterThanOrEqualTo(0.0);
+		}
+
+		[Test]
+		public void DoUTM_TopFalse_Uses_ElsePath()
+		{
+			var cells = new Cell[10];
+			for (int i = 0; i < cells.Length; i++) cells[i] = new Cell();
+			Model.Cells = cells;
+
+			Param.P.DoUTM_coords = true;
+			// choose width small so (width * diff) <= Math.PI -> take else path
+			Param.P.in_cells_ = new Size<double>(1.0, 1.0, new DoubleOperations());
+			Param.P.in_degrees_ = new Size<double>(360.0, 180.0, new DoubleOperations());
+			Param.P.nch = 5;
+
+			var a = cells[2];
+			var b = cells[8];
+
+			double d1 = Dist.dist2_cc_min(a, b);
+			double d2 = Dist.dist2_cc_min(b, a);
+
+			d1.Should().BeApproximately(d2, 1e-12);
+			d1.Should().BeGreaterThanOrEqualTo(0.0);
+		}
+
+		[Test]
+		public void NonUTM_Periodic_FirstBranch_And_SecondModuloBranch()
+		{
+			var cells = new Cell[12];
+			for (int i = 0; i < cells.Length; i++) cells[i] = new Cell();
+			Model.Cells = cells;
+
+			Param.P.DoUTM_coords = false;
+			Param.P.DoPeriodicBoundaries = true;
+			// pick values so the first "periodic" condition is true (width * diff > in_degrees.width*0.5)
+			Param.P.in_cells_ = new Size<double>(10.0, 1.0, new DoubleOperations());
+			Param.P.in_degrees_ = new Size<double>(10.0, 10.0, new DoubleOperations()); // half = 5.0
+			Param.P.nch = 5;
+
+			// indices chosen to produce differences in both quotient and remainder comparisons
+			var a = cells[1]; // l = 1
+			var b = cells[7]; // m = 7 -> m/nch = 1, l/nch = 0, diff = 1 -> width*1 = 10.0 > 5.0
+
+			double d1 = Dist.dist2_cc_min(a, b);
+			double d2 = Dist.dist2_cc_min(b, a);
+
+			d1.Should().BeApproximately(d2, 1e-12);
+			d1.Should().BeGreaterThanOrEqualTo(0.0);
+		}
+
+		[Test]
+		public void NonUTM_Periodic_YGreaterThanHalfHeight_AdjustsJ()
+		{
+		    var cells = new Cell[12];
+		    for (int i = 0; i < cells.Length; i++) cells[i] = new Cell();
+		    Model.Cells = cells;
+
+		    Param.P.DoUTM_coords = false;
+		    Param.P.DoPeriodicBoundaries = false;
+		    Param.P.in_cells_ = new Size<double>(10.0, 10.0, new DoubleOperations());
+		    Param.P.in_degrees_ = new Size<double>(10.0, 10.0, new DoubleOperations()); // half height = 5.0
+		    Param.P.nch = 4;
+
+		    var a = cells[1]; // l = 1
+		    var b = cells[9]; // m = 9 -> m % nch = 1, l % nch = 1, diff = 8 -> height * diff = 80.0 > 5.0
+
+		    double d1 = Dist.dist2_cc_min(a, b);
+		    double d2 = Dist.dist2_cc_min(b, a);
+
+		    d1.Should().BeApproximately(d2, 1e-12);
+		    d1.Should().BeGreaterThan(0.0);
+		}
 	}
 }
