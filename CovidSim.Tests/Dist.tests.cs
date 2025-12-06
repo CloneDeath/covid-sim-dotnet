@@ -1,6 +1,7 @@
 using System;
 using CovidSim.Geometry;
 using CovidSim.Geometry.Primitives;
+using CovidSim.Models;
 using FluentAssertions;
 using NUnit.Framework;
 
@@ -139,5 +140,82 @@ public abstract class Dist_tests
 
 	        Dist.periodic_xy(x, y).Should().BeApproximately(expected, 1e-12);
 	    }
+	}
+
+	[TestFixture]
+	public class dist2_cc_min_tests : Dist_tests
+	{
+		private Cell[] _origCells;
+		private bool _origDoUTM;
+		private bool _origDoPeriodic;
+		private Size<double> _origInCells;
+		private Size<double> _origInDegrees;
+		private int _origNch;
+
+		[SetUp]
+		public void SetUp()
+		{
+			_origCells = Model.Cells;
+			_origDoUTM = Param.P.DoUTM_coords;
+			_origDoPeriodic = Param.P.DoPeriodicBoundaries;
+			_origInCells = Param.P.in_cells_;
+			_origInDegrees = Param.P.in_degrees_;
+			_origNch = Param.P.nch;
+		}
+
+		[TearDown]
+		public void TearDown()
+		{
+			Model.Cells = _origCells;
+			Param.P.DoUTM_coords = _origDoUTM;
+			Param.P.DoPeriodicBoundaries = _origDoPeriodic;
+			Param.P.in_cells_ = _origInCells;
+			Param.P.in_degrees_ = _origInDegrees;
+			Param.P.nch = _origNch;
+		}
+
+		[Test]
+		public void SameCell_ReturnsZero()
+		{
+			var c = new Cell();
+			Model.Cells = [c];
+			Param.P.DoUTM_coords = false;
+			Param.P.nch = 1;
+
+			double d = Dist.dist2_cc_min(c, c);
+			d.Should().BeApproximately(0.0, 1e-12);
+		}
+
+		[Test]
+		public void Symmetric_ResultIsEqualWhenSwapped()
+		{
+			var a = new Cell();
+			var b = new Cell();
+			Model.Cells = [a, b];
+			// set some sane defaults so the function can run
+			Param.P.DoUTM_coords = false;
+			Param.P.in_cells_ = new Size<double>(1.0, 1.0, new DoubleOperations());
+			Param.P.in_degrees_ = new Size<double>(10.0, 10.0, new DoubleOperations());
+			Param.P.nch = 10;
+
+			double d1 = Dist.dist2_cc_min(a, b);
+			double d2 = Dist.dist2_cc_min(b, a);
+
+			d1.Should().BeApproximately(d2, 1e-12);
+		}
+
+		[Test]
+		public void NonNegative()
+		{
+			var a = new Cell();
+			var b = new Cell();
+			Model.Cells = [a, b];
+			Param.P.DoUTM_coords = false;
+			Param.P.in_cells_ = new Size<double>(1.0, 1.0, new DoubleOperations());
+			Param.P.nch = 10;
+
+			double d = Dist.dist2_cc_min(a, b);
+			d.Should().BeGreaterThanOrEqualTo(0.0);
+		}
 	}
 }
