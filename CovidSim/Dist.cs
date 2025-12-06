@@ -88,4 +88,13 @@ public static class Dist {
 			return periodic_xy(x, y);
 		}
 	}
+
+	public static double periodic_xy(double x, double y) {
+		if (Param.P.DoPeriodicBoundaries != 0)
+		{
+			if (x > Param.P.in_degrees_.width * 0.5) x = Param.P.in_degrees_.width - x;
+			if (y > Param.P.in_degrees_.height * 0.5) y = Param.P.in_degrees_.height - y;
+		}
+		return x * x + y * y;
+	}
 }

@@ -33,4 +33,14 @@ public class Param {
 
 	/// Size of spatial domain in degrees
 	public Size<double> in_degrees_ = new(100, 100, new DoubleOperations());
+
+	public int DoSI;
+	public int DoImmuneBitmap;
+	public int OutputBitmapDetected;
+
+	/// Number of pixels per degree in bitmap output
+	public DiagonalMatrix2d scale = new(0, 0);
+
+	/// Size of spatial domain in microcells
+	public Size<double> in_microcells_ = new(0, 0, new DoubleOperations());
 }
