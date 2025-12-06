@@ -3,6 +3,10 @@ using CovidSim.Models;
 
 namespace CovidSim;
 
+//// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// ****
+//// **** DISTANCE FUNCTIONS (return distance-squared, which is input for every Kernel function)
+//// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// ****
+
 public static class Dist {
 	public static double dist2UTM(double x1, double y1, double x2, double y2) {
 		double x = Math.Abs(x1 - x2) / 2;
