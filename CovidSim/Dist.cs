@@ -122,20 +122,19 @@ public static class Dist {
 		return periodic_xy(x, y);
 	}
 
-	public static double dist2_mm(Microcell a, Microcell b)
-	{
-		double x, y;
-		int l, m;
-
-		l = (int)(a - Mcells);
-		m = (int)(b - Mcells);
-		if (P.DoUTM_coords)
+	public static double dist2_mm(Microcell a, Microcell b) {
+		var l = Array.IndexOf(Microcell.Mcells, a);
+		var m = Array.IndexOf(Microcell.Mcells, b);
+		if (Param.P.DoUTM_coords)
 		{
-			return dist2UTM(P.in_microcells_.width * fabs((double)(l / P.total_microcells_high_)), P.in_microcells_.height * fabs((double)(l % P.total_microcells_high_)),
-				P.in_microcells_.width * fabs((double)(m / P.total_microcells_high_)), P.in_microcells_.height * fabs((double)(m % P.total_microcells_high_)));
+			return dist2UTM(
+				Param.P.in_microcells_.width * MathF.Abs(l / Param.P.total_microcells_high_),
+				Param.P.in_microcells_.height * MathF.Abs(l % Param.P.total_microcells_high_),
+				Param.P.in_microcells_.width * MathF.Abs(m / Param.P.total_microcells_high_),
+				Param.P.in_microcells_.height * MathF.Abs(m % Param.P.total_microcells_high_));
 		}
-		x = P.in_microcells_.width * fabs((double)(l / P.total_microcells_high_ - m / P.total_microcells_high_));
-		y = P.in_microcells_.height * fabs((double)(l % P.total_microcells_high_ - m % P.total_microcells_high_));
+		var x = Param.P.in_microcells_.width * MathF.Abs(l / Param.P.total_microcells_high_ - m / Param.P.total_microcells_high_);
+		var y = Param.P.in_microcells_.height * MathF.Abs(l % Param.P.total_microcells_high_ - m % Param.P.total_microcells_high_);
 		return periodic_xy(x, y);
 	}
 

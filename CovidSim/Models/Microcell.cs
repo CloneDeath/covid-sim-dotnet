@@ -7,8 +7,9 @@ namespace CovidSim.Models;
  * members (people), places (schools, universities, workplaces etc.), road networks, links to
  * airports etc.
  */
-public class Microcell
-{
+public class Microcell {
+	public static Microcell[] Mcells = [];
+
 	/* Note use of short int here limits max run time to USHRT_MAX*ModelTimeStep - e.g. 65536*0.25=16384 days=44 yrs.
 	   Global search and replace of 'unsigned short int' with 'int' would remove this limit, but use more memory.
 	*/
