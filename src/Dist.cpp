@@ -11,19 +11,6 @@
 //// **** DISTANCE FUNCTIONS (return distance-squared, which is input for every Kernel function)
 //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// ****
 
-double dist2(Person* a, Person* b)
-{
-	double x, y;
-
-	if (P.DoUTM_coords)
-		return dist2UTM(Households[a->hh].loc.x, Households[a->hh].loc.y, Households[b->hh].loc.x, Households[b->hh].loc.y);
-	else
-	{
-		x = fabs(Households[a->hh].loc.x - Households[b->hh].loc.x);
-		y = fabs(Households[a->hh].loc.y - Households[b->hh].loc.y);
-		return periodic_xy(x, y);
-	}
-}
 double dist2_cc(Cell* a, Cell* b)
 {
 	double x, y;

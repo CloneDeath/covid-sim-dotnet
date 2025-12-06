@@ -391,4 +391,114 @@ public abstract class Dist_tests
 		    d1.Should().BeGreaterThan(0.0);
 		}
 	}
+
+	[TestFixture]
+    public class dist2_tests : Dist_tests
+    {
+        private Household[] _origHouseholds;
+        private bool _origDoUTM;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _origHouseholds = Household.Households;
+            _origDoUTM = Param.P.DoUTM_coords;
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            Household.Households = _origHouseholds;
+            Param.P.DoUTM_coords = _origDoUTM;
+        }
+
+        [Test]
+        public void SamePerson_ReturnsZero()
+        {
+            var p = new Person { hh = 0 };
+            Household.Households = [new Household { loc = new Vector2f(0, 0) }];
+            Param.P.DoUTM_coords = false;
+
+            double d = Dist.dist2(p, p);
+            d.Should().BeApproximately(0.0, 1e-12);
+        }
+
+        [Test]
+        public void Symmetric_ResultIsEqualWhenSwapped()
+        {
+            var a = new Person { hh = 0 };
+            var b = new Person { hh = 1 };
+            Household.Households = [
+				new Household { loc = new Vector2f(1, 2) },
+                new Household { loc = new Vector2f(3, 4) }
+			];
+            Param.P.DoUTM_coords = false;
+
+            double d1 = Dist.dist2(a, b);
+            double d2 = Dist.dist2(b, a);
+
+            d1.Should().BeApproximately(d2, 1e-12);
+        }
+
+        [Test]
+        public void NonNegative()
+        {
+            var a = new Person { hh = 0 };
+            var b = new Person { hh = 1 };
+            Household.Households = new[]
+            {
+                new Household { loc = new Vector2f(1, 2) },
+                new Household { loc = new Vector2f(3, 4) }
+            };
+            Param.P.DoUTM_coords = false;
+
+            double d = Dist.dist2(a, b);
+            d.Should().BeGreaterThanOrEqualTo(0.0);
+        }
+
+        [Test]
+        public void DoUTM_SamePerson_ReturnsZero()
+        {
+            var p = new Person { hh = 0 };
+            Household.Households = [new Household { loc = new Vector2f(0, 0) }];
+            Param.P.DoUTM_coords = true;
+
+            double d = Dist.dist2(p, p);
+            d.Should().BeApproximately(0.0, 1e-12);
+        }
+
+        [Test]
+        public void DoUTM_Symmetric_ResultIsEqualWhenSwapped()
+        {
+            var a = new Person { hh = 0 };
+            var b = new Person { hh = 1 };
+            Household.Households = [
+				new Household { loc = new Vector2f(1, 2) },
+                new Household { loc = new Vector2f(3, 4) }
+			];
+            Param.P.DoUTM_coords = true;
+
+            double d1 = Dist.dist2(a, b);
+            double d2 = Dist.dist2(b, a);
+
+            d1.Should().BeApproximately(d2, 1e-12);
+        }
+
+        [Test]
+        public void DoUTM_NonNegative()
+        {
+            var a = new Person { hh = 0 };
+            var b = new Person { hh = 1 };
+            Household.Households = new[]
+            {
+                new Household { loc = new Vector2f(1, 2) },
+                new Household { loc = new Vector2f(3, 4) }
+            };
+            Param.P.DoUTM_coords = true;
+
+            double d = Dist.dist2(a, b);
+            d.Should().BeGreaterThanOrEqualTo(0.0);
+        }
+    }
+
 }
