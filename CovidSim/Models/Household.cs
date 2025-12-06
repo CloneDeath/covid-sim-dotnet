@@ -3,6 +3,8 @@ using CovidSim.Geometry;
 namespace CovidSim.Models;
 
 public class Household {
+	public static Household[] Households = [];
+
 	public int FirstPerson;
 	// The number of people in the household.
 	public ushort nh;
