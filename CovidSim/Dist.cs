@@ -10,20 +10,20 @@ public static class Dist {
 		double yi = Math.Floor(y);
 		x -= xi;
 		y -= yi;
-		x = (1 - x) * P.sinx[(int)xi] + x * P.sinx[((int)xi) + 1];
-		y = (1 - y) * P.sinx[(int)yi] + y * P.sinx[((int)yi) + 1];
-		double yt = Math.Abs(y1 + P.SpatialBoundingBox.bottom_left().y);
+		x = (1 - x) * Param.P.sinx((int)xi) + x * Param.P.sinx(((int)xi) + 1);
+		y = (1 - y) * Param.P.sinx((int)yi) + y * Param.P.sinx(((int)yi) + 1);
+		double yt = Math.Abs(y1 + Param.P.SpatialBoundingBox.bottom_left().y);
 		yi = Math.Floor(yt);
 		var cy1 = yt - yi;
-		cy1 = (1 - cy1) * P.cosx[((int)yi)] + cy1 * P.cosx[((int)yi) + 1];
-		yt = Math.Abs(y2 + P.SpatialBoundingBox.bottom_left().y);
+		cy1 = (1 - cy1) * Param.P.cosx(((int)yi)) + cy1 * Param.P.cosx(((int)yi) + 1);
+		yt = Math.Abs(y2 + Param.P.SpatialBoundingBox.bottom_left().y);
 		yi = Math.Floor(yt);
 		var cy2 = yt - yi;
-		cy2 = (1 - cy2) * P.cosx[((int)yi)] + cy2 * P.cosx[((int)yi) + 1];
+		cy2 = (1 - cy2) * Param.P.cosx(((int)yi)) + cy2 * Param.P.cosx(((int)yi) + 1);
 		x = Math.Abs(1000 * (y * y + x * x * cy1 * cy2));
 		xi = Math.Floor(x);
 		x -= xi;
-		y = (1 - x) * P.asin2sqx[((int)xi)] + x * P.asin2sqx[((int)xi) + 1];
-		return 4 * EARTHRADIUS * EARTHRADIUS * y;
+		y = (1 - x) * Param.P.asin2sqx(((int)xi)) + x * Param.P.asin2sqx(((int)xi) + 1);
+		return 4 * Constants.EARTHRADIUS * Constants.EARTHRADIUS * y;
 	}
 }
