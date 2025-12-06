@@ -6,7 +6,6 @@
 #include "Models/Microcell.h"
 #include "Constants.h"
 
-double dist2_cc(Cell*, Cell*);
 double dist2_mm(Microcell*, Microcell*);
 double dist2_raw(double, double, double, double);
 
