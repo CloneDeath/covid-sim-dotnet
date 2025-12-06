@@ -83,12 +83,12 @@ public class KernelLookup {
 	/// \param cell_lookup_size Number of Cell*
 	public static void init(KernelLookup lookup, Cell[] cell_lookup, int cell_lookup_size) {
 		Parallel.For(0, cell_lookup_size, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount },
-			(int i) => {
+			i => {
 				var l = cell_lookup[i];
 				l.tot_prob = 0.0f;
 				for (var j = 0; j < cell_lookup_size; j++) {
 					var m = cell_lookup[j];
-					l.max_trans[j] = (float)lookup.num(dist2_cc_min(l, m));
+					l.max_trans[j] = (float)lookup.num(Dist.dist2_cc_min(l, m));
 					l.tot_prob += l.max_trans[j] * m.n;
 				}
 			});
