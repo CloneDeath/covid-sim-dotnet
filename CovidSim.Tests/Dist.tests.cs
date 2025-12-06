@@ -607,4 +607,78 @@ public abstract class Dist_tests {
 			d.Should().BeGreaterThanOrEqualTo(0.0);
 		}
 	}
+
+[TestFixture]
+    public class dist2_raw_tests : Dist_tests
+    {
+        [Test]
+        public void SamePoints_ReturnsZero()
+        {
+            double ax = 0.0, ay = 0.0;
+            double bx = 0.0, by = 0.0;
+
+            double d = Dist.dist2_raw(ax, ay, bx, by);
+            d.Should().BeApproximately(0.0, 1e-12);
+        }
+
+        [Test]
+        public void Symmetric_ResultIsEqualWhenSwapped()
+        {
+            double ax = 1.0, ay = 2.0;
+            double bx = 3.0, by = 4.0;
+
+            double d1 = Dist.dist2_raw(ax, ay, bx, by);
+            double d2 = Dist.dist2_raw(bx, by, ax, ay);
+
+            d1.Should().BeApproximately(d2, 1e-12);
+        }
+
+        [Test]
+        public void NonNegative()
+        {
+            double ax = 1.0, ay = 2.0;
+            double bx = 3.0, by = 4.0;
+
+            double d = Dist.dist2_raw(ax, ay, bx, by);
+            d.Should().BeGreaterThanOrEqualTo(0.0);
+        }
+
+        [Test]
+        public void DoUTM_SamePoints_ReturnsZero()
+        {
+            Param.P.DoUTM_coords = true;
+
+            double ax = 0.0, ay = 0.0;
+            double bx = 0.0, by = 0.0;
+
+            double d = Dist.dist2_raw(ax, ay, bx, by);
+            d.Should().BeApproximately(0.0, 1e-12);
+        }
+
+        [Test]
+        public void DoUTM_Symmetric_ResultIsEqualWhenSwapped()
+        {
+            Param.P.DoUTM_coords = true;
+
+            double ax = 1.0, ay = 2.0;
+            double bx = 3.0, by = 4.0;
+
+            double d1 = Dist.dist2_raw(ax, ay, bx, by);
+            double d2 = Dist.dist2_raw(bx, by, ax, ay);
+
+            d1.Should().BeApproximately(d2, 1e-12);
+        }
+
+        [Test]
+        public void DoUTM_NonNegative()
+        {
+            Param.P.DoUTM_coords = true;
+
+            double ax = 1.0, ay = 2.0;
+            double bx = 3.0, by = 4.0;
+
+            double d = Dist.dist2_raw(ax, ay, bx, by);
+            d.Should().BeGreaterThanOrEqualTo(0.0);
+        }
+    }
 }
