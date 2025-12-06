@@ -272,5 +272,123 @@ public abstract class Dist_tests
 			double d = Dist.dist2_cc_min(a, b);
 			d.Should().BeGreaterThanOrEqualTo(0.0);
 		}
+
+		[Test]
+		public void DoUTM_TopTrue_JplusNch_And_IPlus1()
+		{
+			var cells = new Cell[10];
+			for (int i = 0; i < cells.Length; i++) cells[i] = new Cell();
+			Model.Cells = cells;
+
+			Param.P.DoUTM_coords = true;
+			// choose width large enough so (width * diff) > Math.PI
+			Param.P.in_cells_ = new Size<double>(4.0, 1.0, new DoubleOperations());
+			Param.P.in_degrees_ = new Size<double>(360.0, 180.0, new DoubleOperations());
+			Param.P.nch = 5;
+
+			var a = cells[2];
+			var b = cells[8];
+
+			double d1 = Dist.dist2_cc_min(a, b);
+			double d2 = Dist.dist2_cc_min(b, a);
+
+			d1.Should().BeApproximately(d2, 1e-12);
+			d1.Should().BeGreaterThanOrEqualTo(0.0);
+			d1.Should().BeGreaterThan(0.0);
+		}
+
+		[Test]
+		public void DoUTM_TopTrue_IplusNch_And_JPlus1_When_Reversed()
+		{
+			var cells = new Cell[10];
+			for (int i = 0; i < cells.Length; i++) cells[i] = new Cell();
+			Model.Cells = cells;
+
+			Param.P.DoUTM_coords = true;
+			Param.P.in_cells_ = new Size<double>(4.0, 1.0, new DoubleOperations());
+			Param.P.in_degrees_ = new Size<double>(360.0, 180.0, new DoubleOperations());
+			Param.P.nch = 5;
+
+			// reversed indices to exercise the other branches
+			var a = cells[8];
+			var b = cells[2];
+
+			double d1 = Dist.dist2_cc_min(a, b);
+			double d2 = Dist.dist2_cc_min(b, a);
+
+			d1.Should().BeApproximately(d2, 1e-12);
+			d1.Should().BeGreaterThanOrEqualTo(0.0);
+		}
+
+		[Test]
+		public void DoUTM_TopFalse_Uses_ElsePath()
+		{
+			var cells = new Cell[10];
+			for (int i = 0; i < cells.Length; i++) cells[i] = new Cell();
+			Model.Cells = cells;
+
+			Param.P.DoUTM_coords = true;
+			// choose width small so (width * diff) <= Math.PI -> take else path
+			Param.P.in_cells_ = new Size<double>(1.0, 1.0, new DoubleOperations());
+			Param.P.in_degrees_ = new Size<double>(360.0, 180.0, new DoubleOperations());
+			Param.P.nch = 5;
+
+			var a = cells[2];
+			var b = cells[8];
+
+			double d1 = Dist.dist2_cc_min(a, b);
+			double d2 = Dist.dist2_cc_min(b, a);
+
+			d1.Should().BeApproximately(d2, 1e-12);
+			d1.Should().BeGreaterThanOrEqualTo(0.0);
+		}
+
+		[Test]
+		public void NonUTM_Periodic_FirstBranch_And_SecondModuloBranch()
+		{
+			var cells = new Cell[12];
+			for (int i = 0; i < cells.Length; i++) cells[i] = new Cell();
+			Model.Cells = cells;
+
+			Param.P.DoUTM_coords = false;
+			Param.P.DoPeriodicBoundaries = true;
+			// pick values so the first "periodic" condition is true (width * diff > in_degrees.width*0.5)
+			Param.P.in_cells_ = new Size<double>(10.0, 1.0, new DoubleOperations());
+			Param.P.in_degrees_ = new Size<double>(10.0, 10.0, new DoubleOperations()); // half = 5.0
+			Param.P.nch = 5;
+
+			// indices chosen to produce differences in both quotient and remainder comparisons
+			var a = cells[1]; // l = 1
+			var b = cells[7]; // m = 7 -> m/nch = 1, l/nch = 0, diff = 1 -> width*1 = 10.0 > 5.0
+
+			double d1 = Dist.dist2_cc_min(a, b);
+			double d2 = Dist.dist2_cc_min(b, a);
+
+			d1.Should().BeApproximately(d2, 1e-12);
+			d1.Should().BeGreaterThanOrEqualTo(0.0);
+		}
+
+		[Test]
+		public void NonUTM_Periodic_YGreaterThanHalfHeight_AdjustsJ()
+		{
+		    var cells = new Cell[12];
+		    for (int i = 0; i < cells.Length; i++) cells[i] = new Cell();
+		    Model.Cells = cells;
+
+		    Param.P.DoUTM_coords = false;
+		    Param.P.DoPeriodicBoundaries = false;
+		    Param.P.in_cells_ = new Size<double>(10.0, 10.0, new DoubleOperations());
+		    Param.P.in_degrees_ = new Size<double>(10.0, 10.0, new DoubleOperations()); // half height = 5.0
+		    Param.P.nch = 4;
+
+		    var a = cells[1]; // l = 1
+		    var b = cells[9]; // m = 9 -> m % nch = 1, l % nch = 1, diff = 8 -> height * diff = 80.0 > 5.0
+
+		    double d1 = Dist.dist2_cc_min(a, b);
+		    double d2 = Dist.dist2_cc_min(b, a);
+
+		    d1.Should().BeApproximately(d2, 1e-12);
+		    d1.Should().BeGreaterThan(0.0);
+		}
 	}
 }
