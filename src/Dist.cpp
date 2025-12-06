@@ -11,23 +11,6 @@
 //// **** DISTANCE FUNCTIONS (return distance-squared, which is input for every Kernel function)
 //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// **** //// ****
 
-double dist2_cc(Cell* a, Cell* b)
-{
-	double x, y;
-	int l, m;
-
-	l = (int)(a - Cells);
-	m = (int)(b - Cells);
-	if (P.DoUTM_coords)
-		return dist2UTM(P.in_cells_.width * fabs((double)(l / P.nch)), P.in_cells_.height * fabs((double)(l % P.nch)),
-			P.in_cells_.width * fabs((double)(m / P.nch)), P.in_cells_.height * fabs((double)(m % P.nch)));
-	else
-	{
-		x = P.in_cells_.width * fabs((double)(l / P.nch - m / P.nch));
-		y = P.in_cells_.height * fabs((double)(l % P.nch - m % P.nch));
-		return periodic_xy(x, y);
-	}
-}
 
 double dist2_mm(Microcell* a, Microcell* b)
 {

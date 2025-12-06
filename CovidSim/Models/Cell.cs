@@ -8,6 +8,8 @@ namespace CovidSim.Models;
  * interactions (probability distributions).
 */
 public class Cell {
+	public static Cell[] Cells = [];
+
 	/* number of people in cell (members) */
 	public int n;
 	// numbers of Susceptible

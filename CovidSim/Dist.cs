@@ -28,7 +28,6 @@ public static class Dist {
 		return 4 * Constants.EARTHRADIUS * Constants.EARTHRADIUS * y;
 	}
 
-
 	public static double dist2(Person a, Person b)
 	{
 		if (Param.P.DoUTM_coords)
@@ -42,6 +41,24 @@ public static class Dist {
 		var x = Math.Abs(Household.Households[a.hh].loc.X - Household.Households[b.hh].loc.X);
 		var y = Math.Abs(Household.Households[a.hh].loc.Y - Household.Households[b.hh].loc.Y);
 		return periodic_xy(x, y);
+	}
+
+	public static double dist2_cc(Cell a, Cell b) {
+		var l = Array.IndexOf(Cell.Cells, a);
+		var m = Array.IndexOf(Cell.Cells, b);
+		if (Param.P.DoUTM_coords)
+			return dist2UTM(
+				Param.P.in_cells_.width * MathF.Abs(l / Param.P.nch),
+				Param.P.in_cells_.height * MathF.Abs(l % Param.P.nch),
+				Param.P.in_cells_.width * MathF.Abs(m / Param.P.nch),
+				Param.P.in_cells_.height * MathF.Abs(m % Param.P.nch)
+			);
+		else
+		{
+			var x = Param.P.in_cells_.width * MathF.Abs(l / Param.P.nch - m / Param.P.nch);
+			var y = Param.P.in_cells_.height * MathF.Abs(l % Param.P.nch - m % Param.P.nch);
+			return periodic_xy(x, y);
+		}
 	}
 
 	public static double dist2_cc_min(Cell a, Cell b) {

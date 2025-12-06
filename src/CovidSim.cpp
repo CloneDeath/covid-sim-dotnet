@@ -75,7 +75,6 @@ Param P;
 Person* Hosts;
 std::vector<PersonQuarantine> HostsQuarantine;
 PopVar State, StateT[MAX_NUM_THREADS];
-Cell* Cells; // Cells[i] is the i'th cell
 Cell ** CellLookup; // CellLookup[i] is a pointer to the i'th populated cell
 Microcell* Mcells, ** McellLookup;
 std::vector<uint16_t> mcell_country;
