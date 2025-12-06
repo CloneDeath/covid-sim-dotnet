@@ -90,7 +90,7 @@ public static class Dist {
 	}
 
 	public static double periodic_xy(double x, double y) {
-		if (Param.P.DoPeriodicBoundaries != 0)
+		if (Param.P.DoPeriodicBoundaries)
 		{
 			if (x > Param.P.in_degrees_.width * 0.5) x = Param.P.in_degrees_.width - x;
 			if (y > Param.P.in_degrees_.height * 0.5) y = Param.P.in_degrees_.height - y;

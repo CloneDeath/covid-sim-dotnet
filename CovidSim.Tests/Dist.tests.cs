@@ -56,7 +56,7 @@ public abstract class Dist_tests
 	[TestFixture]
 	public class periodic_xy_tests : Dist_tests
 	{
-	    private int _origDoPeriodic;
+	    private bool _origDoPeriodic;
 	    private Size<double> _origInDegrees;
 
 	    [SetUp]
@@ -76,7 +76,7 @@ public abstract class Dist_tests
 	    [Test]
 	    public void NoPeriodic_ReturnsSquaredSum()
 	    {
-	        Param.P.DoPeriodicBoundaries = 0;
+	        Param.P.DoPeriodicBoundaries = false;
 	        Param.P.in_degrees_ = new Size<double>(10, 10, new DoubleOperations());
 
 	        double x = 3.0, y = 4.0;
@@ -87,7 +87,7 @@ public abstract class Dist_tests
 	    [Test]
 	    public void WrapsX_WhenGreaterThanHalfWidth()
 	    {
-	        Param.P.DoPeriodicBoundaries = 1;
+	        Param.P.DoPeriodicBoundaries = true;
 			Param.P.in_degrees_ = new Size<double>(10, 10, new DoubleOperations());
 
 	        double x = 6.0; // > 10 * 0.5
@@ -101,7 +101,7 @@ public abstract class Dist_tests
 	    [Test]
 	    public void WrapsY_WhenGreaterThanHalfHeight()
 	    {
-	        Param.P.DoPeriodicBoundaries = 1;
+	        Param.P.DoPeriodicBoundaries = true;
 			Param.P.in_degrees_ = new Size<double>(10, 8, new DoubleOperations());
 
 	        double x = 1.0;
@@ -115,7 +115,7 @@ public abstract class Dist_tests
 	    [Test]
 	    public void WrapsBoth_WhenBothGreaterThanHalf()
 	    {
-	        Param.P.DoPeriodicBoundaries = 1;
+	        Param.P.DoPeriodicBoundaries = true;
 			Param.P.in_degrees_ = new Size<double>(12, 14, new DoubleOperations());
 
 	        double x = 8.0; // > 6.0
@@ -130,7 +130,7 @@ public abstract class Dist_tests
 	    [Test]
 	    public void EqualToHalf_DoesNotWrap()
 	    {
-	        Param.P.DoPeriodicBoundaries = 1;
+	        Param.P.DoPeriodicBoundaries = true;
 			Param.P.in_degrees_ = new Size<double>(10, 10, new DoubleOperations());
 
 	        double x = Param.P.in_degrees_.width * 0.5;  // exactly half, condition is '>'
