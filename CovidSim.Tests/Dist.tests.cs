@@ -1,4 +1,6 @@
 using System;
+using CovidSim.Geometry;
+using CovidSim.Geometry.Primitives;
 using FluentAssertions;
 using NUnit.Framework;
 
@@ -49,5 +51,93 @@ public abstract class Dist_tests
 			double ratio = d13 / Math.Max(d12, double.Epsilon);
 			ratio.Should().BeGreaterThan(9.0);
 		}
+	}
+
+	[TestFixture]
+	public class periodic_xy_tests : Dist_tests
+	{
+	    private int _origDoPeriodic;
+	    private Size<double> _origInDegrees;
+
+	    [SetUp]
+	    public void SetUp()
+	    {
+	        _origDoPeriodic = Param.P.DoPeriodicBoundaries;
+			_origInDegrees = Param.P.in_degrees_;
+	    }
+
+	    [TearDown]
+	    public void TearDown()
+	    {
+	        Param.P.DoPeriodicBoundaries = _origDoPeriodic;
+			Param.P.in_degrees_ = _origInDegrees;
+	    }
+
+	    [Test]
+	    public void NoPeriodic_ReturnsSquaredSum()
+	    {
+	        Param.P.DoPeriodicBoundaries = 0;
+	        Param.P.in_degrees_ = new Size<double>(10, 10, new DoubleOperations());
+
+	        double x = 3.0, y = 4.0;
+	        double result = Dist.periodic_xy(x, y);
+	        result.Should().BeApproximately(x * x + y * y, 1e-12);
+	    }
+
+	    [Test]
+	    public void WrapsX_WhenGreaterThanHalfWidth()
+	    {
+	        Param.P.DoPeriodicBoundaries = 1;
+			Param.P.in_degrees_ = new Size<double>(10, 10, new DoubleOperations());
+
+	        double x = 6.0; // > 10 * 0.5
+	        double y = 2.0;
+	        double expectedX = Param.P.in_degrees_.width - x; // 4.0
+	        double expected = expectedX * expectedX + y * y;
+
+	        Dist.periodic_xy(x, y).Should().BeApproximately(expected, 1e-12);
+	    }
+
+	    [Test]
+	    public void WrapsY_WhenGreaterThanHalfHeight()
+	    {
+	        Param.P.DoPeriodicBoundaries = 1;
+			Param.P.in_degrees_ = new Size<double>(10, 8, new DoubleOperations());
+
+	        double x = 1.0;
+	        double y = 5.0; // > 8 * 0.5 = 4.0
+	        double expectedY = Param.P.in_degrees_.height - y; // 3.0
+	        double expected = x * x + expectedY * expectedY;
+
+	        Dist.periodic_xy(x, y).Should().BeApproximately(expected, 1e-12);
+	    }
+
+	    [Test]
+	    public void WrapsBoth_WhenBothGreaterThanHalf()
+	    {
+	        Param.P.DoPeriodicBoundaries = 1;
+			Param.P.in_degrees_ = new Size<double>(12, 14, new DoubleOperations());
+
+	        double x = 8.0; // > 6.0
+	        double y = 9.0; // > 7.0
+	        double expectedX = Param.P.in_degrees_.width - x; // 4.0
+	        double expectedY = Param.P.in_degrees_.height - y; // 5.0
+	        double expected = expectedX * expectedX + expectedY * expectedY;
+
+	        Dist.periodic_xy(x, y).Should().BeApproximately(expected, 1e-12);
+	    }
+
+	    [Test]
+	    public void EqualToHalf_DoesNotWrap()
+	    {
+	        Param.P.DoPeriodicBoundaries = 1;
+			Param.P.in_degrees_ = new Size<double>(10, 10, new DoubleOperations());
+
+	        double x = Param.P.in_degrees_.width * 0.5;  // exactly half, condition is '>'
+	        double y = Param.P.in_degrees_.height * 0.5;
+	        double expected = x * x + y * y;
+
+	        Dist.periodic_xy(x, y).Should().BeApproximately(expected, 1e-12);
+	    }
 	}
 }
