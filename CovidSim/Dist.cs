@@ -26,4 +26,13 @@ public static class Dist {
 		y = (1 - x) * Param.P.asin2sqx(((int)xi)) + x * Param.P.asin2sqx(((int)xi) + 1);
 		return 4 * Constants.EARTHRADIUS * Constants.EARTHRADIUS * y;
 	}
+
+	public static double periodic_xy(double x, double y) {
+		if (Param.P.DoPeriodicBoundaries != 0)
+		{
+			if (x > Param.P.in_degrees_.width * 0.5) x = Param.P.in_degrees_.width - x;
+			if (y > Param.P.in_degrees_.height * 0.5) y = Param.P.in_degrees_.height - y;
+		}
+		return x * x + y * y;
+	}
 }
