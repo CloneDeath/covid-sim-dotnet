@@ -3,8 +3,7 @@ using System;
 namespace CovidSim.TBD1;
 
 /// A probability distribution
-public struct KernelStruct
-{
+public class KernelStruct {
 	/// Which distribution to use
 	public int type_;
 
