@@ -79,103 +79,106 @@ public class Param {
 			   && position.y < total_microcells_high_;
 	}
 
-	int DoAdUnits, NumAdunits, DoAdunitBoundaries, AdunitLevel1Divisor, AdunitLevel1Mask, AdunitBitmapDivisor, CountryDivisor;
-	int DoAdunitOutput, DoAdunitBoundaryOutput, DoCorrectAdunitPop, DoSpecifyPop, AdunitLevel1Lookup[ADUNIT_LOOKUP_SIZE];
-	int DoOutputPlaceDistForOneAdunit, OutputPlaceDistAdunit;
-	int DoOneGen, OutputEveryRealisation, BitmapMovieFrame, MaxCorrSample, DoLatent, InfQueuePeakLength, NumThreads, MaxNumThreads;
+	public int DoAdUnits, NumAdunits, DoAdunitBoundaries, AdunitLevel1Divisor, AdunitLevel1Mask, AdunitBitmapDivisor, CountryDivisor;
+	public int DoAdunitOutput, DoAdunitBoundaryOutput, DoCorrectAdunitPop, DoSpecifyPop;
+	public int[] AdunitLevel1Lookup = new int[Country.ADUNIT_LOOKUP_SIZE];
+	public int DoOutputPlaceDistForOneAdunit, OutputPlaceDistAdunit;
+	public int DoOneGen, OutputEveryRealisation, BitmapMovieFrame, MaxCorrSample, DoLatent, InfQueuePeakLength, NumThreads, MaxNumThreads;
 
 	/// Size in pixels of the map area in the bitmap output
-	CovidSim::Geometry::Size<int> b;
+	public Size<int> b = new(0, 0, new IntegerOperations());
 
 	/// Height in pixels of the entire bitmap output, including both the spectrum at the top and the map area
-	int bheight2;
+	public int bheight2;
 
-	CovidSim::Geometry::Vector2i bmin;
-	BitmapFormats BitmapFormat; // Format of bitmap (platform dependent and command-line /BM: specified).
-	int DoSI, DoPeriodicBoundaries, DoImmuneBitmap, OutputBitmapDetected; //added OutputBitmapDetected - ggilani 04/08/15
-	int DoHouseholds, DoPlaces, NumPlaceTypes, Nplace[MAX_NUM_PLACE_TYPES], SmallEpidemicCases, DoPlaceGroupTreat;
-	int NumInitialInfections[MAX_NUM_SEED_LOCATIONS], DoRandomInitialInfectionLoc, DoAllInitialInfectioninSameLoc;
-	int MinPopDensForInitialInfection, NumSeedLocations,InitialInfectionsAdminUnitId[MAX_NUM_SEED_LOCATIONS],InitialInfectionsAdminUnit[MAX_NUM_SEED_LOCATIONS], MaxPopDensForInitialInfection, MaxAgeForInitialInfection;
-	int DoAge, DoSymptoms, LoadSaveNetwork, IncThreshPop, GlobalIncThreshPop;
-	int OutputOnlyNonExtinct, DoInfectiousnessProfile, DoInfectionTree, DoWholeHouseholdImmunity, DoSpatial, DoDeath;
-	int DoAirports, Nairports, Air_popscale, DoSchoolFile, DoRealSymptWithdrawal, CaseAbsentChildAgeCutoff, DoInterventionFile;
-	int PlaceTypeNoAirNum; // If DoAirports then this is the number of non-airport place types (< NumPlaceTypes), else == NumPlaceTypes (~ no airport places).
-	int HotelPlaceType; // If DoAirports then this is place type for hotel (>= PlaceTypeNoAirNum, < NumPlaceTypes), else == NumPlaceTypes (~ unused).
-	int FixLocalBeta;
-	int32_t setupSeed1, setupSeed2; // RNG seeds from the command line, used to initialise the RNG for setup
-	int32_t runSeed1, runSeed2; // RNG seeds from the command line, used to initialise the RNG for running the model
-	int32_t nextSetupSeed1, nextSetupSeed2; // The next RNG seeds to use when we need to reinitialise the RNG for setup
-	int32_t nextRunSeed1, nextRunSeed2; // The next RNG seeds to use when we need to reinitialise the RNG for the model
-	int ResetSeeds,KeepSameSeeds, ResetSeedsPostIntervention, ResetSeedsFlag, TimeToResetSeeds;
-	int OutputBitmap; // Whether to output a bitmap
-	int ts_age;
-	int DoSeverity; // Non-zero (true) if severity analysis should be done
+	public Vector2i bmin = new(0, 0);
 
-	double BitmapAspectScale; // Height of bitmap / Width of bitmap
-	double LongitudeCutLine; // Longitude to image earth is cut at to produce a flat map.  Default -360 degrees (effectively -180).  Use to ensure countries have a contiguous boundary
+	// Format of bitmap (platform dependent and command-line /BM: specified).
+	public BitmapFormats BitmapFormat;
+
+	public int DoHouseholds, DoPlaces, NumPlaceTypes, Nplace[MAX_NUM_PLACE_TYPES], SmallEpidemicCases, DoPlaceGroupTreat;
+	public int NumInitialInfections[MAX_NUM_SEED_LOCATIONS], DoRandomInitialInfectionLoc, DoAllInitialInfectioninSameLoc;
+	public int MinPopDensForInitialInfection, NumSeedLocations,InitialInfectionsAdminUnitId[MAX_NUM_SEED_LOCATIONS],InitialInfectionsAdminUnit[MAX_NUM_SEED_LOCATIONS], MaxPopDensForInitialInfection, MaxAgeForInitialInfection;
+	public int DoAge, DoSymptoms, LoadSaveNetwork, IncThreshPop, GlobalIncThreshPop;
+	public int OutputOnlyNonExtinct, DoInfectiousnessProfile, DoInfectionTree, DoWholeHouseholdImmunity, DoSpatial, DoDeath;
+	public int DoAirports, Nairports, Air_popscale, DoSchoolFile, DoRealSymptWithdrawal, CaseAbsentChildAgeCutoff, DoInterventionFile;
+	public int PlaceTypeNoAirNum; // If DoAirports then this is the number of non-airport place types (< NumPlaceTypes), else == NumPlaceTypes (~ no airport places).
+	public int HotelPlaceType; // If DoAirports then this is place type for hotel (>= PlaceTypeNoAirNum, < NumPlaceTypes), else == NumPlaceTypes (~ unused).
+	public int FixLocalBeta;
+	public int32_t setupSeed1, setupSeed2; // RNG seeds from the command line, used to initialise the RNG for setup
+	public int32_t runSeed1, runSeed2; // RNG seeds from the command line, used to initialise the RNG for running the model
+	public int32_t nextSetupSeed1, nextSetupSeed2; // The next RNG seeds to use when we need to reinitialise the RNG for setup
+	public int32_t nextRunSeed1, nextRunSeed2; // The next RNG seeds to use when we need to reinitialise the RNG for the model
+	public int ResetSeeds,KeepSameSeeds, ResetSeedsPostIntervention, ResetSeedsFlag, TimeToResetSeeds;
+	public int OutputBitmap; // Whether to output a bitmap
+	public int ts_age;
+	public int DoSeverity; // Non-zero (true) if severity analysis should be done
+
+	public double BitmapAspectScale; // Height of bitmap / Width of bitmap
+	public double LongitudeCutLine; // Longitude to image earth is cut at to produce a flat map.  Default -360 degrees (effectively -180).  Use to ensure countries have a contiguous boundary
 
 	/// Number of pixels per degree in bitmap output
-	CovidSim::Geometry::DiagonalMatrix2d scale;
+	public CovidSim::Geometry::DiagonalMatrix2d scale;
 
 	/// Size of spatial domain in degrees
-	CovidSim::Geometry::Size<double> in_degrees_;
+	public CovidSim::Geometry::Size<double> in_degrees_;
 
 	/// Size of spatial domain in cells
-	CovidSim::Geometry::Size<double> in_cells_;
+	public CovidSim::Geometry::Size<double> in_cells_;
 
 	/// Size of spatial domain in microcells
-	CovidSim::Geometry::Size<double> in_microcells_;
+	public CovidSim::Geometry::Size<double> in_microcells_;
 
-	CovidSim::Geometry::BoundingBox2d SpatialBoundingBox;
-	double** LocationInitialInfection;
-	double InitialInfectionsAdminUnitWeight[MAX_NUM_SEED_LOCATIONS], InitialInfectionCalTime, TimeStepsPerDay;
-	double FalsePositiveRate, FalsePositivePerCapitaIncidence, FalsePositiveAgeRate[NUM_AGE_GROUPS];
-	double SeroConvMaxSens, SeroConvP1, SeroConvP2, SeroConvSpec, InfPrevSurveyScale;
+	public CovidSim::Geometry::BoundingBox2d SpatialBoundingBox;
+	public double** LocationInitialInfection;
+	public double InitialInfectionsAdminUnitWeight[MAX_NUM_SEED_LOCATIONS], InitialInfectionCalTime, TimeStepsPerDay;
+	public double FalsePositiveRate, FalsePositivePerCapitaIncidence, FalsePositiveAgeRate[NUM_AGE_GROUPS];
+	public double SeroConvMaxSens, SeroConvP1, SeroConvP2, SeroConvSpec, InfPrevSurveyScale;
 
-	double AirportTrafficScale;
+	public double AirportTrafficScale;
 
-	double R0, R0scale, LocalBeta;
-	double infectious_prof[INFPROF_RES + 1], infectiousness[MAX_INFECTIOUS_STEPS];
-	double InfectiousPeriod; // In days. Mean of icdf (inverse cumulative distribution function).
-	double R0household, R0places, R0spatial;
-	double Seasonality[DAYS_PER_YEAR];
-	double SusceptibilitySD, InfectiousnessSD, R0DensityScalePower;
-	double LatentToSymptDelay, SymptInfectiousness, AsymptInfectiousness;
-	double SymptSpatialContactRate, SymptPlaceTypeContactRate[MAX_NUM_PLACE_TYPES], InhibitInterAdunitPlaceAssignment[MAX_NUM_PLACE_TYPES];
-	int CareHomePlaceType, CareHomeResidentMinimumAge, CareHomeAllowInitialInfections;
-	double CareHomeResidentHouseholdScaling, CareHomeResidentSpatialScaling, CareHomeWorkerGroupScaling, CareHomeResidentPlaceScaling, CareHomeRelProbHosp, CareHomePropResidents;
-	double SymptPlaceTypeWithdrawalProp[MAX_NUM_PLACE_TYPES], CaseAbsenteeismDuration, CaseAbsenteeismDelay;
-	double CaseAbsentChildPropAdultCarers;
-	double RelativeTravelRate[NUM_AGE_GROUPS], RelativeSpatialContact[NUM_AGE_GROUPS], RelativeSpatialContactSusc[NUM_AGE_GROUPS];
-	double AgeSusceptibility[NUM_AGE_GROUPS], AgeInfectiousness[NUM_AGE_GROUPS], InitialImmunity[NUM_AGE_GROUPS];
-	double** WAIFW_Matrix;
-	double** WAIFW_Matrix_SpatialOnly;
-	int Got_WAIFW_Matrix_Spatial; // flag to save pointless sums when not needed.
-	double HotelPropLocal, JourneyDurationDistrib[MAX_TRAVEL_TIME], LocalJourneyDurationDistrib[MAX_TRAVEL_TIME];
-	double MeanJourneyTime, MeanLocalJourneyTime;
+	public double R0, R0scale, LocalBeta;
+	public double infectious_prof[INFPROF_RES + 1], infectiousness[MAX_INFECTIOUS_STEPS];
+	public double InfectiousPeriod; // In days. Mean of icdf (inverse cumulative distribution function).
+	public double R0household, R0places, R0spatial;
+	public double Seasonality[DAYS_PER_YEAR];
+	public double SusceptibilitySD, InfectiousnessSD, R0DensityScalePower;
+	public double LatentToSymptDelay, SymptInfectiousness, AsymptInfectiousness;
+	public double SymptSpatialContactRate, SymptPlaceTypeContactRate[MAX_NUM_PLACE_TYPES], InhibitInterAdunitPlaceAssignment[MAX_NUM_PLACE_TYPES];
+	public int CareHomePlaceType, CareHomeResidentMinimumAge, CareHomeAllowInitialInfections;
+	public double CareHomeResidentHouseholdScaling, CareHomeResidentSpatialScaling, CareHomeWorkerGroupScaling, CareHomeResidentPlaceScaling, CareHomeRelProbHosp, CareHomePropResidents;
+	public double SymptPlaceTypeWithdrawalProp[MAX_NUM_PLACE_TYPES], CaseAbsenteeismDuration, CaseAbsenteeismDelay;
+	public double CaseAbsentChildPropAdultCarers;
+	public double RelativeTravelRate[NUM_AGE_GROUPS], RelativeSpatialContact[NUM_AGE_GROUPS], RelativeSpatialContactSusc[NUM_AGE_GROUPS];
+	public double AgeSusceptibility[NUM_AGE_GROUPS], AgeInfectiousness[NUM_AGE_GROUPS], InitialImmunity[NUM_AGE_GROUPS];
+	public double** WAIFW_Matrix;
+	public double** WAIFW_Matrix_SpatialOnly;
+	public int Got_WAIFW_Matrix_Spatial; // flag to save pointless sums when not needed.
+	public double HotelPropLocal, JourneyDurationDistrib[MAX_TRAVEL_TIME], LocalJourneyDurationDistrib[MAX_TRAVEL_TIME];
+	public double MeanJourneyTime, MeanLocalJourneyTime;
 
 
-	int NoInfectiousnessSDinHH; // Default 0
-	int PlaceCloseRoundHousehold; // Default 1 (close places around a household), 0 (off)
-	int AbsenteeismPlaceClosure; // Default 0 (off), 1 (on) track place closures in more detail
-	int MaxAbsentTime; // In days.  Max number of days absent, range [0, MAX_ABSENT_TIME].  Default 0 if !P.AbsenteeismPlaceClosure, otherwise MAX_ABSENT_TIME
-	int InvJourneyDurationDistrib[1025], InvLocalJourneyDurationDistrib[1025];
-	double HouseholdTrans, HouseholdTransPow;
-	double** HouseholdSizeDistrib; // [MAX_ADUNITS] [MAX_HOUSEHOLD_SIZE]
-	double HouseholdDenomLookup[MAX_HOUSEHOLD_SIZE];
-	int PlaceTypeAgeMin[MAX_NUM_PLACE_TYPES], PlaceTypeAgeMax[MAX_NUM_PLACE_TYPES], PlaceTypeMaxAgeRead[MAX_NUM_PLACE_TYPES];
-	int PlaceTypeAgeMin2[MAX_NUM_PLACE_TYPES], PlaceTypeAgeMax2[MAX_NUM_PLACE_TYPES];
-	int PlaceTypeAgeMin3[MAX_NUM_PLACE_TYPES], PlaceTypeAgeMax3[MAX_NUM_PLACE_TYPES];
-	int PlaceTypeNearestNeighb[MAX_NUM_PLACE_TYPES], PlaceTypeKernelType[MAX_NUM_PLACE_TYPES];
-	double PlaceTypePropAgeGroup[MAX_NUM_PLACE_TYPES], PlaceTypePropAgeGroup2[MAX_NUM_PLACE_TYPES];
-	double PlaceTypePropAgeGroup3[MAX_NUM_PLACE_TYPES], PlaceTypeKernelShape[MAX_NUM_PLACE_TYPES], PlaceTypeKernelScale[MAX_NUM_PLACE_TYPES];
-	double PlaceTypeKernelP3[MAX_NUM_PLACE_TYPES], PlaceTypeKernelP4[MAX_NUM_PLACE_TYPES], PlaceTypeTrans[MAX_NUM_PLACE_TYPES];
-	double PlaceTypeMeanSize[MAX_NUM_PLACE_TYPES], PlaceTypePropBetweenGroupLinks[MAX_NUM_PLACE_TYPES], PlaceTypeSizeSD[MAX_NUM_PLACE_TYPES]; //added PlaceTypeSizeSD for lognormal distribution - ggilani 09/02/17
-	double PlaceTypeSizePower[MAX_NUM_PLACE_TYPES], PlaceTypeSizeOffset[MAX_NUM_PLACE_TYPES], PlaceTypeSizeMax[MAX_NUM_PLACE_TYPES], PlaceTypeSizeMin[MAX_NUM_PLACE_TYPES];
-	double PlaceTypeGroupSizeParam1[MAX_NUM_PLACE_TYPES], PlaceExclusivityMatrix[MAX_NUM_PLACE_TYPES * MAX_NUM_PLACE_TYPES]; //changed PlaceExclusivityMatrix from [MAX_NUM_PLACE_TYPES][MAX_NUM_PLACE_TYPES]
-	double** PropAgeGroup; // [MAX_ADUNITS] [NUM_AGE_GROUPS]
-	double** PopByAdunit; // [MAX_ADUNITS] [2] ;
-	double** InvLifeExpecDist; // [MAX_ADUNITS] [1001] ;
+	public int NoInfectiousnessSDinHH; // Default 0
+	public int PlaceCloseRoundHousehold; // Default 1 (close places around a household), 0 (off)
+	public int AbsenteeismPlaceClosure; // Default 0 (off), 1 (on) track place closures in more detail
+	public int MaxAbsentTime; // In days.  Max number of days absent, range [0, MAX_ABSENT_TIME].  Default 0 if !P.AbsenteeismPlaceClosure, otherwise MAX_ABSENT_TIME
+	public int InvJourneyDurationDistrib[1025], InvLocalJourneyDurationDistrib[1025];
+	public double HouseholdTrans, HouseholdTransPow;
+	public double** HouseholdSizeDistrib; // [MAX_ADUNITS] [MAX_HOUSEHOLD_SIZE]
+	public double HouseholdDenomLookup[MAX_HOUSEHOLD_SIZE];
+	public int PlaceTypeAgeMin[MAX_NUM_PLACE_TYPES], PlaceTypeAgeMax[MAX_NUM_PLACE_TYPES], PlaceTypeMaxAgeRead[MAX_NUM_PLACE_TYPES];
+	public int PlaceTypeAgeMin2[MAX_NUM_PLACE_TYPES], PlaceTypeAgeMax2[MAX_NUM_PLACE_TYPES];
+	public int PlaceTypeAgeMin3[MAX_NUM_PLACE_TYPES], PlaceTypeAgeMax3[MAX_NUM_PLACE_TYPES];
+	public int PlaceTypeNearestNeighb[MAX_NUM_PLACE_TYPES], PlaceTypeKernelType[MAX_NUM_PLACE_TYPES];
+	public double PlaceTypePropAgeGroup[MAX_NUM_PLACE_TYPES], PlaceTypePropAgeGroup2[MAX_NUM_PLACE_TYPES];
+	public double PlaceTypePropAgeGroup3[MAX_NUM_PLACE_TYPES], PlaceTypeKernelShape[MAX_NUM_PLACE_TYPES], PlaceTypeKernelScale[MAX_NUM_PLACE_TYPES];
+	public double PlaceTypeKernelP3[MAX_NUM_PLACE_TYPES], PlaceTypeKernelP4[MAX_NUM_PLACE_TYPES], PlaceTypeTrans[MAX_NUM_PLACE_TYPES];
+	public double PlaceTypeMeanSize[MAX_NUM_PLACE_TYPES], PlaceTypePropBetweenGroupLinks[MAX_NUM_PLACE_TYPES], PlaceTypeSizeSD[MAX_NUM_PLACE_TYPES]; //added PlaceTypeSizeSD for lognormal distribution - ggilani 09/02/17
+	public double PlaceTypeSizePower[MAX_NUM_PLACE_TYPES], PlaceTypeSizeOffset[MAX_NUM_PLACE_TYPES], PlaceTypeSizeMax[MAX_NUM_PLACE_TYPES], PlaceTypeSizeMin[MAX_NUM_PLACE_TYPES];
+	public double PlaceTypeGroupSizeParam1[MAX_NUM_PLACE_TYPES], PlaceExclusivityMatrix[MAX_NUM_PLACE_TYPES * MAX_NUM_PLACE_TYPES]; //changed PlaceExclusivityMatrix from [MAX_NUM_PLACE_TYPES][MAX_NUM_PLACE_TYPES]
+	public double** PropAgeGroup; // [MAX_ADUNITS] [NUM_AGE_GROUPS]
+	public double** PopByAdunit; // [MAX_ADUNITS] [2] ;
+	public double** InvLifeExpecDist; // [MAX_ADUNITS] [1001] ;
 
 
 	///// **** ///// **** ///// **** ///// **** ///// **** ///// **** ///// **** ///// **** ///// **** ///// **** ///// **** ///// ****
@@ -185,9 +188,9 @@ public class Param {
 
 	// use the wrapper class InverseCdf instead of the raw data type to enable code re-use
 	//// Inverse cumulative distribution functions (i.e. quantiles) of delay distributions / sojourn times from each infected state.
-	InverseCdf latent_icdf, infectious_icdf;
-	InverseCdf MildToRecovery_icdf, ILIToRecovery_icdf, SARIToRecovery_icdf, CriticalToCritRecov_icdf, CritRecovToRecov_icdf;
-	InverseCdf ILIToSARI_icdf, SARIToCritical_icdf, ILIToDeath_icdf, SARIToDeath_icdf, StepdownToDeath_icdf, CriticalToDeath_icdf;
+	public InverseCdf latent_icdf, infectious_icdf;
+	public InverseCdf MildToRecovery_icdf, ILIToRecovery_icdf, SARIToRecovery_icdf, CriticalToCritRecov_icdf, CritRecovToRecov_icdf;
+	public InverseCdf ILIToSARI_icdf, SARIToCritical_icdf, ILIToDeath_icdf, SARIToDeath_icdf, StepdownToDeath_icdf, CriticalToDeath_icdf;
 	/// means for above icdf's.
 	double LatentPeriod; // In days. Mean of icdf (inverse cumulative distribution function).
 	double Mean_MildToRecovery[NUM_AGE_GROUPS], Mean_ILIToRecovery[NUM_AGE_GROUPS], Mean_SARIToRecovery[NUM_AGE_GROUPS], Mean_CriticalToCritRecov[NUM_AGE_GROUPS], Mean_CritRecovToRecov[NUM_AGE_GROUPS], Mean_StepdownToDeath[NUM_AGE_GROUPS];
