@@ -60,9 +60,24 @@ public class Param {
 	public int NumPopulatedMicrocells;
 	public int ncw, nsp, DoSeasonality, DoCorrectAgeDist, DoPartialImmunity;
 
-	MicroCellPosition get_micro_cell_position_from_cell_index(int cell_index) const;
-	int get_micro_cell_index_from_position(MicroCellPosition const& position) const;
-	bool is_in_bounds(MicroCellPosition const& position) const;
+	public MicroCellPosition get_micro_cell_position_from_cell_index(int cell_index) {
+		var x = cell_index / total_microcells_high_;
+		var y = cell_index % total_microcells_high_;
+		return new MicroCellPosition(x, y);
+	}
+
+	public int get_micro_cell_index_from_position(MicroCellPosition position) {
+		var x = (position.x + total_microcells_wide_) % total_microcells_wide_;
+		var y = (position.y + total_microcells_high_) % total_microcells_high_;
+		return x * total_microcells_high_ + y;
+	}
+
+	public bool is_in_bounds(MicroCellPosition position) {
+		return position.x >= 0
+			   && position.y >= 0
+			   && position.x < total_microcells_wide_
+			   && position.y < total_microcells_high_;
+	}
 
 	int DoAdUnits, NumAdunits, DoAdunitBoundaries, AdunitLevel1Divisor, AdunitLevel1Mask, AdunitBitmapDivisor, CountryDivisor;
 	int DoAdunitOutput, DoAdunitBoundaryOutput, DoCorrectAdunitPop, DoSpecifyPop, AdunitLevel1Lookup[ADUNIT_LOOKUP_SIZE];
