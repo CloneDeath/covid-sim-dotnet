@@ -50,7 +50,7 @@ public abstract class MicroCellPosition_tests
         {
             var p = new MicroCellPosition(-1, -1);
             var r = p + Direction.Down;
-            r.x.Should().Be(0);
+            r.x.Should().Be(-1);
             r.y.Should().Be(0);
         }
 
