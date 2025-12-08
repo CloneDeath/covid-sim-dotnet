@@ -1,6 +1,7 @@
 using System;
 using CovidSim.Geometry;
 using CovidSim.Geometry.Primitives;
+using CovidSim.TBD1;
 
 namespace CovidSim;
 
@@ -25,30 +26,39 @@ public class Param {
 
 	/* Time-step defintions. Differentiates between length of time between model updates (ModelTimeStep) and length of time between calculating model outputs (OutputTimeStep). */
 	/* The number of days to run for */
-	double SimulationDuration;
+	public double SimulationDuration;
 	/* The length of a time step, in days */
-	double ModelTimeStep;
+	public double ModelTimeStep;
 	/* The length of time in days between calculating model outputs, in days. Note ModelTimeStep <= OutputTimeStep. */
-	double OutputTimeStep;
+	public double OutputTimeStep;
 	/* Number of time steps between samples. NumModelTimeStepsPerOutputTimeStep = OutputTimeStep / ModelTimeStep */
-	int NumModelTimeStepsPerOutputTimeStep;
+	public int NumModelTimeStepsPerOutputTimeStep;
 	/* Total number of time output steps that will be made. NumOutputTimeSteps = SimulationDuration / OutputTimeStep */
-	int NumOutputTimeSteps;
+	public int NumOutputTimeSteps;
 
-	CovidSim::TBD1::KernelLookup KernelLookup;
-	CovidSim::TBD1::KernelStruct Kernel;
-	CovidSim::TBD1::KernelStruct MoveKernel;
-	CovidSim::TBD1::KernelStruct AirportKernel;
-	unsigned int BinFileLen;
-	int DoBin, DoSaveSnapshot, DoLoadSnapshot, FitIter;
-	double SnapshotSaveTime, SnapshotLoadTime, clP[100];
-	int NumCells; /**< Number of cells  */
-	int NumMicrocells; /**< Number of microcells  */
-	int NMCL; /**< Number of microcells wide/high a cell is; i.e. NumMicrocells = NumCells * NMCL * NMCL */
-	int NumPopulatedCells; /**< Number of populated cells  */
-	int NumPopulatedMicrocells; /**< Number of populated microcells  */
-	int ncw, nch, DoUTM_coords, nsp, DoSeasonality, DoCorrectAgeDist, DoPartialImmunity;
-	int total_microcells_wide_, total_microcells_high_;
+	public KernelLookup KernelLookup = new();
+	public KernelStruct Kernel = new();
+	public KernelStruct MoveKernel = new();
+	public KernelStruct AirportKernel = new();
+	public uint BinFileLen;
+	public int DoBin, DoSaveSnapshot, DoLoadSnapshot, FitIter;
+	public double SnapshotSaveTime, SnapshotLoadTime, clP[100];
+
+	/* Number of cells  */
+	public int NumCells;
+
+	/* Number of microcells  */
+	public int NumMicrocells;
+
+	/* Number of microcells wide/high a cell is; i.e. NumMicrocells = NumCells * NMCL * NMCL */
+	public int NMCL;
+
+	/* Number of populated cells  */
+	public int NumPopulatedCells;
+
+	/* Number of populated microcells  */
+	public int NumPopulatedMicrocells;
+	public int ncw, nsp, DoSeasonality, DoCorrectAgeDist, DoPartialImmunity;
 
 	MicroCellPosition get_micro_cell_position_from_cell_index(int cell_index) const;
 	int get_micro_cell_index_from_position(MicroCellPosition const& position) const;
