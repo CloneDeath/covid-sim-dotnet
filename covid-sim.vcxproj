@@ -97,7 +97,6 @@
     <ClCompile Include="src\CLI.cpp" />
     <ClCompile Include="src\Error.cpp" />
     <ClCompile Include="src\Files.cpp" />
-    <ClCompile Include="src\Kernels.cpp" />
     <ClCompile Include="src\Memory.cpp" />
     <ClCompile Include="src\Rand.cpp" />
     <ClCompile Include="src\ReadParams.cpp" />
@@ -114,7 +113,6 @@
     <ClInclude Include="src\CLI.h" />
     <ClInclude Include="src\Error.h" />
     <ClInclude Include="src\Files.h" />
-    <ClInclude Include="src\Kernels.h" />
     <ClInclude Include="src\Memory.h" />
     <ClInclude Include="src\Model.h" />
     <ClInclude Include="src\ModelMacros.h" />
