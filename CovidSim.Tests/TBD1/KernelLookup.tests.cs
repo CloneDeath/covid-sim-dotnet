@@ -8,6 +8,18 @@ namespace CovidSim.Tests.TBD1;
 
 [TestFixture]
 public abstract class KernelLookup_tests {
+    private int _originalNch;
+
+    [SetUp]
+    public void Setup() {
+        _originalNch = Param.P.nch;
+    }
+
+    [TearDown]
+    public void TearDown() {
+        Param.P.nch = _originalNch;
+    }
+
     [TestFixture]
     public class KernelLookup_Setup_Tests : KernelLookup_tests
     {
@@ -118,6 +130,7 @@ public abstract class KernelLookup_tests {
             var kernelLookup = new KernelLookup {
                 expansion_factor_ = 1
             };
+            Param.P.nch = 1;
             kernelLookup.setup(100.0);
             var kernel = new KernelStruct {
                 type_ = 1,
